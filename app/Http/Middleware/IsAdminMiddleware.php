@@ -17,11 +17,16 @@ class IsAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role == 'ADMIN'){
-            return $next($request);
+        if (Auth::check()){
+            if (Auth::user()->role == 'ADMIN'){
+                return $next($request);
+            }
+            else{
+                return redirect('/login');
+            }
         }
         else{
-            return redirect('/');
+            return redirect('/login');
         }
     }
 }
