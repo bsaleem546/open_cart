@@ -10,7 +10,7 @@
 
 @section('content')
     <div id="app">
-        <edit-product></edit-product>
+        <edit-product :product="{{ $product }}" :images="{{ $images }}" :att="{{ $att }}"></edit-product>
     </div>
 
 @endsection

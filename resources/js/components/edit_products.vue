@@ -5,10 +5,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <h4>Add New</h4>
+                        <h4>Update</h4>
                     </div>
                     <div class="card-toolbar">
-                        <button class="btn btn-primary" @click="create">Create</button>
+                        <button class="btn btn-primary" @click="update">Update</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -63,7 +63,7 @@
                     </div>
                     <select class="form-control form-control-lg" v-model="formData.brand">
                         <option value="" selected> Select Brand</option>
-                        <option v-for="b in brands" :value="b" :key="b.id">{{ b.name }}</option>
+                        <option v-for="b in brands" :value="b.id" :key="b.id">{{ b.name }}</option>
                     </select>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                     </div>
                     <select class="form-control form-control-lg" v-model="formData.category" >
                         <option value="" selected> Select Category</option>
-                        <option v-for="c in categories" :value="c" :key="c.id">{{ c.name }}</option>
+                        <option v-for="c in categories" :value="c.id" :key="c.id">{{ c.name }}</option>
                     </select>
                 </div>
             </div>
@@ -169,8 +169,11 @@
                                     <td>In Stock</td>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="al in formData.all_attributes">
-                                        <td>{{ al.at_name }}</td>
+                                    <tr v-for="(al, index) in formData.all_attributes">
+                                        <td>
+                                            <a style="color:#fff;" class="btn btn-danger" @click="delete_att(index)">X</a>
+                                            {{ al.at_name }}
+                                        </td>
                                         <td>{{ al.op_name }}</td>
                                         <td>{{ al.quantity }}</td>
                                         <td>{{ al.price }}</td>
@@ -194,6 +197,12 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="form-group row" v-show="formData.old_images.length > 0">
+                        <div class="col-sm-2" v-for="(img, index) in formData.old_images">
+                            <img :src="img.file" style="height: 80px;width: 80px">
+                            <button class="btn btn-danger" @click="delete_img(index)">X</button>
+                        </div>
+                    </div>
                     <div class="form-group row" v-show="formData.img.length > 0">
                         <div class="col-sm-2" v-for="img in formData.img">
                             <img :src="img" style="height: 80px;width: 80px">
@@ -218,7 +227,8 @@
     import '../../../public/js/my-js.js'
     export default {
         mixins: [validationMixin],
-        name: "add_products.vue",
+        name: "edit_products.vue",
+        props:['product', 'images', 'att'],
         data: () => {
             return {
                 brands:{},
@@ -230,21 +240,21 @@
                 a_price:'',
                 a_in_stock:'',
                 a_id:'',
-                url:'http://localhost:8080/oc/',
                 formData:{
                     name:'',
                     short_desc:'',
                     long_desc:'',
                     p_quantity:'',
                     p_price:'',
-                    brand:{},
-                    category:{},
+                    brand:'',
+                    category:'',
                     p_in_stock:'',
                     img:[],
                     has_attributes:0,
                     attributes:{},
                     options:{},
                     all_attributes:[],
+                    old_images:[],
                 },
             }
         },
@@ -262,12 +272,54 @@
 
         methods:{
 
+            delete_att(index){
+                this.formData.all_attributes.splice(index, 1);
+            },
+
+            delete_img(index){
+                this.formData.old_images.splice(index, 1);
+            },
+
+            on_load(){
+                this.formData.name = this.product.name
+                this.formData.short_desc = this.product.short_description
+                this.formData.long_desc = this.product.long_description
+                this.formData.p_quantity = this.product.quantity
+                this.formData.p_price = this.product.price
+                this.formData.p_in_stock = this.product.in_stock
+                this.formData.brand = this.product.brand_id
+                this.formData.category = this.product.category_id
+
+                if (this.att.length > 0){
+                    for(var i = 0; i < this.att.length; i++){
+                        this.formData.all_attributes.push({
+                            at_id:this.att[i].attribute_id,
+                            at_name:this.att[i].at_name,
+                            op_id:this.att[i].option_id,
+                            op_name:this.att[i].op_name,
+                            quantity:this.att[i].quantity,
+                            price:this.att[i].price,
+                            in_stock:this.att[i].in_stock
+                        })
+                    }
+                }
+
+                if (this.images.length > 0){
+                    for(var j = 0; j < this.images.length; j++) {
+                        this.formData.old_images.push({
+                            image_id:this.images[j].id,
+                            file: main_url+'public/uploads/'+this.images[j].paths
+                        })
+                    }
+                }
+            },
+
             validateState(formData) {
                 const { $dirty, $error } = formData
                 return $dirty ? !$error : null
             },
 
-            create(){
+            update(){
                 this.$v.formData.$touch()
                 if (this.$v.formData.$anyError){
                     toast_error('all feilds are required')
@@ -277,8 +329,8 @@
                 this.formData.has_attributes = this.formData.all_attributes.length > 0 ? 1 : 0
 
                 axios({
-                    method: 'post',
-                    url: main_url+'admin/products',
+                    method: 'PATCH',
+                    url: main_url+'admin/products/'+this.product.id,
                     data: this.formData,
                 }).then( (response) => {
                     if(response.data.status == true){
@@ -336,7 +388,7 @@
 
             getBrands(){
                 axios
-                    .get(this.url+'admin/getBrands')
+                    .get(main_url+'admin/getBrands')
                     .then(response => (
                         this.brands = response.data
                     ));
@@ -344,7 +396,7 @@
 
             getCategories(){
                 axios
-                    .get(this.url+'admin/getCategories')
+                    .get(main_url+'admin/getCategories')
                     .then(response => (
                         this.categories = response.data
                     ));
@@ -352,7 +404,7 @@
 
             getAttributes(){
                 axios
-                    .get(this.url+'admin/getAttributes')
+                    .get(main_url+'admin/getAttributes')
                     .then(response => (
                         this.attributes = response.data
                     ));
@@ -365,7 +417,7 @@
                     let limit = 1024 * 1024 * 2;
 
                     if(file['size'] > limit){
-                        oast_error('file size is more than 2MB')
+                        toast_error('file size is more than 2MB')
                         return;
                     }
 
@@ -382,6 +434,7 @@
             this.getBrands()
             this.getCategories()
             this.getAttributes()
+            this.on_load()
             console.log('working')
         }
     }

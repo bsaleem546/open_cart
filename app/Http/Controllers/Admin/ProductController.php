@@ -69,8 +69,8 @@ class ProductController extends Controller
             $price = $request->p_price == null ? 0 :  $request->p_price;
 
             $product = Product::create([
-                'brand_id' => $request->brand['id'],
-                'category_id' => $request->category['id'],
+                'brand_id' => $request->brand,
+                'category_id' => $request->category,
                 'name' => $request->name,
                 'short_description' => $request->short_desc,
                 'long_description' => $request->long_desc,
@@ -112,7 +112,7 @@ class ProductController extends Controller
                 'redirect' => route('products.index')]);
         }
         catch (\Exception $e){
-            dd($e);
+//            dd($e);
             return Response::json(['status' => false, 'message' => 'Product not created', 'detail', $e]);
         }
 
@@ -139,15 +139,16 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        $imgs = Image_Product::where('product_id', $product->id)->get();
+        $images = Image_Product::where('product_id', $product->id)->get();
         $att = '';
-        $options = Options::all();
         if ($product->has_attributes == 1){
-            $att = Attribute_Product::where('product_id', $product->id)->get();
+            $att = Attribute_Product::join('attributes', 'attributes.id','=','attribute_product.attribute_id')
+                ->join('options', 'options.id', '=', 'attribute_product.option_id')
+                ->select('attribute_product.*', 'attributes.name as at_name', 'options.name as op_name')
+                ->where('product_id', $product->id)->get();
         }
-        $all_att = Attributes::with('_options')->get();
 
-        return view('admin.products.edit', compact('product', 'imgs', 'att', 'all_att', 'options'));
+        return view('admin.products.edit', compact('product', 'images', 'att'));
     }
 
     /**
@@ -159,7 +160,82 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+
+        try {
+
+            $quantity = $request->p_quantity == null ? 0 :  $request->p_quantity;
+            $price = $request->p_price == null ? 0 :  $request->p_price;
+
+            $product = Product::where('id', $id)->update([
+                'brand_id' => $request->brand,
+                'category_id' => $request->category,
+                'name' => $request->name,
+                'short_description' => $request->short_desc,
+                'long_description' => $request->long_desc,
+                'quantity' => $quantity,
+                'price' => $price,
+                'in_stock' => $request->p_in_stock,
+                'has_attributes' => $request->has_attributes
+            ]);
+
+            $pre_att = Attribute_Product::where('product_id', $id)->get();
+
+            if ($request->has_attributes == 1){
+                if (!$pre_att->isEmpty()){
+                    foreach ($pre_att as $p){
+                        $p->delete();
+                    }
+                }
+                foreach ($request->all_attributes as $att){
+                    Attribute_Product::create([
+                        'product_id' => $id,
+                        'attribute_id' => $att['at_id'],
+                        'option_id' => $att['op_id'],
+                        'quantity' => $att['quantity'],
+                        'price' => $att['price'],
+                        'in_stock' => $att['in_stock'],
+                    ]);
+                }
+            }
+            else{
+                if (!$pre_att->isEmpty()){
+                    foreach ($pre_att as $p){
+                        $p->delete();
+                    }
+                }
+            }
+
+            $pre_img = Image_Product::where('product_id', $id)->get();
+            if (!$pre_img->isEmpty()){
+                foreach ($pre_img as $imgs){
+                    foreach ($request->old_images as $i){
+                        if ($i['image_id'] != $imgs->id){
+                            $imgs->delete();
+                        }
+                    }
+                }
+            }
+
+            if ( count($request->img) > 0 ){
+                foreach ($request->img as $image){
+                    $img = rand(0, 99999).time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                    \Image::make($image)->save(public_path('uploads/').$img);
+                    Image_Product::create([
+                        'product_id' => $id,
+                        'paths' => $img,
+                        'is_main' => 0
+                    ]);
+                }
+            }
+
+            return Response::json(['status' => true, 'message' => 'Product updated',
+                'redirect' => route('products.index')]);
+        }
+        catch (\Exception $e){
+            dd($e);
+            return Response::json(['status' => false, 'message' => 'Product not created', 'detail', $e]);
+        }
     }
 
     /**

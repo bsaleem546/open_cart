@@ -1,4 +1,4 @@
-var main_url = 'http://localhost:8080/oc/'
+var main_url = 'http://localhost:80/oc/'
 
 function toast_success(message) {
     toastr.info(message, "Success", {

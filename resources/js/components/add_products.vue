@@ -63,7 +63,7 @@
                         </div>
                         <select class="form-control form-control-lg" v-model="formData.brand">
                             <option value="" selected> Select Brand</option>
-                            <option v-for="b in brands" :value="b" :key="b.id">{{ b.name }}</option>
+                            <option v-for="b in brands" :value="b.id" :key="b.id">{{ b.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                         </div>
                         <select class="form-control form-control-lg" v-model="formData.category" >
                             <option value="" selected> Select Category</option>
-                            <option v-for="c in categories" :value="c" :key="c.id">{{ c.name }}</option>
+                            <option v-for="c in categories" :value="c.id" :key="c.id">{{ c.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -169,8 +169,11 @@
                                         <td>In Stock</td>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="al in formData.all_attributes">
-                                                <td>{{ al.at_name }}</td>
+                                            <tr v-for="(al, index) in formData.all_attributes">
+                                                <td>
+                                                    <button class="btn btn-danger" @click="delete_att(index)">X</button>
+                                                    {{ al.at_name }}
+                                                </td>
                                                 <td>{{ al.op_name }}</td>
                                                 <td>{{ al.quantity }}</td>
                                                 <td>{{ al.price }}</td>
@@ -195,8 +198,9 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row" v-show="formData.img.length > 0">
-                            <div class="col-sm-2" v-for="img in formData.img">
+                            <div class="col-sm-2" v-for="(img, index) in formData.img">
                                 <img :src="img" style="height: 80px;width: 80px">
+                                <button class="btn btn-danger" @click="delete_img(index)">X</button>
                             </div>
                         </div>
                         <div class="input-group">
@@ -230,15 +234,14 @@ import '../../../public/js/my-js.js'
                 a_price:'',
                 a_in_stock:'',
                 a_id:'',
-                url:'http://localhost:8080/oc/',
                 formData:{
                     name:'',
                     short_desc:'',
                     long_desc:'',
                     p_quantity:'',
                     p_price:'',
-                    brand:{},
-                    category:{},
+                    brand:'',
+                    category:'',
                     p_in_stock:'',
                     img:[],
                     has_attributes:0,
@@ -261,6 +264,14 @@ import '../../../public/js/my-js.js'
         },
 
         methods:{
+
+            delete_att(index){
+                this.formData.all_attributes.splice(index, 1);
+            },
+
+            delete_img(index){
+                this.formData.img.splice(index, 1);
+            },
 
             validateState(formData) {
                 const { $dirty, $error } = formData
@@ -294,19 +305,6 @@ import '../../../public/js/my-js.js'
 
             add_attribute(){
 
-                // if (this.formData.all_attributes.length > 0){
-                //     var search = this.formData.all_attributes.filter( (e) => {
-                //         console.log(e.op_name)
-                //         if (e.op_name == this.formData.options.name){
-                //             return false;
-                //         }
-                //     })
-                //     if (search == false){
-                //         alert('this option is already added');
-                //         return;
-                //     }
-                // }
-
                 this.formData.all_attributes.push({
                     at_id:this.formData.attributes.id,
                     at_name:this.formData.attributes.name,
@@ -336,7 +334,7 @@ import '../../../public/js/my-js.js'
 
             getBrands(){
                 axios
-                    .get(this.url+'admin/getBrands')
+                    .get(main_url+'admin/getBrands')
                     .then(response => (
                         this.brands = response.data
                     ));
@@ -344,7 +342,7 @@ import '../../../public/js/my-js.js'
 
             getCategories(){
                 axios
-                    .get(this.url+'admin/getCategories')
+                    .get(main_url+'admin/getCategories')
                     .then(response => (
                         this.categories = response.data
                     ));
@@ -352,7 +350,7 @@ import '../../../public/js/my-js.js'
 
             getAttributes(){
                 axios
-                    .get(this.url+'admin/getAttributes')
+                    .get(main_url+'admin/getAttributes')
                     .then(response => (
                         this.attributes = response.data
                     ));
@@ -365,7 +363,7 @@ import '../../../public/js/my-js.js'
                     let limit = 1024 * 1024 * 2;
 
                     if(file['size'] > limit){
-                        oast_error('file size is more than 2MB')
+                        toast_error('file size is more than 2MB')
                         return;
                     }
 

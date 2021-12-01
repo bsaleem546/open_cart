@@ -33,5 +33,8 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'is_admin' ], function (){
     Route::get('/getAttributes', [App\Http\Controllers\Admin\ProductController::class, 'getAttributes']);
     Route::get('/getBrands', [App\Http\Controllers\Admin\ProductController::class, 'getBrands']);
     Route::get('/getCategories', [App\Http\Controllers\Admin\ProductController::class, 'getCategories']);
+
+    Route::resource('coupons', \App\Http\Controllers\Admin\CouponController::class);
+
 });
 
