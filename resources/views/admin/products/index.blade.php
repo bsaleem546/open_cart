@@ -48,7 +48,7 @@
                                     <td>{{ $products->name }}</td>
                                     <td>{{ $products->quantity }}</td>
                                     <td>{{ $products->price }}</td>
-                                    <td>{{ $products->in_stock }}</td>
+                                    <td>{{ $products->in_stock == 1 ? 'Yes' : 'No' }}</td>
                                     <td>{{ $products->created_at }}</td>
                                     <td><a href="{{ route('products.edit', $products->id) }}"><i class="fas fa-cog"></i></a>
                                         |

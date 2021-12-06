@@ -8,14 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Attributes extends Model
 {
     use HasFactory;
-    protected $fillable = [ 'name' ];
+    protected $fillable = [ 'product_id', 'name' ];
 
-    public function _options()
-    {
-        return $this->hasMany(Options::class, 'attribute_id');
-    }
-
-    public function products(){
-        return $this->belongsToMany(Product::class, 'attribute_product');
-    }
 }

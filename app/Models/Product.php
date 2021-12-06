@@ -21,7 +21,8 @@ class Product extends Model
         'has_attributes',
     ];
 
-    public function _attributes(){
-        return $this->belongsToMany(Attributes::class, 'attribute_product');
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class, 'type_id');
     }
 }

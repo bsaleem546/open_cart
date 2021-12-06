@@ -5,14 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Options extends Model
+class Variation extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'product_id',
-        'attribute_id',
-        'name',
-    ];
+    protected $table = 'variations';
 
-
+    protected $fillable = ['product_id', 'option_name', 'combo_id'];
 }

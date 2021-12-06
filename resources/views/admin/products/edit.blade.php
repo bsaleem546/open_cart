@@ -10,7 +10,9 @@
 
 @section('content')
     <div id="app">
-        <edit-product :product="{{ $product }}" :images="{{ $images }}" :att="{{ $att }}"></edit-product>
+        <edit-product :product="{{ $product }}" :Cbrands="{{ $brands }}" :Ccategories="{{ $categories }}"
+                      :images="{{ $images }}" :att="{{ $att }}" :options="{{ $options }}"
+                        :variations="{{ $variations }}" :variation_values="{{ $variation_values }}"></edit-product>
     </div>
 
 @endsection

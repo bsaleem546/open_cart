@@ -25,7 +25,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label col-form-label-lg">Type</label>
                                 <div class="col-sm-10">
-                                    <select name="type" id="type" class="form-control form-control-lg">
+                                    <select name="type" id="type" class="form-control form-control-lg" required>
                                         <option value="All" selected>All</option>
                                         <option value="Category">Category</option>
                                         <option value="Brand">Brand</option>
@@ -37,15 +37,15 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label col-form-label-lg">Type Name</label>
                                 <div class="col-sm-10" style="display: none" id="category_id">
-                                    {{ Form::select('type_id', \App\Models\Category::pluck('name','id'), null, [
+                                    {{ Form::select('category_id', \App\Models\Category::pluck('name','id'), null, [
                                         'class' => 'form-control form-control-lg', 'placeholder'=>'Select Please']) }}
                                 </div>
                                 <div class="col-sm-10" style="display: none" id="brand_id">
-                                    {{ Form::select('type_id', \App\Models\Brand::pluck('name','id'), null, [
+                                    {{ Form::select('brand_id', \App\Models\Brand::pluck('name','id'), null, [
                                         'class' => 'form-control form-control-lg', 'placeholder'=>'Select Please']) }}
                                 </div>
                                 <div class="col-sm-10" style="display: none" id="product_id">
-                                    {{ Form::select('type_id', \App\Models\Product::pluck('name','id'), null, [
+                                    {{ Form::select('product_id', \App\Models\Product::pluck('name','id'), null, [
                                         'class' => 'form-control form-control-lg', 'placeholder'=>'Select Please']) }}
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label col-form-label-lg">Over All</label>
                                 <div class="col-sm-10">
-                                    <select name="over_all" class="form-control form-control-lg">
+                                    <select name="over_all" class="form-control form-control-lg" required>
                                         <option value="1" selected>Yes</option>
                                         <option value="0">No</option>
                                     </select>
@@ -63,8 +63,50 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label col-form-label-lg">Code</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="code" oninput="this.value = this.value.toUpperCase()"
+                                    <input type="text" name="code" oninput="this.value = this.value.toUpperCase()" required
                                            class="form-control form-control-lg" placeholder="Code">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg">Value</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="value" title="only decimals"
+                                           class="form-control form-control-lg" placeholder="Value">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg">Value Type</label>
+                                <div class="col-sm-10">
+                                    <select name="value_type" class="form-control form-control-lg">
+                                        <option value="Percentage" selected>Percentage</option>
+                                        <option value="Price">Price</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg">Quantity</label>
+                                <div class="col-sm-10">
+                                    <input type="number" name="quantity"
+                                           placeholder="Quantity" class="form-control form-control-lg">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg"> Begin Date</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="begin_date" min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
+                                           class="form-control form-control-lg">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg">End Date</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="end_date" min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
+                                           class="form-control form-control-lg">
                                 </div>
                             </div>
 
@@ -90,6 +132,7 @@
 
         $('#type').change( () => {
             var type = $('#type').val();
+
             if ( type == 'Category' ){
                 $('#category_id').show()
 

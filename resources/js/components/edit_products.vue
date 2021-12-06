@@ -1,14 +1,22 @@
 <template>
     <div class="row justify-content-center">
 
-        <div class="col-lg-8">
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-7">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
                         <h4>Update</h4>
                     </div>
                     <div class="card-toolbar">
-                        <button class="btn btn-primary" @click="update">Update</button>
+                        <div class="d-flex">
+                            <select class="form-control mr-2" v-model="varition_section">
+                                <option value="1">Simple Product</option>
+                                <option value="2">Variable Product</option>
+                            </select>
+                            <button class="btn btn-primary" @click="update">Update</button>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -21,13 +29,11 @@
 
                     </div>
                     <div class="form-group row">
-                        <label>Short Description</label>
-                        <textarea cols="30" rows="5"
+                        <textarea cols="30" rows="5" placeholder="Short Description"
                                   class="form-control form-control-lg" v-model="formData.short_desc"></textarea>
                     </div>
                     <div class="form-group row">
-                        <label>Long Description</label>
-                        <textarea cols="30" rows="5"
+                        <textarea cols="30" rows="5" placeholder="Long Description"
                                   class="form-control form-control-lg" v-model="formData.long_desc"></textarea>
                     </div>
                     <div class="form-group row">
@@ -50,7 +56,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
@@ -102,94 +108,9 @@
             </div>
         </div>
 
+        <div class="col-lg-1"></div>
 
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="car-title">
-                        <h4>Add Attributes</h4>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <select class="form-control form-control-lg" @change="attributesChanged()" v-model="formData.attributes">
-                                <option v-for="a in attributes" :value="a">{{ a.name }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6" v-show="optionsMode">
-                            <select class="form-control form-control-lg" v-model="formData.options" @change="optionsChanged()">
-                                <option v-for="o in formData.attributes._options" :value="o">{{ o.name }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12" v-show="detailsMode">
-                            <ValidationObserver v-slot="{handleSubmit}">
-                                <form @submit.prevent="handleSubmit(add_attribute)">
-                                    <div class="form-group row">
-                                        <h6 class="col-md-12 col-form-label col-form-label-md">{{ formData.options.name }}</h6>
-                                        <div class="col-md-3">
-                                            <ValidationProvider name="Quantity" rules="required|integer" v-slot="{ errors }">
-                                                <input type="text" placeholder="Quantity"
-                                                       class="form-control form-control-md" v-model="a_quantity">
-                                                <span style="color: red">{{ errors[0] }}</span><br>
-                                            </ValidationProvider>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <ValidationProvider name="Price" :rules="{required: true, regex: /^\d*\.?\d*$/}" v-slot="{ errors }">
-                                                <input type="text" placeholder="Price"
-                                                       class="form-control form-control-md" v-model="a_price">
-                                                <span style="color: red">{{ errors[0] }}</span><br>
-                                            </ValidationProvider>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <ValidationProvider name="Stock" rules="required" v-slot="{ errors }">
-                                                <select v-model="a_in_stock" class="form-control form-control-md">
-                                                    <option value="1" selected>Yes</option>
-                                                    <option value="0">No</option>
-                                                </select>
-                                                <span style="color: red">{{ errors[0] }}</span><br>
-                                            </ValidationProvider>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button type="submit" class="btn btn-primary">Add</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </ValidationObserver>
-                        </div>
-
-                        <div class="col-md-12" v-show="formData.all_attributes.length > 0" style="margin-top: 10px;">
-                            <div class="table-responsive">
-                                <table border="1" class="display">
-                                    <thead>
-                                    <td>Attribute</td>
-                                    <td>Option</td>
-                                    <td>Quantity</td>
-                                    <td>Price</td>
-                                    <td>In Stock</td>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(al, index) in formData.all_attributes">
-                                        <td>
-                                            <a style="color:#fff;" class="btn btn-danger" @click="delete_att(index)">X</a>
-                                            {{ al.at_name }}
-                                        </td>
-                                        <td>{{ al.op_name }}</td>
-                                        <td>{{ al.quantity }}</td>
-                                        <td>{{ al.price }}</td>
-                                        <td>{{ al.in_stock == 1 ? 'Yes' : 'No' }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
+        <div class="col-lg-10">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
@@ -204,8 +125,9 @@
                         </div>
                     </div>
                     <div class="form-group row" v-show="formData.img.length > 0">
-                        <div class="col-sm-2" v-for="img in formData.img">
+                        <div class="col-sm-2" v-for="(img, index) in formData.img">
                             <img :src="img" style="height: 80px;width: 80px">
+                            <button class="btn btn-danger" @click="delete_img(index)">X</button>
                         </div>
                     </div>
                     <div class="input-group">
@@ -218,6 +140,120 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-10" v-if="varition_section == 2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>Add Variations</h4>
+                    </div>
+                    <div class="card-toolbar"></div>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3">
+                            <p class="p-tag" @click="() => options_check = false">Add Variations</p>
+                            <hr>
+                            <p class="p-tag" @click="() => options_check = true">Make Options</p>
+                        </div>
+                        <div class="col-lg-9">
+                            <div v-show="!options_check">
+                                <div class="form-group row justify-content-center">
+                                    <input type="text" placeholder="Attribute Name" class="form-control col-sm-3 m-1" v-model="varition_att">
+                                    <input type="text" placeholder="Add options with | sign" class="form-control col-sm-6 m-1" v-model="varition_option">
+                                    <input type="submit" value="Add" class="btn btn-primary col-sm-1 m-1" @click="add_variation">
+                                </div>
+                                <p class="error">If any variation is deleted all options will be build again or refresh the page.</p>
+                                <div class="table-responsive justify-content-center" v-if="formData.varition.length > 0">
+                                    <table border="1" class="display">
+                                        <thead>
+                                        <td></td>
+                                        <td>Attribute</td>
+                                        <td>Option</td>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(v, index) in formData.varition">
+                                            <td>
+                                                <button class="btn btn-danger" @click="delete_varitaion(index)">X</button>
+                                            </td>
+                                            <td>{{ v.att }}</td>
+                                            <td>{{ v.option }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div v-show="options_check">
+                                <div class="form-group row" v-if="formData.varition.length > 0">
+                                    <div class="col-lg-3" v-for="(vr, index) in formData.varition">
+                                        <label class="btn-label">{{ vr.att }}</label>
+                                        <select class="form-control form-control-md" :id="vr.att">
+                                            <option :value="null">Select Please</option>
+                                            <option v-for="vr_options in vr.option" :value="vr_options">{{ vr_options }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-3">
+                                        <input type="text" placeholder="Quantity"
+                                               class="form-control form-control-md" v-model="v_quantity">
+                                        <div v-if="$v.v_quantity.$invalid">
+                                            <p class="error" v-if="!$v.v_quantity.required">Required</p>
+                                            <p class="error" v-if="!$v.v_quantity.integer">Required integer</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" placeholder="Price" class="form-control form-control-md" v-model="v_price">
+                                        <div v-if="$v.v_price.$invalid">
+                                            <p class="error" v-if="!$v.v_price.required">Required</p>
+                                            <p class="error" v-if="!$v.v_price.decimal">Required decimal</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <select class="form-control form-control-md" v-model="v_in_stock">
+                                            <option value="1" selected>Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                        <div v-if="$v.v_in_stock.$invalid">
+                                            <p class="error" v-if="!$v.v_in_stock.required">Required</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-primary" @click="add_options">Add</button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive justify-content-center" v-if="formData.v_options.length > 0">
+                                    <table border="1" class="display">
+                                        <thead>
+                                        <td></td>
+                                        <td>Variations</td>
+                                        <td>Quantity</td>
+                                        <td>Price</td>
+                                        <td>In Stock</td>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(v, index) in formData.v_options">
+                                            <td>
+                                                <button class="btn btn-danger" @click="delete_options(index)">X</button>
+                                            </td>
+                                            <td>{{ v.options }}</td>
+                                            <td>{{ v.quantity }}</td>
+                                            <td>{{ v.price }}</td>
+                                            <td>{{ v.in_stock }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -228,9 +264,19 @@
     export default {
         mixins: [validationMixin],
         name: "edit_products.vue",
-        props:['product', 'images', 'att'],
+        props:['product', 'Cbrands', 'Ccategories', 'images', 'att', 'options', 'variations', 'variation_values'],
         data: () => {
             return {
+                varition_section:1,
+                varition_att:'',
+                varition_option:'',
+                varition:[],
+                options_check:false,
+                v_quantity:'',
+                v_price:'',
+                v_in_stock:1,
+                v_att_op:[],
+
                 brands:{},
                 categories:{},
                 attributes:{},
@@ -251,15 +297,17 @@
                     p_in_stock:'',
                     img:[],
                     has_attributes:0,
-                    attributes:{},
-                    options:{},
-                    all_attributes:[],
+                    varition:[],
+                    v_options:[],
                     old_images:[],
                 },
             }
         },
 
         validations: {
+            v_quantity: {required,integer},
+            v_price: {required, decimal},
+            v_in_stock: {required},
             formData:{
                 name:{ required },
                 brand:{ required },
@@ -272,46 +320,77 @@
 
         methods:{
 
+            add_options(){
+
+                this.$v.v_quantity.$touch()
+                this.$v.v_price.$touch()
+                this.$v.v_in_stock.$touch()
+
+                if (this.$v.v_quantity.$anyError ||
+                    this.$v.v_price.$anyError ||
+                    this.$v.v_in_stock.$anyError){
+                    toast_error('all feilds are required')
+                    return;
+                }
+
+                let option_array = [];
+                this.formData.varition.map( (e) => {
+                    var select = $('#'+e.att).val();
+                    option_array.push(select)
+                })
+                this.formData.v_options.push({
+                    'options':option_array,
+                    'quantity':this.v_quantity,
+                    'price':this.v_price,
+                    'in_stock':this.v_in_stock
+                });
+            },
+
+            delete_options(index){
+                this.formData.v_options.splice(index, 1);
+            },
+
+            delete_varitaion(index){
+               this.formData.v_options = []
+                this.formData.varition.splice(index, 1);
+            },
+
+            add_variation(){
+
+                let chk = true;
+
+                if ( this.varition_att == '' || this.varition_option == '' ){
+                    chk = false;
+                }
+
+                if ( this.formData.varition.length > 0 ){
+                    this.varition.filter( (e) => {
+                        if (e.att == this.varition_att){
+                            chk = false;
+                        }
+                    })
+                }
+
+                if (chk == false){
+                    alert('already added');
+                    return;
+                }
+
+                this.varition_option = this.varition_option.split('|')
+                this.formData.varition.push({
+                    'att': this.varition_att,
+                    'option': this.varition_option
+                })
+                this.varition_att = ''
+                this.varition_option = ''
+            },
+
             delete_att(index){
                 this.formData.all_attributes.splice(index, 1);
             },
 
             delete_img(index){
                 this.formData.old_images.splice(index, 1);
-            },
-
-            on_load(){
-                this.formData.name = this.product.name
-                this.formData.short_desc = this.product.short_description
-                this.formData.long_desc = this.product.long_description
-                this.formData.p_quantity = this.product.quantity
-                this.formData.p_price = this.product.price
-                this.formData.p_in_stock = this.product.in_stock
-                this.formData.brand = this.product.brand_id
-                this.formData.category = this.product.category_id
-
-                if (this.att.length > 0){
-                    for(var i = 0; i < this.att.length; i++){
-                        this.formData.all_attributes.push({
-                            at_id:this.att[i].attribute_id,
-                            at_name:this.att[i].at_name,
-                            op_id:this.att[i].option_id,
-                            op_name:this.att[i].op_name,
-                            quantity:this.att[i].quantity,
-                            price:this.att[i].price,
-                            in_stock:this.att[i].in_stock
-                        })
-                    }
-                }
-
-                if (this.images.length > 0){
-                    for(var j = 0; j < this.images.length; j++) {
-                        this.formData.old_images.push({
-                            image_id:this.images[j].id,
-                            file: main_url+'public/uploads/'+this.images[j].paths
-                        })
-                    }
-                }
             },
 
             validateState(formData) {
@@ -326,7 +405,7 @@
                     return;
                 }
 
-                this.formData.has_attributes = this.formData.all_attributes.length > 0 ? 1 : 0
+                this.formData.has_attributes = this.formData.v_options.length > 0 ? 1 : 0
 
                 axios({
                     method: 'PATCH',
@@ -344,70 +423,12 @@
 
             },
 
-            add_attribute(){
-
-                // if (this.formData.all_attributes.length > 0){
-                //     var search = this.formData.all_attributes.filter( (e) => {
-                //         console.log(e.op_name)
-                //         if (e.op_name == this.formData.options.name){
-                //             return false;
-                //         }
-                //     })
-                //     if (search == false){
-                //         alert('this option is already added');
-                //         return;
-                //     }
-                // }
-
-                this.formData.all_attributes.push({
-                    at_id:this.formData.attributes.id,
-                    at_name:this.formData.attributes.name,
-                    op_id:this.formData.options.id,
-                    op_name:this.formData.options.name,
-                    quantity:this.a_quantity,
-                    price:this.a_price,
-                    in_stock:this.a_in_stock
-                });
-                this.formData.attributes = {}
-                this.formData.options = {}
-                this.a_quantity = ''
-                this.a_price = ''
-                this.a_in_stock = ''
-                this.detailsMode = false;
-                this.optionsMode = false;
-                this.getAttributes()
-            },
-
             optionsChanged(){
                 this.detailsMode = true;
             },
 
             attributesChanged(){
                 this.optionsMode = true;
-            },
-
-            getBrands(){
-                axios
-                    .get(main_url+'admin/getBrands')
-                    .then(response => (
-                        this.brands = response.data
-                    ));
-            },
-
-            getCategories(){
-                axios
-                    .get(main_url+'admin/getCategories')
-                    .then(response => (
-                        this.categories = response.data
-                    ));
-            },
-
-            getAttributes(){
-                axios
-                    .get(main_url+'admin/getAttributes')
-                    .then(response => (
-                        this.attributes = response.data
-                    ));
             },
 
             displayImages(e){
@@ -428,12 +449,67 @@
 
                 }
             },
+
+            on_load(){
+
+                this.categories = this.Ccategories
+                this.brands = this.Cbrands
+
+                this.formData.name = this.product.name
+                this.formData.short_desc = this.product.short_description
+                this.formData.long_desc = this.product.long_description
+                this.formData.p_quantity = this.product.quantity
+                this.formData.p_price = this.product.price
+                this.formData.p_in_stock = this.product.in_stock
+                this.formData.brand = this.product.brand_id
+                this.formData.category = this.product.category_id
+
+                this.varition_section = this.product.has_attributes == 1 ? 2 : 1
+
+                if (this.images.length > 0){
+                    for(var j = 0; j < this.images.length; j++) {
+                        this.formData.old_images.push({
+                            image_id:this.images[j].id,
+                            file: main_url+'public/uploads/'+this.images[j].paths
+                        })
+                    }
+                }
+
+                let op = []
+                this.att.map( (a) => {
+                    this.options.map( (o) => {
+                        if (a.id == o.attribute_id){
+                            op.push(o.name)
+                        }
+                    })
+                    this.formData.varition.push({
+                        'att': a.name,
+                        'option': op
+                    })
+                    op = []
+                })
+
+
+                let combos = []
+
+                    this.variation_values.map( (vv) => {
+                        this.variations.map( (v) => {
+                            if ( vv.combo_id === v.combo_id  ){
+                                combos.push(v.option_name)
+                            }
+                        })
+                        this.formData.v_options.push({
+                            'options':combos,
+                            'quantity':vv.quantity,
+                            'price':vv.price,
+                            'in_stock':vv.in_stock
+                        });
+                        combos = []
+                    })
+            },
         },
 
         mounted() {
-            this.getBrands()
-            this.getCategories()
-            this.getAttributes()
             this.on_load()
             console.log('working')
         }
@@ -451,5 +527,12 @@
     p.error{
         color: red;
         padding-left: 15px;
+    }
+    .p-tag{
+        color: black;
+        cursor: pointer;
+    }
+    .p-tag:hover{
+        color: #4425CB;
     }
 </style>

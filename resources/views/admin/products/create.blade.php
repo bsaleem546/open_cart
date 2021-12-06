@@ -10,7 +10,7 @@
 
 @section('content')
     <div id="app">
-        <add-product></add-product>
+        <add-product :Cbrands="{{ $brands }}" :Ccategories="{{ $categories }}"></add-product>
     </div>
 
 @endsection

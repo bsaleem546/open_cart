@@ -12,4 +12,9 @@ class Brand extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class, 'type_id');
+    }
 }

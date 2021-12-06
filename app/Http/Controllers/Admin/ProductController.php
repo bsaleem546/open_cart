@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Image_Product;
 use App\Models\Options;
 use App\Models\Product;
+use App\Models\Variation;
+use App\Models\VariationValues;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
@@ -52,7 +54,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $brands = Brand::all();
+        $categories = Category::all();
+        return view('admin.products.create', compact('brands', 'categories'));
     }
 
     /**
@@ -63,7 +67,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         try {
             $quantity = $request->p_quantity == null ? 0 :  $request->p_quantity;
             $price = $request->p_price == null ? 0 :  $request->p_price;
@@ -80,19 +83,6 @@ class ProductController extends Controller
                 'has_attributes' => $request->has_attributes
             ]);
 
-            if ($request->has_attributes == 1){
-                foreach ($request->all_attributes as $att){
-                    Attribute_Product::create([
-                        'product_id' => $product->id,
-                        'attribute_id' => $att['at_id'],
-                        'option_id' => $att['op_id'],
-                        'quantity' => $att['quantity'],
-                        'price' => $att['price'],
-                        'in_stock' => $att['in_stock'],
-                    ]);
-                }
-            }
-
             if ( count($request->img) > 0 ){
                 $count = 1;
                 foreach ($request->img as $image){
@@ -108,11 +98,46 @@ class ProductController extends Controller
                 }
             }
 
+            if ($request->has_attributes == 1){
+                for ($i = 0; $i < count($request->varition); $i++){
+                    $att = Attributes::create([
+                        'product_id' => $product->id,
+                        'name' => $request->varition[$i]['att']
+                    ]);
+                    foreach ($request->varition[$i]['option'] as $rv){
+                        Options::create([
+                            'product_id' => $product->id,
+                            'attribute_id' => $att->id,
+                            'name' => $rv
+                        ]);
+                    }
+                }
+
+                for ($j = 0; $j < count($request->v_options); $j++){
+
+                    for ($k = 0; $k < count($request->v_options[$j]['options']); $k++ ){
+                        Variation::create([
+                            'product_id' => $product->id,
+                            'option_name' => $request->v_options[$j]['options'][$k],
+                            'combo_id' => $j + 1
+                        ]);
+                    }
+
+                    VariationValues::create([
+                        'product_id' => $product->id,
+                        'combo_id' => $j + 1,
+                        'quantity' => $request->v_options[$j]['quantity'],
+                        'price' => $request->v_options[$j]['price'],
+                        'in_stock' => $request->v_options[$j]['in_stock'],
+                    ]);
+                }
+            }
+
             return Response::json(['status' => true, 'message' => 'Product created',
                 'redirect' => route('products.index')]);
         }
         catch (\Exception $e){
-//            dd($e);
+            dd($e);
             return Response::json(['status' => false, 'message' => 'Product not created', 'detail', $e]);
         }
 
@@ -138,17 +163,26 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-
+        $brands = Brand::all();
+        $categories = Category::all();
         $images = Image_Product::where('product_id', $product->id)->get();
+
         $att = '';
+        $options = '';
+        $variations = '';
+        $variation_values = '';
         if ($product->has_attributes == 1){
-            $att = Attribute_Product::join('attributes', 'attributes.id','=','attribute_product.attribute_id')
-                ->join('options', 'options.id', '=', 'attribute_product.option_id')
-                ->select('attribute_product.*', 'attributes.name as at_name', 'options.name as op_name')
-                ->where('product_id', $product->id)->get();
+
+            $att = Attributes::where('product_id', $id)->get();
+            $options = Options::where('product_id', $id)->get();
+
+            $variations = Variation::where('product_id', $id)->get();
+            $variation_values = VariationValues::where('product_id', $id)->get();
+
         }
 
-        return view('admin.products.edit', compact('product', 'images', 'att'));
+        return view('admin.products.edit', compact('product', 'brands',
+            'categories', 'images', 'att', 'options', 'variations', 'variation_values') );
     }
 
     /**
@@ -167,7 +201,7 @@ class ProductController extends Controller
             $quantity = $request->p_quantity == null ? 0 :  $request->p_quantity;
             $price = $request->p_price == null ? 0 :  $request->p_price;
 
-            $product = Product::where('id', $id)->update([
+            Product::where('id', $id)->update([
                 'brand_id' => $request->brand,
                 'category_id' => $request->category,
                 'name' => $request->name,
@@ -179,34 +213,48 @@ class ProductController extends Controller
                 'has_attributes' => $request->has_attributes
             ]);
 
-            $pre_att = Attribute_Product::where('product_id', $id)->get();
+            Options::where('product_id', $id)->delete();
+            Attributes::where('product_id', $id)->delete();
+            Variation::where('product_id', $id)->delete();
+            VariationValues::where('product_id', $id)->delete();
 
             if ($request->has_attributes == 1){
-                if (!$pre_att->isEmpty()){
-                    foreach ($pre_att as $p){
-                        $p->delete();
-                    }
-                }
-                foreach ($request->all_attributes as $att){
-                    Attribute_Product::create([
+                for ($i = 0; $i < count($request->varition); $i++){
+                    $att = Attributes::create([
                         'product_id' => $id,
-                        'attribute_id' => $att['at_id'],
-                        'option_id' => $att['op_id'],
-                        'quantity' => $att['quantity'],
-                        'price' => $att['price'],
-                        'in_stock' => $att['in_stock'],
+                        'name' => $request->varition[$i]['att']
                     ]);
-                }
-            }
-            else{
-                if (!$pre_att->isEmpty()){
-                    foreach ($pre_att as $p){
-                        $p->delete();
+                    foreach ($request->varition[$i]['option'] as $rv){
+                        Options::create([
+                            'product_id' => $id,
+                            'attribute_id' => $att->id,
+                            'name' => $rv
+                        ]);
                     }
+                }
+
+                for ($j = 0; $j < count($request->v_options); $j++){
+
+                    for ($k = 0; $k < count($request->v_options[$j]['options']); $k++ ){
+                        Variation::create([
+                            'product_id' => $id,
+                            'option_name' => $request->v_options[$j]['options'][$k],
+                            'combo_id' => $j + 1
+                        ]);
+                    }
+
+                    VariationValues::create([
+                        'product_id' => $id,
+                        'combo_id' => $j + 1,
+                        'quantity' => $request->v_options[$j]['quantity'],
+                        'price' => $request->v_options[$j]['price'],
+                        'in_stock' => $request->v_options[$j]['in_stock'],
+                    ]);
                 }
             }
 
             $pre_img = Image_Product::where('product_id', $id)->get();
+
             if (!$pre_img->isEmpty()){
                 foreach ($pre_img as $imgs){
                     foreach ($request->old_images as $i){
@@ -247,20 +295,12 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $att = Attribute_Product::where('product_id',$id)->get();
-            if (!$att->isEmpty()){
-                foreach ($att as $a){
-                    $a->delete();
-                }
-            }
-            $img = Image_Product::where('product_id',$id)->get();
-            if (!$img->isEmpty()){
-                foreach ($img as $i){
-                    $i->delete();
-                }
-            }
-            $product = Product::findOrFail($id);
-            $product->delete();
+            Options::where('product_id', $id)->delete();
+            Attributes::where('product_id', $id)->delete();
+            Variation::where('product_id', $id)->delete();
+            VariationValues::where('product_id', $id)->delete();
+            Image_Product::where('product_id', $id)->delete();
+            Product::where('id', $id)->delete();
 
             return Response::json(['status' => true, 'message' => 'Product deleted',
                 'redirect' => route('products.index')]);

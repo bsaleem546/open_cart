@@ -21,6 +21,7 @@ class CreateCouponsTable extends Migration
             $table->string('code')->unique();
             $table->decimal('value');
             $table->string('value_type');
+            $table->integer('quantity')->default(0);
             $table->dateTime('begin_date');
             $table->dateTime('end_date');
             $table->timestamps();

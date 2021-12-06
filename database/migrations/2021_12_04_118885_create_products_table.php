@@ -44,24 +44,66 @@ class CreateProductsTable extends Migration
 
             $table->string('paths');
             $table->boolean('is_main')->default(false);
+
+            $table->timestamps();
         });
 
         //product attributes
-        Schema::create('attribute_product', function (Blueprint $table) {
+        Schema::create('attributes', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+
+            $table->string('name');
+
+            $table->timestamps();
+        });
+
+        //product options
+        Schema::create('options', function (Blueprint $table) {
+            $table->id();
+
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
 
             $table->unsignedBigInteger('attribute_id');
             $table->foreign('attribute_id')->references('id')->on('attributes');
 
-            $table->unsignedBigInteger('option_id');
-            $table->foreign('option_id')->references('id')->on('options');
+            $table->string('name');
 
-            $table->integer('quantity')->nullable();
-            $table->decimal('price')->nullable();
-            $table->boolean('in_stock')->nullable();
+            $table->timestamps();
         });
+
+        //product variations
+        Schema::create('variations', function (Blueprint $table) {
+            $table->id();
+
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+
+            $table->string('option_name')->nullable();
+
+            $table->BigInteger('combo_id');
+
+            $table->timestamps();
+        });
+
+        //product variation_values
+        Schema::create('variation_values', function (Blueprint $table) {
+            $table->id();
+
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+
+            $table->BigInteger('combo_id');
+            $table->integer('quantity');
+            $table->decimal('price');
+            $table->boolean('in_stock');
+
+            $table->timestamps();
+        });
+
     }
 
     /**

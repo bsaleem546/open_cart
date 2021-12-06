@@ -10,10 +10,10 @@
             </li>
             <li class="nav-label first">Products Menu</li>
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                        class="icon icon-single-04"></i><span class="nav-text">Products</span></a>
+                        class="icon icon-cart-simple"></i><span class="nav-text">Products</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('attributes.index') }}">Attributes</a></li>
-                    <li><a href="{{ route('options.index') }}">Options</a></li>
+{{--                    <li><a href="{{ route('attributes.index') }}">Attributes</a></li>--}}
+{{--                    <li><a href="{{ route('options.index') }}">Options</a></li>--}}
                     <li><a href="{{ route('brands.index') }}">Brands</a></li>
                     <li><a href="{{ route('categories.index') }}">Categories</a></li>
                     <li><a href="{{ route('products.index') }}">Products</a></li>

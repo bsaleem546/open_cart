@@ -36,6 +36,7 @@
                             <th>Code</th>
                             <th>Value</th>
                             <th>Value Type</th>
+                            <th>Quantity</th>
                             <th>Begin Date</th>
                             <th>End Date</th>
                             <th>Action</th>
@@ -45,14 +46,26 @@
                         @foreach($data as $coupons)
                             <tr>
                                 <td>{{ $coupons->type }}</td>
-                                <td>{{ $coupons->type_id }}</td>
+                                <td>
+                                    @if ( $coupons->type == 'Category' )
+                                            {{ $coupons->category->name }}
+                                    @elseif( $coupons->type == 'Brand' )
+                                        {{ $coupons->brand->name }}
+                                    @elseif( $coupons->type == 'Product' )
+                                        {{ $coupons->product->name }}
+                                    @else
+
+                                    @endif
+
+                                </td>
                                 <td>{{ $coupons->over_all }}</td>
                                 <td>{{ $coupons->code }}</td>
                                 <td>{{ $coupons->value }}</td>
                                 <td>{{ $coupons->value_type }}</td>
+                                <td>{{ $coupons->quantity }}</td>
                                 <td>{{ $coupons->begin_date }}</td>
                                 <td>{{ $coupons->end_date }}</td>
-                                <td><a href="{{ route('$coupons.edit', $coupons->id) }}"><i class="fas fa-cog"></i></a>
+                                <td><a href="{{ route('coupons.edit', $coupons->id) }}"><i class="fas fa-cog"></i></a>
                                      |
                                     <a href="#" onclick="_delete( {{ $coupons }} )"><i class="fas fa-trash"></i></a>
                                 </td>
@@ -107,7 +120,7 @@
             document.getElementById('delete').addEventListener('click', (e) => {
                 $.ajax({
                     type: 'DELETE',
-                    url: main_url+'admin/categories/'+data.id,
+                    url: main_url+'admin/coupons/'+data.id,
                     contentType: false,
                     processData: false,
                     // headers:$('meta[name="csrf-token"]').attr('content'),
