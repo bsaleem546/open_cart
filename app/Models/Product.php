@@ -17,6 +17,7 @@ class Product extends Model
         'long_description',
         'quantity',
         'price',
+        'sale_price',
         'in_stock',
         'has_attributes',
     ];
@@ -24,5 +25,15 @@ class Product extends Model
     public function coupons()
     {
         return $this->hasMany(Coupon::class, 'type_id');
+    }
+
+    public function shippings()
+    {
+        return $this->belongsToMany(Shipping::class, 'shipping_product');
+    }
+
+    public function category()
+    {
+        return $this->hasOne(Category::class);
     }
 }

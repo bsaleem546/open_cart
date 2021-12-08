@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Auth::routes();
 
@@ -35,6 +36,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'is_admin' ], function (){
     Route::get('/getCategories', [App\Http\Controllers\Admin\ProductController::class, 'getCategories']);
 
     Route::resource('coupons', \App\Http\Controllers\Admin\CouponController::class);
+    Route::resource('shippings', \App\Http\Controllers\Admin\ShippingController::class);
 
 });
 

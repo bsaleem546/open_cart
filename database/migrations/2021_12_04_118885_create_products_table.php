@@ -28,6 +28,7 @@ class CreateProductsTable extends Migration
 
             $table->integer('quantity')->default(0);
             $table->decimal('price')->default(0);
+            $table->decimal('sale_price')->default(0);
             $table->integer('in_stock')->nullable();
 
             $table->boolean('has_attributes')->default(false);
@@ -99,6 +100,7 @@ class CreateProductsTable extends Migration
             $table->BigInteger('combo_id');
             $table->integer('quantity');
             $table->decimal('price');
+            $table->decimal('sale_price')->default(0);
             $table->boolean('in_stock');
 
             $table->timestamps();

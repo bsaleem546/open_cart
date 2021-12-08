@@ -17,4 +17,9 @@ class Category extends Model
     {
         return $this->hasMany(Coupon::class, 'type_id');
     }
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

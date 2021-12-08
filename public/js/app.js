@@ -2363,6 +2363,21 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2379,6 +2394,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       options_check: false,
       v_quantity: '',
       v_price: '',
+      v_sale_price: '',
       v_in_stock: 1,
       v_att_op: [],
       brands: {},
@@ -2396,6 +2412,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         long_desc: '',
         p_quantity: '',
         p_price: '',
+        p_sale_price: '',
         brand: '',
         category: '',
         p_in_stock: '',
@@ -2415,6 +2432,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required,
       decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
     },
+    v_sale_price: {
+      decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
+    },
     v_in_stock: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
     },
@@ -2432,6 +2452,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.integer
       },
       p_price: {
+        decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
+      },
+      p_sale_price: {
         decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
       },
       p_in_stock: {
@@ -2462,11 +2485,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         var select = $('#' + e.att).val();
         option_array.push(select);
       });
-      console.log(option_array);
       this.formData.v_options.push({
         'options': option_array,
         'quantity': this.v_quantity,
         'price': this.v_price,
+        'sale_price': this.v_sale_price,
         'in_stock': this.v_in_stock
       });
     }
@@ -2849,6 +2872,21 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2865,6 +2903,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       options_check: false,
       v_quantity: '',
       v_price: '',
+      v_sale_price: '',
       v_in_stock: 1,
       v_att_op: [],
       brands: {},
@@ -2882,6 +2921,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         long_desc: '',
         p_quantity: '',
         p_price: '',
+        p_sale_price: '',
         brand: '',
         category: '',
         p_in_stock: '',
@@ -2902,6 +2942,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required,
       decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
     },
+    v_sale_price: {
+      decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
+    },
     v_in_stock: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
     },
@@ -2919,6 +2962,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.integer
       },
       p_price: {
+        decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
+      },
+      p_sale_price: {
         decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
       },
       p_in_stock: {
@@ -2946,6 +2992,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         'options': option_array,
         'quantity': this.v_quantity,
         'price': this.v_price,
+        'sale_price': this.v_sale_price,
         'in_stock': this.v_in_stock
       });
     },
@@ -3065,6 +3112,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this.formData.long_desc = this.product.long_description;
       this.formData.p_quantity = this.product.quantity;
       this.formData.p_price = this.product.price;
+      this.formData.p_sale_price = this.product.sale_price;
       this.formData.p_in_stock = this.product.in_stock;
       this.formData.brand = this.product.brand_id;
       this.formData.category = this.product.category_id;
@@ -3106,6 +3154,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           'options': combos,
           'quantity': vv.quantity,
           'price': vv.price,
+          'sale_price': vv.sale_price,
           'in_stock': vv.in_stock
         });
 
@@ -51344,7 +51393,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "col-sm-6" }, [
+            _c("div", { staticClass: "col-sm-4" }, [
               _vm.$v.formData.p_quantity.$invalid
                 ? _c("div", [
                     !_vm.$v.formData.p_quantity.integer
@@ -51378,7 +51427,7 @@ var render = function () {
               }),
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-sm-6" }, [
+            _c("div", { staticClass: "col-sm-4" }, [
               _vm.$v.formData.p_price.$invalid
                 ? _c("div", [
                     !_vm.$v.formData.p_price.decimal
@@ -51407,6 +51456,40 @@ var render = function () {
                       return
                     }
                     _vm.$set(_vm.formData, "p_price", $event.target.value)
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-4" }, [
+              _vm.$v.formData.p_sale_price.$invalid
+                ? _c("div", [
+                    !_vm.$v.formData.p_sale_price.decimal
+                      ? _c("p", { staticClass: "error" }, [
+                          _vm._v("Required decimal"),
+                        ])
+                      : _vm._e(),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.formData.p_sale_price,
+                    expression: "formData.p_sale_price",
+                  },
+                ],
+                staticClass: "form-control form-control-lg",
+                attrs: { type: "text", placeholder: "Sale Price (optional)" },
+                domProps: { value: _vm.formData.p_sale_price },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.formData, "p_sale_price", $event.target.value)
                   },
                 },
               }),
@@ -51966,6 +52049,40 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-lg-3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.v_sale_price,
+                                expression: "v_sale_price",
+                              },
+                            ],
+                            staticClass: "form-control form-control-md",
+                            attrs: { type: "text", placeholder: "Sale Price" },
+                            domProps: { value: _vm.v_sale_price },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.v_sale_price = $event.target.value
+                              },
+                            },
+                          }),
+                          _vm._v(" "),
+                          _vm.$v.v_sale_price.$invalid
+                            ? _c("div", [
+                                !_vm.$v.v_sale_price.decimal
+                                  ? _c("p", { staticClass: "error" }, [
+                                      _vm._v("Required decimal"),
+                                    ])
+                                  : _vm._e(),
+                              ])
+                            : _vm._e(),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-lg-3" }, [
                           _c(
                             "select",
                             {
@@ -52080,6 +52197,10 @@ var render = function () {
                                           _c("td", [_vm._v(_vm._s(v.price))]),
                                           _vm._v(" "),
                                           _c("td", [
+                                            _vm._v(_vm._s(v.sale_price)),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
                                             _vm._v(_vm._s(v.in_stock)),
                                           ]),
                                         ])
@@ -52183,6 +52304,8 @@ var staticRenderFns = [
       _c("td", [_vm._v("Quantity")]),
       _vm._v(" "),
       _c("td", [_vm._v("Price")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Sale Price")]),
       _vm._v(" "),
       _c("td", [_vm._v("In Stock")]),
     ])
@@ -52354,7 +52477,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "col-sm-6" }, [
+            _c("div", { staticClass: "col-sm-4" }, [
               _vm.$v.formData.p_quantity.$invalid
                 ? _c("div", [
                     !_vm.$v.formData.p_quantity.integer
@@ -52388,7 +52511,7 @@ var render = function () {
               }),
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-sm-6" }, [
+            _c("div", { staticClass: "col-sm-4" }, [
               _vm.$v.formData.p_price.$invalid
                 ? _c("div", [
                     !_vm.$v.formData.p_price.decimal
@@ -52417,6 +52540,40 @@ var render = function () {
                       return
                     }
                     _vm.$set(_vm.formData, "p_price", $event.target.value)
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-4" }, [
+              _vm.$v.formData.p_sale_price.$invalid
+                ? _c("div", [
+                    !_vm.$v.formData.p_sale_price.decimal
+                      ? _c("p", { staticClass: "error" }, [
+                          _vm._v("Required decimal"),
+                        ])
+                      : _vm._e(),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.formData.p_sale_price,
+                    expression: "formData.p_sale_price",
+                  },
+                ],
+                staticClass: "form-control form-control-lg",
+                attrs: { type: "text", placeholder: "Sale Price (optional)" },
+                domProps: { value: _vm.formData.p_sale_price },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.formData, "p_sale_price", $event.target.value)
                   },
                 },
               }),
@@ -53013,6 +53170,40 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-lg-3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.v_sale_price,
+                                expression: "v_sale_price",
+                              },
+                            ],
+                            staticClass: "form-control form-control-md",
+                            attrs: { type: "text", placeholder: "Sale Price" },
+                            domProps: { value: _vm.v_sale_price },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.v_sale_price = $event.target.value
+                              },
+                            },
+                          }),
+                          _vm._v(" "),
+                          _vm.$v.v_sale_price.$invalid
+                            ? _c("div", [
+                                !_vm.$v.v_sale_price.decimal
+                                  ? _c("p", { staticClass: "error" }, [
+                                      _vm._v("Required decimal"),
+                                    ])
+                                  : _vm._e(),
+                              ])
+                            : _vm._e(),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-lg-3" }, [
                           _c(
                             "select",
                             {
@@ -53127,6 +53318,10 @@ var render = function () {
                                           _c("td", [_vm._v(_vm._s(v.price))]),
                                           _vm._v(" "),
                                           _c("td", [
+                                            _vm._v(_vm._s(v.sale_price)),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
                                             _vm._v(_vm._s(v.in_stock)),
                                           ]),
                                         ])
@@ -53230,6 +53425,8 @@ var staticRenderFns = [
       _c("td", [_vm._v("Quantity")]),
       _vm._v(" "),
       _c("td", [_vm._v("Price")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Sale Price")]),
       _vm._v(" "),
       _c("td", [_vm._v("In Stock")]),
     ])

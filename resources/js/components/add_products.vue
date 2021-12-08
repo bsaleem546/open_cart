@@ -37,19 +37,26 @@
                                           class="form-control form-control-lg" v-model="formData.long_desc"></textarea>
                             </div>
                             <div class="form-group row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div v-if="$v.formData.p_quantity.$invalid">
                                         <p class="error" v-if="!$v.formData.p_quantity.integer">Required integer</p>
                                     </div>
                                     <input type="text" v-model="formData.p_quantity"
                                            placeholder="Quantity (optional)" class="form-control form-control-lg">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div v-if="$v.formData.p_price.$invalid">
                                         <p class="error" v-if="!$v.formData.p_price.decimal">Required decimal</p>
                                     </div>
                                     <input type="text" v-model="formData.p_price"
                                            placeholder="Price (optional)" class="form-control form-control-lg">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div v-if="$v.formData.p_sale_price.$invalid">
+                                        <p class="error" v-if="!$v.formData.p_sale_price.decimal">Required decimal</p>
+                                    </div>
+                                    <input type="text" v-model="formData.p_sale_price"
+                                           placeholder="Sale Price (optional)" class="form-control form-control-lg">
                                 </div>
                             </div>
                     </div>
@@ -204,6 +211,12 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
+                                            <input type="text" placeholder="Sale Price" class="form-control form-control-md" v-model="v_sale_price">
+                                            <div v-if="$v.v_sale_price.$invalid">
+                                                <p class="error" v-if="!$v.v_sale_price.decimal">Required decimal</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
                                             <select class="form-control form-control-md" v-model="v_in_stock">
                                                 <option value="1" selected>Yes</option>
                                                 <option value="0">No</option>
@@ -224,6 +237,7 @@
                                                 <td>Variations</td>
                                                 <td>Quantity</td>
                                                 <td>Price</td>
+                                                <td>Sale Price</td>
                                                 <td>In Stock</td>
                                             </thead>
                                             <tbody>
@@ -234,6 +248,7 @@
                                                 <td>{{ v.options }}</td>
                                                 <td>{{ v.quantity }}</td>
                                                 <td>{{ v.price }}</td>
+                                                <td>{{ v.sale_price }}</td>
                                                 <td>{{ v.in_stock }}</td>
                                             </tr>
                                             </tbody>
@@ -268,6 +283,7 @@ import '../../../public/js/my-js.js'
                 options_check:false,
                 v_quantity:'',
                 v_price:'',
+                v_sale_price:'',
                 v_in_stock:1,
                 v_att_op:[],
 
@@ -286,6 +302,7 @@ import '../../../public/js/my-js.js'
                     long_desc:'',
                     p_quantity:'',
                     p_price:'',
+                    p_sale_price:'',
                     brand:'',
                     category:'',
                     p_in_stock:'',
@@ -300,6 +317,7 @@ import '../../../public/js/my-js.js'
         validations: {
             v_quantity: {required,integer},
             v_price: {required, decimal},
+            v_sale_price: { decimal},
             v_in_stock: {required},
             formData:{
                 name:{ required },
@@ -307,6 +325,7 @@ import '../../../public/js/my-js.js'
                 category:{ required },
                 p_quantity:{ integer },
                 p_price:{ decimal },
+                p_sale_price:{ decimal },
                 p_in_stock:{ required },
             },
         },
@@ -340,11 +359,11 @@ import '../../../public/js/my-js.js'
                     var select = $('#'+e.att).val();
                     option_array.push(select)
                 })
-                console.log(option_array)
                 this.formData.v_options.push({
                     'options':option_array,
                     'quantity':this.v_quantity,
                     'price':this.v_price,
+                    'sale_price':this.v_sale_price,
                     'in_stock':this.v_in_stock
                 });
             },

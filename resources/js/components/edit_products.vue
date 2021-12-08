@@ -37,19 +37,26 @@
                                   class="form-control form-control-lg" v-model="formData.long_desc"></textarea>
                     </div>
                     <div class="form-group row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div v-if="$v.formData.p_quantity.$invalid">
                                 <p class="error" v-if="!$v.formData.p_quantity.integer">Required integer</p>
                             </div>
                             <input type="text" v-model="formData.p_quantity"
                                    placeholder="Quantity (optional)" class="form-control form-control-lg">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div v-if="$v.formData.p_price.$invalid">
                                 <p class="error" v-if="!$v.formData.p_price.decimal">Required decimal</p>
                             </div>
                             <input type="text" v-model="formData.p_price"
                                    placeholder="Price (optional)" class="form-control form-control-lg">
+                        </div>
+                        <div class="col-sm-4">
+                            <div v-if="$v.formData.p_sale_price.$invalid">
+                                <p class="error" v-if="!$v.formData.p_sale_price.decimal">Required decimal</p>
+                            </div>
+                            <input type="text" v-model="formData.p_sale_price"
+                                   placeholder="Sale Price (optional)" class="form-control form-control-lg">
                         </div>
                     </div>
                 </div>
@@ -210,6 +217,12 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
+                                        <input type="text" placeholder="Sale Price" class="form-control form-control-md" v-model="v_sale_price">
+                                        <div v-if="$v.v_sale_price.$invalid">
+                                            <p class="error" v-if="!$v.v_sale_price.decimal">Required decimal</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
                                         <select class="form-control form-control-md" v-model="v_in_stock">
                                             <option value="1" selected>Yes</option>
                                             <option value="0">No</option>
@@ -230,6 +243,7 @@
                                         <td>Variations</td>
                                         <td>Quantity</td>
                                         <td>Price</td>
+                                        <td>Sale Price</td>
                                         <td>In Stock</td>
                                         </thead>
                                         <tbody>
@@ -240,6 +254,7 @@
                                             <td>{{ v.options }}</td>
                                             <td>{{ v.quantity }}</td>
                                             <td>{{ v.price }}</td>
+                                            <td>{{ v.sale_price }}</td>
                                             <td>{{ v.in_stock }}</td>
                                         </tr>
                                         </tbody>
@@ -274,6 +289,7 @@
                 options_check:false,
                 v_quantity:'',
                 v_price:'',
+                v_sale_price:'',
                 v_in_stock:1,
                 v_att_op:[],
 
@@ -292,6 +308,7 @@
                     long_desc:'',
                     p_quantity:'',
                     p_price:'',
+                    p_sale_price:'',
                     brand:'',
                     category:'',
                     p_in_stock:'',
@@ -307,6 +324,7 @@
         validations: {
             v_quantity: {required,integer},
             v_price: {required, decimal},
+            v_sale_price: { decimal},
             v_in_stock: {required},
             formData:{
                 name:{ required },
@@ -314,6 +332,7 @@
                 category:{ required },
                 p_quantity:{ integer },
                 p_price:{ decimal },
+                p_sale_price:{ decimal },
                 p_in_stock:{ required },
             },
         },
@@ -342,6 +361,7 @@
                     'options':option_array,
                     'quantity':this.v_quantity,
                     'price':this.v_price,
+                    'sale_price':this.v_sale_price,
                     'in_stock':this.v_in_stock
                 });
             },
@@ -460,6 +480,7 @@
                 this.formData.long_desc = this.product.long_description
                 this.formData.p_quantity = this.product.quantity
                 this.formData.p_price = this.product.price
+                this.formData.p_sale_price = this.product.sale_price
                 this.formData.p_in_stock = this.product.in_stock
                 this.formData.brand = this.product.brand_id
                 this.formData.category = this.product.category_id
@@ -502,6 +523,7 @@
                             'options':combos,
                             'quantity':vv.quantity,
                             'price':vv.price,
+                            'sale_price':vv.sale_price,
                             'in_stock':vv.in_stock
                         });
                         combos = []

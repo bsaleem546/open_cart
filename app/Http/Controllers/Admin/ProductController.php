@@ -70,6 +70,7 @@ class ProductController extends Controller
         try {
             $quantity = $request->p_quantity == null ? 0 :  $request->p_quantity;
             $price = $request->p_price == null ? 0 :  $request->p_price;
+            $sale_price = $request->p_sale_price == null ? 0 :  $request->p_sale_price;
 
             $product = Product::create([
                 'brand_id' => $request->brand,
@@ -79,6 +80,7 @@ class ProductController extends Controller
                 'long_description' => $request->long_desc,
                 'quantity' => $quantity,
                 'price' => $price,
+                'sale_price' => $sale_price,
                 'in_stock' => $request->p_in_stock,
                 'has_attributes' => $request->has_attributes
             ]);
@@ -123,11 +125,13 @@ class ProductController extends Controller
                         ]);
                     }
 
+                    $v_sale_price = $request->v_options[$j]['sale_price'] == null ? 0 : $request->v_options[$j]['sale_price'];
                     VariationValues::create([
                         'product_id' => $product->id,
                         'combo_id' => $j + 1,
                         'quantity' => $request->v_options[$j]['quantity'],
                         'price' => $request->v_options[$j]['price'],
+                        'sale_price' => $v_sale_price,
                         'in_stock' => $request->v_options[$j]['in_stock'],
                     ]);
                 }
@@ -200,6 +204,7 @@ class ProductController extends Controller
 
             $quantity = $request->p_quantity == null ? 0 :  $request->p_quantity;
             $price = $request->p_price == null ? 0 :  $request->p_price;
+            $sale_price = $request->p_sale_price == null ? 0 :  $request->p_sale_price;
 
             Product::where('id', $id)->update([
                 'brand_id' => $request->brand,
@@ -209,6 +214,7 @@ class ProductController extends Controller
                 'long_description' => $request->long_desc,
                 'quantity' => $quantity,
                 'price' => $price,
+                'sale_price' => $sale_price,
                 'in_stock' => $request->p_in_stock,
                 'has_attributes' => $request->has_attributes
             ]);
@@ -243,11 +249,13 @@ class ProductController extends Controller
                         ]);
                     }
 
+                    $v_sale_price = $request->v_options[$j]['sale_price'] == null ? 0 : $request->v_options[$j]['sale_price'];
                     VariationValues::create([
                         'product_id' => $id,
                         'combo_id' => $j + 1,
                         'quantity' => $request->v_options[$j]['quantity'],
                         'price' => $request->v_options[$j]['price'],
+                        'sale_price' => $v_sale_price,
                         'in_stock' => $request->v_options[$j]['in_stock'],
                     ]);
                 }

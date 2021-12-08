@@ -10,5 +10,5 @@ class VariationValues extends Model
     use HasFactory;
     protected $table = 'variation_values';
 
-    protected $fillable = ['product_id', 'combo_id', 'quantity', 'price', 'in_stock'];
+    protected $fillable = ['product_id', 'combo_id', 'quantity', 'price', 'sale_price', 'in_stock'];
 }
