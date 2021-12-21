@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <!-- set the viewport width and initial-scale on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title') | The Twins Furniture</title>
     <!-- include the site stylesheet -->
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic%7cMontserrat:400,700%7cOxygen:400,300,700' rel='stylesheet' type='text/css'>
@@ -20,7 +24,7 @@
     <link rel="stylesheet" href="{{ url('public/web') }}/css/responsive.css">
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-{{--    <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">--}}
+    {{--    <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">--}}
 
     @yield('styles')
 </head>
@@ -58,45 +62,46 @@
                                     </a>
                                 </li>
                                 <li class="drop">
-                                    <a href="#" class="icon-heart cart-opener"><span style="margin-bottom: -3px;" class="num">3</span></a>
+                                    <a href="#" class="icon-heart cart-opener">
+                                        @if( \Illuminate\Support\Facades\Session::get('wishlist') !== null )
+                                            <span style="margin-bottom: -3px;" class="num">{{ count(\Illuminate\Support\Facades\Session::get('wishlist')) }}</span>
+                                        @else
+                                            <span style="margin-bottom: -3px;" class="num">0</span>
+                                        @endif
+                                    </a>
                                     <!-- mt drop start here -->
                                     <div class="mt-drop">
                                         <!-- mt drop sub start here -->
                                         <div class="mt-drop-sub">
                                             <!-- mt side widget start here -->
                                             <div class="mt-side-widget">
-                                                <!-- cart row start here -->
-                                                <div class="cart-row">
-                                                    <a href="#" class="img"><img src="{{ url('public/web') }}/images/products/img36.jpg" alt="image" class="img-responsive"></a>
-                                                    <div class="mt-h">
-                                                        <span class="mt-h-title"><a href="#">Marvelous Modern 3 Seater</a></span>
-                                                        <span class="price"><i class="fa fa-eur" aria-hidden="true"></i> 599,00</span>
-                                                    </div>
-                                                    <a href="#" class="close fa fa-times"></a>
-                                                </div><!-- cart row end here -->
-                                                <!-- cart row start here -->
-                                                <div class="cart-row">
-                                                    <a href="#" class="img"><img src="{{ url('public/web') }}/images/products/img37.jpg" alt="image" class="img-responsive"></a>
-                                                    <div class="mt-h">
-                                                        <span class="mt-h-title"><a href="#">Marvelous Modern 3 Seater</a></span>
-                                                        <span class="price"><i class="fa fa-eur" aria-hidden="true"></i> 599,00</span>
-                                                    </div>
-                                                    <a href="#" class="close fa fa-times"></a>
-                                                </div><!-- cart row end here -->
-                                                <!-- cart row start here -->
-                                                <div class="cart-row">
-                                                    <a href="#" class="img"><img src="{{ url('public/web') }}/images/products/img38.jpg" alt="image" class="img-responsive"></a>
-                                                    <div class="mt-h">
-                                                        <span class="mt-h-title"><a href="#">Marvelous Modern 3 Seater</a></span>
-                                                        <span class="price"><i class="fa fa-eur" aria-hidden="true"></i> 599,00</span>
-                                                    </div>
-                                                    <a href="#" class="close fa fa-times"></a>
-                                                </div><!-- cart row end here -->
-                                                <!-- cart row total start here -->
-                                                <div class="cart-row-total">
-                                                    <span class="mt-total">Add them all</span>
-                                                    <span class="mt-total-txt"><a href="#" class="btn-type2">add to CART</a></span>
-                                                </div>
+                                            @if( \Illuminate\Support\Facades\Session::get('wishlist') !== null )
+                                                @foreach(\Illuminate\Support\Facades\Session::get('wishlist') as $key => $value)
+                                                        <div class="cart-row">
+                                                            @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
+                                                            <a href="{{ url('products/'.$value['slug']) }}" class="img">
+                                                                @if($path == null || $path == '')
+                                                                    <img src="{{ url('public/imgs/empty.jpg') }}"
+                                                                         alt="image" class="img-responsive">
+                                                                @else
+                                                                    <img src="{{ url('public/uploads/'.$path) }}"
+                                                                         alt="image" class="img-responsive">
+                                                                @endif
+                                                            </a>
+                                                            <div class="mt-h">
+                                                                <span class="mt-h-title"><a href="{{ url('products/'.$value['slug']) }}">{{ $value['name'] }}</a></span>
+                                                                <span class="price"><i class="fa fa-dollar" aria-hidden="true"></i> {{ $value['price'] }}</span>
+                                                            </div>
+{{--                                                            <a href="#" class="close fa fa-times"></a>--}}
+                                                        </div>
+                                                @endforeach
+                                            @endif
+
+
+{{--                                                <div class="cart-row-total">--}}
+{{--                                                    <span class="mt-total">Add them all</span>--}}
+{{--                                                    <span class="mt-total-txt"><a href="#" class="btn-type2">add to CART</a></span>--}}
+{{--                                                </div>--}}
                                                 <!-- cart row total end here -->
                                             </div><!-- mt side widget end here -->
                                         </div>
@@ -107,7 +112,11 @@
                                 <li class="drop">
                                     <a href="#" class="cart-opener">
                                         <span class="icon-handbag"></span>
-                                        <span class="num">3</span>
+                                        @if( \Illuminate\Support\Facades\Session::get('cart') !== null )
+                                            <span class="num">{{ count(\Illuminate\Support\Facades\Session::get('cart')) }}</span>
+                                        @else
+                                            <span class="num">0</span>
+                                        @endif
                                     </a>
                                     <!-- mt drop start here -->
                                     <div class="mt-drop">
@@ -115,45 +124,40 @@
                                         <div class="mt-drop-sub">
                                             <!-- mt side widget start here -->
                                             <div class="mt-side-widget">
-                                                <!-- cart row start here -->
-                                                <div class="cart-row">
-                                                    <a href="#" class="img"><img src="{{ url('public/web') }}/images/products/img36.jpg" alt="image" class="img-responsive"></a>
-                                                    <div class="mt-h">
-                                                        <span class="mt-h-title"><a href="#">Marvelous Modern 3 Seater</a></span>
-                                                        <span class="price"><i class="fa fa-eur" aria-hidden="true"></i> 599,00</span>
-                                                        <span class="mt-h-title">Qty: 1</span>
-                                                    </div>
-                                                    <a href="#" class="close fa fa-times"></a>
-                                                </div><!-- cart row end here -->
-                                                <!-- cart row start here -->
-                                                <div class="cart-row">
-                                                    <a href="#" class="img"><img src="{{ url('public/web') }}/images/products/img37.jpg" alt="image" class="img-responsive"></a>
-                                                    <div class="mt-h">
-                                                        <span class="mt-h-title"><a href="#">Marvelous Modern 3 Seater</a></span>
-                                                        <span class="price"><i class="fa fa-eur" aria-hidden="true"></i> 599,00</span>
-                                                        <span class="mt-h-title">Qty: 1</span>
-                                                    </div>
-                                                    <a href="#" class="close fa fa-times"></a>
-                                                </div><!-- cart row end here -->
-                                                <!-- cart row start here -->
-                                                <div class="cart-row">
-                                                    <a href="#" class="img"><img src="{{ url('public/web') }}/images/products/img38.jpg" alt="image" class="img-responsive"></a>
-                                                    <div class="mt-h">
-                                                        <span class="mt-h-title"><a href="#">Marvelous Modern 3 Seater</a></span>
-                                                        <span class="price"><i class="fa fa-eur" aria-hidden="true"></i> 599,00</span>
-                                                        <span class="mt-h-title">Qty: 1</span>
-                                                    </div>
-                                                    <a href="#" class="close fa fa-times"></a>
-                                                </div><!-- cart row end here -->
+                                                @php $total = 0 @endphp
+                                                @if( \Illuminate\Support\Facades\Session::get('cart') !== null )
+                                                    @foreach(\Illuminate\Support\Facades\Session::get('cart') as $key => $value)
+                                                        @php $total += $value['price']  @endphp
+                                                        <div class="cart-row">
+                                                            <a href="{{ url('products/'.$value['slug']) }}" class="img">
+                                                                @php $path = \App\Models\Image_Product::where('product_id', $value['id'])->pluck('paths')->first()  @endphp
+                                                                @if($path == null || $path == '')
+                                                                    <img src="{{ url('public/imgs/empty.jpg') }}"
+                                                                         alt="image" class="img-responsive">
+                                                                @else
+                                                                    <img src="{{ url('public/uploads/'.$path) }}"
+                                                                         alt="image" class="img-responsive">
+                                                                @endif
+
+                                                            </a>
+                                                            <div class="mt-h">
+                                                                <span class="mt-h-title"><a href="{{ url('products/'.$value['slug']) }}">{{ $value['name'] }}</a></span>
+                                                                <small>{{ $value['att'] }}</small><br>
+                                                                <span class="price"><i class="fa fa-dollar" aria-hidden="true"></i> {{ $value['price'] }}</span>
+                                                                <span class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
                                                 <!-- cart row total start here -->
                                                 <div class="cart-row-total">
                                                     <span class="mt-total">Sub Total</span>
-                                                    <span class="mt-total-txt"><i class="fa fa-eur" aria-hidden="true"></i> 799,00</span>
+                                                    <span class="mt-total-txt"><i class="fa fa-dollar" aria-hidden="true"></i> {{ $total }}</span>
                                                 </div>
                                                 <!-- cart row total end here -->
                                                 <div class="cart-btn-row">
-                                                    <a href="#" class="btn-type2">VIEW CART</a>
-                                                    <a href="#" class="btn-type3">CHECKOUT</a>
+                                                    <a href="{{ url('cart') }}" class="btn-type2">VIEW CART</a>
+                                                    <a href="{{ url('checkout') }}" class="btn-type3">CHECKOUT</a>
                                                 </div>
                                             </div><!-- mt side widget end here -->
                                         </div>
@@ -297,9 +301,9 @@
             <span class="mt-side-over"></span>
         </header><!-- mt header style4 end here -->
 
-        @auth
-        @else
-            <!-- mt side menu start here -->
+    @auth
+    @else
+        <!-- mt side menu start here -->
             <div class="mt-side-menu">
                 <!-- mt holder start here -->
                 <div class="mt-holder">
@@ -348,11 +352,11 @@
                 <!-- mt holder end here -->
             </div>
             <!-- mt side menu end here -->
-        @endauth
-        @yield('content')
+    @endauth
+    @yield('content')
 
 
-        <!-- footer of the Page -->
+    <!-- footer of the Page -->
         <footer id="mt-footer" class="style1 wow fadeInUp" data-wow-delay="0.4s">
             <!-- Footer Holder of the Page -->
             <div class="footer-holder dark">
@@ -403,8 +407,8 @@
                                 <h3 class="f-widget-heading">Product Categories</h3>
                                 <ul class="list-unstyled tabs">
                                     <!-- number needs to be 15 -->
-                                    @foreach(\App\Models\Category::all()->random(2) as $c)
-                                        <li><a href="#">{{ $c->name }}</a></li>
+                                    @foreach(\App\Models\Category::all()->random(8) as $c)
+                                        <li><a href="{{ url('categories/'.$c->slug) }}">{{ $c->name }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -446,6 +450,8 @@
     </div><!-- W1 end here -->
     <span id="back-top" class="fa fa-arrow-up"></span>
 </div>
+
+@if(Request::is('/'))
 <a id="newsletter-hiddenlink" href="#popup2" class="lightbox" style="display: none;">NEWSLETTER</a>
 <!-- Popup Holder of the Page -->
 <div class="popup-holder">
@@ -560,7 +566,7 @@
                 <div class="img-holder">
                     <img src="{{ url('public/web') }}/images/img02.png" alt="image description">
                 </div>
-              </div><!-- Popup Form of the Page -->
+            </div><!-- Popup Form of the Page -->
             <form action="#" class="popup-form">
                 <fieldset>
                     <input type="checkbox" class="form-control">Don’t show this popup again
@@ -569,16 +575,22 @@
         </section><!-- Mt Newsletter Popup of the Page -->
     </div><!-- Popup of the Page end -->
 </div><!-- Popup Holder of the Page end -->
+@endif
+
+
 <!-- include jQuery -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
 <script src="{{ url('public/web') }}/js/jquery.js"></script>
+
+@yield('scripts')
+
 <!-- include jQuery -->
 <script src="{{ url('public/web') }}/js/plugins.js"></script>
 <!-- include jQuery -->
 <script src="{{ url('public/web') }}/js/jquery.main.js"></script>
 
-@yield('scripts')
+
 
 </body>
 </html>

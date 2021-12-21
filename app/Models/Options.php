@@ -14,5 +14,8 @@ class Options extends Model
         'name',
     ];
 
-
+    public function _attributes()
+    {
+        return $this->belongsTo(Attributes::class, 'attribute_id');
+    }
 }

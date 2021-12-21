@@ -39,12 +39,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => ['required', 'unique:categories', 'max:255'],
-        ]);
-
         try {
-            Category::create($data);
+            $request->validate([
+                'name' => ['required', 'unique:categories', 'max:255'],
+                'img' => ['required']
+            ]);
+
+            $img = time().'.' . $request->img->getClientOriginalExtension();
+            \Image::make($request->img)->save(public_path('uploads/category/').$img);
+
+            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+
+            Category::create([
+                'name' => $request->name,
+                'img' => $img,
+                'slug' => $slug,
+            ]);
+
             return Response::json(['status' => true, 'message' => 'Category Created',
                 'redirect' => route('categories.index')]);
         }
@@ -84,12 +95,24 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'name' => ['required', 'unique:categories', 'max:255'],
-        ]);
-
         try {
-            Category::where('id', $id)->update($data);
+            $request->validate([
+                'name' => ['required', 'max:255'],
+            ]);
+
+            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+
+            $cat = Category::findOrFail($id);
+            $cat->name = $request->name;
+            $cat->slug = $slug;
+
+            if($request->img != '' ){
+                $img = time().'.' . $request->img->getClientOriginalExtension();
+                \Image::make($request->img)->save(public_path('uploads/category/').$img);
+                $cat->img = $img;
+            }
+            $cat->update();
+
             return Response::json(['status' => true, 'message' => 'Category updated',
                 'redirect' => route('categories.index')]);
         }

@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Auth::routes();
@@ -30,6 +27,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'is_admin' ], function (){
     Route::resource('options', \App\Http\Controllers\Admin\OptionController::class);
 
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    Route::post('products/featured', [\App\Http\Controllers\Admin\ProductController::class, 'featured']);
 
     Route::get('/getAttributes', [App\Http\Controllers\Admin\ProductController::class, 'getAttributes']);
     Route::get('/getBrands', [App\Http\Controllers\Admin\ProductController::class, 'getBrands']);
@@ -40,4 +38,13 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'is_admin' ], function (){
 
 });
 
+
+Route::get('categories/{slug}', [App\Http\Controllers\HomeController::class, 'getCategoryBySlug']);
+Route::get('categories', [App\Http\Controllers\HomeController::class, 'allCategories']);
+Route::get('products', [App\Http\Controllers\HomeController::class, 'allProducts']);
+Route::get('products/{slug}', [App\Http\Controllers\HomeController::class, 'getProductBySlug']);
+Route::post('addToCart', [App\Http\Controllers\HomeController::class, 'addToCart']);
+Route::get('addToWishlist/{id}', [App\Http\Controllers\HomeController::class, 'addToWishlist']);
+Route::get('cart', [App\Http\Controllers\HomeController::class, 'viewCart']);
+Route::get('checkCoupon/{coupon}', [App\Http\Controllers\HomeController::class, 'checkCoupon']);
 

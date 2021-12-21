@@ -21,13 +21,25 @@
                             'method' => 'PATCH',
                             'route' => ['categories.update', $data->id],
                             'class' => '',
-                            'id' => 'edited'
+                            'id' => 'edited',
+                            'enctype' => "multipart/form-data"
                         ]) }}
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label col-form-label-lg">Name</label>
                             <div class="col-sm-10">
                                 <input name="name" type="text" required
                                        class="form-control form-control-lg" placeholder="Name" value="{{ $data->name }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label col-form-label-lg">Image</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="img" accept="image/*">
+                                        <label class="custom-file-label">Choose file</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">

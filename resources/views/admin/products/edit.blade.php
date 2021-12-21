@@ -11,8 +11,8 @@
 @section('content')
     <div id="app">
         <edit-product :product="{{ $product }}" :Cbrands="{{ $brands }}" :Ccategories="{{ $categories }}"
-                      :images="{{ $images }}" :att="{{ $att }}" :options="{{ $options }}"
-                        :variations="{{ $variations }}" :variation_values="{{ $variation_values }}"></edit-product>
+                      :images="{{ $images ?? 'null' }}" :att="{{ $att ?? 'null' }}" :options="{{ $options ?? 'null' }}"
+                        :variations="{{ $variations ?? 'null' }}" :variation_values="{{ $variation_values ?? 'null' }}"></edit-product>
     </div>
 
 @endsection

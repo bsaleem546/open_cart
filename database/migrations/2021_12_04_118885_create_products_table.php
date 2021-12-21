@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories');
 
             $table->string('name')->unique();
+            $table->string('slug');
             $table->text('short_description')->nullable();
             $table->text('long_description')->nullable();
 
@@ -30,6 +31,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price')->default(0);
             $table->decimal('sale_price')->default(0);
             $table->integer('in_stock')->nullable();
+            $table->boolean('is_featured')->default(false);
 
             $table->boolean('has_attributes')->default(false);
 

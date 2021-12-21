@@ -47,9 +47,10 @@
                                 <div class="col-sm-4">
                                     <div v-if="$v.formData.p_price.$invalid">
                                         <p class="error" v-if="!$v.formData.p_price.decimal">Required decimal</p>
+                                        <p class="error" v-if="!$v.formData.p_price.required">Required</p>
                                     </div>
                                     <input type="text" v-model="formData.p_price"
-                                           placeholder="Price (optional)" class="form-control form-control-lg">
+                                           placeholder="Price" class="form-control form-control-lg">
                                 </div>
                                 <div class="col-sm-4">
                                     <div v-if="$v.formData.p_sale_price.$invalid">
@@ -324,7 +325,7 @@ import '../../../public/js/my-js.js'
                 brand:{ required },
                 category:{ required },
                 p_quantity:{ integer },
-                p_price:{ decimal },
+                p_price:{ required, decimal },
                 p_sale_price:{ decimal },
                 p_in_stock:{ required },
             },

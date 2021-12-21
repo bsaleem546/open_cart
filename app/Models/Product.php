@@ -13,12 +13,14 @@ class Product extends Model
         'brand_id',
         'category_id',
         'name',
+        'slug',
         'short_description',
         'long_description',
         'quantity',
         'price',
         'sale_price',
         'in_stock',
+        'is_featured',
         'has_attributes',
     ];
 
@@ -34,6 +36,31 @@ class Product extends Model
 
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
+    }
+
+    public function singleImages()
+    {
+        return $this->hasMany(Image_Product::class, 'product_id', 'id')->limit(1);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image_Product::class);
+    }
+
+    public function variations()
+    {
+        return $this->hasMany(Variation::class, 'product_id');
+    }
+
+    public function variation_values()
+    {
+        return $this->hasMany(VariationValues::class, 'product_id', 'id');
+    }
+
+    public function _attributes()
+    {
+        return $this->hasMany(Attributes::class, 'product_id');
     }
 }

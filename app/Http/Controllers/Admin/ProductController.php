@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attribute_Product;
 use App\Models\Attributes;
 use App\Models\Brand;
 use App\Models\Category;
@@ -72,16 +71,20 @@ class ProductController extends Controller
             $price = $request->p_price == null ? 0 :  $request->p_price;
             $sale_price = $request->p_sale_price == null ? 0 :  $request->p_sale_price;
 
+            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+
             $product = Product::create([
                 'brand_id' => $request->brand,
                 'category_id' => $request->category,
                 'name' => $request->name,
+                'slug' => $slug,
                 'short_description' => $request->short_desc,
                 'long_description' => $request->long_desc,
                 'quantity' => $quantity,
                 'price' => $price,
                 'sale_price' => $sale_price,
                 'in_stock' => $request->p_in_stock,
+                'is_featured' => false,
                 'has_attributes' => $request->has_attributes
             ]);
 
@@ -117,18 +120,20 @@ class ProductController extends Controller
 
                 for ($j = 0; $j < count($request->v_options); $j++){
 
+                    $combo = '';
                     for ($k = 0; $k < count($request->v_options[$j]['options']); $k++ ){
-                        Variation::create([
+                        $combo .= '|'.$request->v_options[$j]['options'][$k];
+                    }
+                    $v = Variation::create([
                             'product_id' => $product->id,
-                            'option_name' => $request->v_options[$j]['options'][$k],
+                            'option_name' => $combo,
                             'combo_id' => $j + 1
                         ]);
-                    }
 
                     $v_sale_price = $request->v_options[$j]['sale_price'] == null ? 0 : $request->v_options[$j]['sale_price'];
                     VariationValues::create([
                         'product_id' => $product->id,
-                        'combo_id' => $j + 1,
+                        'combo_id' => $v->id,//$j + 1,
                         'quantity' => $request->v_options[$j]['quantity'],
                         'price' => $request->v_options[$j]['price'],
                         'sale_price' => $v_sale_price,
@@ -171,10 +176,10 @@ class ProductController extends Controller
         $categories = Category::all();
         $images = Image_Product::where('product_id', $product->id)->get();
 
-        $att = '';
-        $options = '';
-        $variations = '';
-        $variation_values = '';
+        $att = null;
+        $options = null;
+        $variations = null;
+        $variation_values = null;
         if ($product->has_attributes == 1){
 
             $att = Attributes::where('product_id', $id)->get();
@@ -198,18 +203,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
         try {
 
             $quantity = $request->p_quantity == null ? 0 :  $request->p_quantity;
             $price = $request->p_price == null ? 0 :  $request->p_price;
             $sale_price = $request->p_sale_price == null ? 0 :  $request->p_sale_price;
 
+            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+
             Product::where('id', $id)->update([
                 'brand_id' => $request->brand,
                 'category_id' => $request->category,
                 'name' => $request->name,
+                'slug' => $slug,
                 'short_description' => $request->short_desc,
                 'long_description' => $request->long_desc,
                 'quantity' => $quantity,
@@ -241,18 +247,20 @@ class ProductController extends Controller
 
                 for ($j = 0; $j < count($request->v_options); $j++){
 
+                    $combo = '';
                     for ($k = 0; $k < count($request->v_options[$j]['options']); $k++ ){
-                        Variation::create([
-                            'product_id' => $id,
-                            'option_name' => $request->v_options[$j]['options'][$k],
-                            'combo_id' => $j + 1
-                        ]);
+                        $combo .= '|'.$request->v_options[$j]['options'][$k];
                     }
+                    $v = Variation::create([
+                        'product_id' => $id,
+                        'option_name' => $combo,
+                        'combo_id' => $j + 1
+                    ]);
 
                     $v_sale_price = $request->v_options[$j]['sale_price'] == null ? 0 : $request->v_options[$j]['sale_price'];
                     VariationValues::create([
                         'product_id' => $id,
-                        'combo_id' => $j + 1,
+                        'combo_id' => $v->id,//$j + 1,
                         'quantity' => $request->v_options[$j]['quantity'],
                         'price' => $request->v_options[$j]['price'],
                         'sale_price' => $v_sale_price,
@@ -315,6 +323,23 @@ class ProductController extends Controller
         }
         catch (\Exception $e){
             return Response::json(['status' => false, 'message' => 'Product not deleted', 'detail', $e]);
+        }
+    }
+
+    public function featured(Request $request)
+    {
+        try {
+
+            $featured = $request->chk == true ? 1 : 0;
+
+            $f = Product::find($request->id);
+            $f->is_featured = $featured;
+            $f->update();
+            return Response::json(['status' => true, 'message' => 'Product featured',
+                'redirect' => route('products.index')]);
+        }
+        catch (\Exception $e){
+            return Response::json(['status' => false, 'message' => 'Product not featured', 'detail', $e]);
         }
     }
 }

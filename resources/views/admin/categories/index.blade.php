@@ -30,7 +30,9 @@
                     <table id="example" class="display" style="min-width: 845px">
                         <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Name</th>
+                            <th>Slug</th>
                             <th>Start date</th>
                             <th>Options</th>
                         </tr>
@@ -38,7 +40,11 @@
                         <tbody>
                         @foreach($data as $categories)
                             <tr>
+                                <td>
+                                    <img src="{{ url('public/uploads/category').'/'.$categories->img }}" alt="" style="height: 100px; width: 100px">
+                                </td>
                                 <td>{{ $categories->name }}</td>
+                                <td>{{ $categories->slug }}</td>
                                 <td>{{ $categories->created_at }}</td>
                                 <td><a href="{{ route('categories.edit', $categories->id) }}"><i class="fas fa-cog"></i></a>
                                      |

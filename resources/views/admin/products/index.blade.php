@@ -33,9 +33,11 @@
                                 <th>Brand</th>
                                 <th>Category</th>
                                 <th>Name</th>
+                                <th>Slug</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>In Stock</th>
+                                <th>Featured</th>
                                 <th>Start date</th>
                                 <th>Options</th>
                             </tr>
@@ -46,9 +48,12 @@
                                     <td>{{ $products->brand }}</td>
                                     <td>{{ $products->category }}</td>
                                     <td>{{ $products->name }}</td>
+                                    <td>{{ $products->slug }}</td>
                                     <td>{{ $products->quantity }}</td>
                                     <td>{{ $products->price }}</td>
                                     <td>{{ $products->in_stock == 1 ? 'Yes' : 'No' }}</td>
+                                    <td><input type="checkbox" {{ $products->is_featured == 1 ? 'checked' : '' }}
+                                               onchange="featured({{ $products->id }})" id="{{ $products->id }}"></td>
                                     <td>{{ $products->created_at }}</td>
                                     <td><a href="{{ route('products.edit', $products->id) }}"><i class="fas fa-cog"></i></a>
                                         |
@@ -99,6 +104,25 @@
             }
         });
 
+        function featured(id){
+            var val = $('#'+id).is(':checked');
+            $.ajax({
+                type:'POST',
+                url: main_url+'admin/products/featured',
+                data:{id:id, chk:val}
+            }).done(function(response){
+                $('#delete_modal').modal('hide')
+                if(response.status == true){
+                    toast_success(response.message)
+                    setTimeout(function(){ window.location = response.redirect; }, 3000);
+                }else{
+                    $('#delete_modal').modal('hide')
+                    toast_error(response.message)
+                    console.log(response.details)
+                }
+            });
+        }
+
         function _delete(data) {
             $('#username').html(data.name)
             $('#delete_modal').modal('show')
@@ -122,6 +146,9 @@
                 });
             })
         }
+
+        var products = {!! $data !!};
+        console.log(products)
     </script>
 
 @endsection

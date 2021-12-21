@@ -47,9 +47,10 @@
                         <div class="col-sm-4">
                             <div v-if="$v.formData.p_price.$invalid">
                                 <p class="error" v-if="!$v.formData.p_price.decimal">Required decimal</p>
+                                <p class="error" v-if="!$v.formData.p_price.required">Required</p>
                             </div>
                             <input type="text" v-model="formData.p_price"
-                                   placeholder="Price (optional)" class="form-control form-control-lg">
+                                   placeholder="Price" class="form-control form-control-lg">
                         </div>
                         <div class="col-sm-4">
                             <div v-if="$v.formData.p_sale_price.$invalid">
@@ -279,7 +280,16 @@
     export default {
         mixins: [validationMixin],
         name: "edit_products.vue",
-        props:['product', 'Cbrands', 'Ccategories', 'images', 'att', 'options', 'variations', 'variation_values'],
+        props:{
+            product:{ type: Object },
+            Cbrands:{ type: Array },
+            Ccategories:{ type: Array },
+            images:{ type: Array, default: () => { notEmpty:'not empty' }, },
+            att:{ type: Array , default: () => { notEmpty:'not empty' }, },
+            options:{ type: Array , default: () => { notEmpty:'not empty' }, },
+            variations:{ type: Array , default: () => { notEmpty:'not empty' }, },
+            variation_values:{ type: Array , default: () => { notEmpty:'not empty' }, },
+        },
         data: () => {
             return {
                 varition_section:1,
@@ -331,7 +341,7 @@
                 brand:{ required },
                 category:{ required },
                 p_quantity:{ integer },
-                p_price:{ decimal },
+                p_price:{ required, decimal },
                 p_sale_price:{ decimal },
                 p_in_stock:{ required },
             },
@@ -496,27 +506,29 @@
                     }
                 }
 
-                let op = []
-                this.att.map( (a) => {
-                    this.options.map( (o) => {
-                        if (a.id == o.attribute_id){
-                            op.push(o.name)
-                        }
+                if (this.product.has_attributes == 1){
+                    let op = []
+                    this.att.map( (a) => {
+                        this.options.map( (o) => {
+                            if (a.id == o.attribute_id){
+                                op.push(o.name)
+                            }
+                        })
+                        this.formData.varition.push({
+                            'att': a.name,
+                            'option': op
+                        })
+                        op = []
                     })
-                    this.formData.varition.push({
-                        'att': a.name,
-                        'option': op
-                    })
-                    op = []
-                })
 
 
-                let combos = []
-
+                    let combos = null
                     this.variation_values.map( (vv) => {
                         this.variations.map( (v) => {
-                            if ( vv.combo_id === v.combo_id  ){
-                                combos.push(v.option_name)
+                            if ( vv.combo_id === v.id  ){
+                                combos = v.option_name.split('|')
+                                combos.shift()
+                                console.log(combos)
                             }
                         })
                         this.formData.v_options.push({
@@ -528,12 +540,12 @@
                         });
                         combos = []
                     })
+                }
             },
         },
 
         mounted() {
             this.on_load()
-            console.log('working')
         }
     }
 </script>

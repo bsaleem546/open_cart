@@ -5765,14 +5765,14 @@ a:hover {
   display: block;
   padding: 3px 6px;
   margin-bottom: 1px;
-  background: #333371;
+  background: #FBA421;
   font: 700 14px/16px "Montserrat", sans-serif;
 }
 
 .mt-product1 .caption .new {
   color: #fff;
   padding: 3px 6px;
-  background: #333371;
+  background: #2C2B6B;
   text-transform: uppercase;
   font: 700 13px/16px "Montserrat", sans-serif;
 }
@@ -5780,7 +5780,7 @@ a:hover {
 .mt-product1 .caption .best-price {
   color: #fff;
   padding: 3px 6px;
-  background: #FBA421;
+  background: #2c2b6b;
   font: 700 14px/16px "Montserrat", sans-serif;
 }
 
@@ -6087,7 +6087,7 @@ a:hover {
   display: block;
   padding: 5px 8px;
   margin-bottom: 1px;
-  background: #333371;
+  background: #FBA421;
   font: 700 17px/20px "Montserrat", sans-serif;
 }
 
@@ -6102,7 +6102,7 @@ a:hover {
 .mt-product2 .caption .best-price {
   color: #fff;
   padding: 5px 8px;
-  background: #FBA421;
+  background: #2c2b6b;
   font: 700 17px/20px "Montserrat", sans-serif;
 }
 
@@ -7392,7 +7392,7 @@ a:hover {
   padding: 12px 10px 10px;
   text-align: center;
   text-transform: uppercase;
-  display: block;
+  /*display: block;*/
   font-size: 14px;
   line-height: 20px;
   font-family: "Montserrat", sans-serif;
@@ -12675,4 +12675,68 @@ a:hover, a:active, a:focus {
 
 .changer-active #style-changer {
   margin: 0;
+}
+
+
+.my-pagiantion nav{
+    padding: 42px 0 100px;
+    font: 700 16px/20px "Montserrat", sans-serif;
+    display: block;
+}
+.my-pagiantion nav ul{
+    margin: 0;
+    text-align: center;
+}
+.my-pagiantion nav .pagination{
+    padding-left: 0 !important;
+    list-style: none !important;
+    margin-left: -5px !important;
+}
+.my-pagiantion nav ul li{
+    padding: 0 3px;
+    vertical-align: top;
+}
+.my-pagiantion nav .pagination > li{
+    display: inline-block !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+.my-pagiantion nav ul a {
+    color: #bababa;
+    display: block;
+    padding: 5px 10px;
+    background: #f6f6f6;
+    -moz-transition: all ease 0.5s;
+    -webkit-transition: all ease 0.5s;
+    -o-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+.my-pagiantion nav ul a:hover {
+    color: #fff;
+    background: #FBA421;
+    text-decoration: none;
+}
+li.page-item.disabled {
+    margin-top: 5px;
+}
+li.page-item.active {
+    margin-top: 5px;
+}
+
+
+.my-alert-success{
+    width: 100%;
+    background-color: #d6e9d6;
+}
+.my-alert-success h3{
+    color: green;
+    padding: 15px;
+}
+.my-alert-error{
+    width: 100%;
+    background-color: #e5cccc;
+}
+.my-alert-error h3{
+    color: #b68282;
+    padding: 15px;
 }

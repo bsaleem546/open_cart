@@ -2378,6 +2378,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
 
 
 
@@ -2452,6 +2453,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.integer
       },
       p_price: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required,
         decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
       },
       p_sale_price: {
@@ -2887,13 +2889,54 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [vuelidate__WEBPACK_IMPORTED_MODULE_1__.validationMixin],
   name: "edit_products.vue",
-  props: ['product', 'Cbrands', 'Ccategories', 'images', 'att', 'options', 'variations', 'variation_values'],
+  props: {
+    product: {
+      type: Object
+    },
+    Cbrands: {
+      type: Array
+    },
+    Ccategories: {
+      type: Array
+    },
+    images: {
+      type: Array,
+      "default": function _default() {
+        notEmpty: 'not empty';
+      }
+    },
+    att: {
+      type: Array,
+      "default": function _default() {
+        notEmpty: 'not empty';
+      }
+    },
+    options: {
+      type: Array,
+      "default": function _default() {
+        notEmpty: 'not empty';
+      }
+    },
+    variations: {
+      type: Array,
+      "default": function _default() {
+        notEmpty: 'not empty';
+      }
+    },
+    variation_values: {
+      type: Array,
+      "default": function _default() {
+        notEmpty: 'not empty';
+      }
+    }
+  },
   data: function data() {
     return {
       varition_section: 1,
@@ -2962,6 +3005,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.integer
       },
       p_price: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required,
         decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.decimal
       },
       p_sale_price: {
@@ -3127,44 +3171,47 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         }
       }
 
-      var op = [];
-      this.att.map(function (a) {
-        _this3.options.map(function (o) {
-          if (a.id == o.attribute_id) {
-            op.push(o.name);
-          }
-        });
+      if (this.product.has_attributes == 1) {
+        var op = [];
+        this.att.map(function (a) {
+          _this3.options.map(function (o) {
+            if (a.id == o.attribute_id) {
+              op.push(o.name);
+            }
+          });
 
-        _this3.formData.varition.push({
-          'att': a.name,
-          'option': op
-        });
+          _this3.formData.varition.push({
+            'att': a.name,
+            'option': op
+          });
 
-        op = [];
-      });
-      var combos = [];
-      this.variation_values.map(function (vv) {
-        _this3.variations.map(function (v) {
-          if (vv.combo_id === v.combo_id) {
-            combos.push(v.option_name);
-          }
+          op = [];
         });
+        var combos = null;
+        this.variation_values.map(function (vv) {
+          _this3.variations.map(function (v) {
+            if (vv.combo_id === v.id) {
+              combos = v.option_name.split('|');
+              combos.shift();
+              console.log(combos);
+            }
+          });
 
-        _this3.formData.v_options.push({
-          'options': combos,
-          'quantity': vv.quantity,
-          'price': vv.price,
-          'sale_price': vv.sale_price,
-          'in_stock': vv.in_stock
+          _this3.formData.v_options.push({
+            'options': combos,
+            'quantity': vv.quantity,
+            'price': vv.price,
+            'sale_price': vv.sale_price,
+            'in_stock': vv.in_stock
+          });
+
+          combos = [];
         });
-
-        combos = [];
-      });
+      }
     }
   },
   mounted: function mounted() {
     this.on_load();
-    console.log('working');
   }
 });
 
@@ -3242,6 +3289,12 @@ Vue.component('ValidationObserver', vee_validate__WEBPACK_IMPORTED_MODULE_1__.Va
 Vue.component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
 Vue.component('add-product', (__webpack_require__(/*! ./components/add_products.vue */ "./resources/js/components/add_products.vue")["default"]));
 Vue.component('edit-product', (__webpack_require__(/*! ./components/edit_products.vue */ "./resources/js/components/edit_products.vue")["default"]));
+Vue.filter('removeNullProps', function (object) {
+  // sorry for using lodash and ES2015 arrow functions :-P
+  return _.reject(object, function (value) {
+    return value === null;
+  });
+});
 var app = new Vue({
   el: '#app'
 });
@@ -51435,6 +51488,10 @@ var render = function () {
                           _vm._v("Required decimal"),
                         ])
                       : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.$v.formData.p_price.required
+                      ? _c("p", { staticClass: "error" }, [_vm._v("Required")])
+                      : _vm._e(),
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -51448,7 +51505,7 @@ var render = function () {
                   },
                 ],
                 staticClass: "form-control form-control-lg",
-                attrs: { type: "text", placeholder: "Price (optional)" },
+                attrs: { type: "text", placeholder: "Price" },
                 domProps: { value: _vm.formData.p_price },
                 on: {
                   input: function ($event) {
@@ -52519,6 +52576,10 @@ var render = function () {
                           _vm._v("Required decimal"),
                         ])
                       : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.$v.formData.p_price.required
+                      ? _c("p", { staticClass: "error" }, [_vm._v("Required")])
+                      : _vm._e(),
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -52532,7 +52593,7 @@ var render = function () {
                   },
                 ],
                 staticClass: "form-control form-control-lg",
-                attrs: { type: "text", placeholder: "Price (optional)" },
+                attrs: { type: "text", placeholder: "Price" },
                 domProps: { value: _vm.formData.p_price },
                 on: {
                   input: function ($event) {
