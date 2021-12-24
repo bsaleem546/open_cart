@@ -8,6 +8,13 @@
                     <li><a href="{{ route('users.index') }}">Users</a></li>
                 </ul>
             </li>
+            <li class="nav-label first">Orders Menu</li>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                        class="icon icon-cart-simple"></i><span class="nav-text">Orders</span></a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('orders.index') }}">All orders</a></li>
+                </ul>
+            </li>
             <li class="nav-label first">Products Menu</li>
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                         class="icon icon-cart-simple"></i><span class="nav-text">Products</span></a>
@@ -20,6 +27,10 @@
                     <li><a href="{{ route('coupons.index') }}">Coupons</a></li>
                     <li><a href="{{ route('shippings.index') }}">Shipping</a></li>
                 </ul>
+            </li>
+            <li class="nav-label first">Settings</li>
+            <li><a class="" href="{{ route('sliders.index') }}" aria-expanded="false"><i
+                        class="icon icon-smile"></i><span class="nav-text">Slider</span></a>
             </li>
     </ul>
 </div>

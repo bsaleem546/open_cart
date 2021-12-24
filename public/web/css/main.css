@@ -7480,7 +7480,7 @@ a:hover {
 
 .mt-detail-sec .bill-detail {
   overflow: hidden;
-  width: 549px;
+  width: 100%;
 }
 
 .mt-detail-sec .bill-detail .form-group {

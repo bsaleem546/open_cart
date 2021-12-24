@@ -7,27 +7,26 @@
     <div class="mt-main-slider">
         <!-- slider banner-slider start here -->
         <div class="slider banner-slider">
-
                 <!-- holder start here -->
-                <div class="holder text-center" style="background-image: url( {{ url('public/web/banner/img01.jpg') }} );">
+            @foreach(\App\Models\Slider::latest()->get() as $slider)
+                <div class="holder text-center" style="background-image: url( {{ url('public/uploads/slides/'.$slider->img) }} );">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="text">
-                                    <strong class="title">FURNITURE DESIGNS IDEAS</strong>
-                                    <h1>AABC</h1>
-                                    <h2>12asrr</h2>
+                                    <strong class="title">{{ $slider->text1 }}</strong>
+                                    <h1>{{ $slider->text2 }}</h1>
+                                    <h2>{{ $slider->text3 }}</h2>
                                     <div class="txt">
-                                        <p>xxddss</p>
+                                        <p>{{ $slider->text4 }}</p>
                                     </div>
-                                    <a href="#" class="shop">shop now</a>
+                                    <a href="{{ $slider->btn_link }}" class="shop">{{ $slider->btn_text }}</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- holder end here -->
-
+            @endforeach
         </div>
         <!-- slider regular end here -->
     </div>
