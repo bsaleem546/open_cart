@@ -53,6 +53,43 @@
                             @endif
                             <small style="color: red; margin-bottom: 10px">(*) represents all required fields</small>
                             <!-- Bill Detail of the Page -->
+                            @if(Auth::check())
+                                <fieldset>
+                                    <div class="form-group">
+                                        <div class="col">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Name *" name="fname" required value="{{ $customer != null ? $customer['fname'] : '' }}">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Last Name *" name="lname" required value="{{ $customer != null ? $customer['lname'] : '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control"
+                                                  placeholder="Address *" name="address" required>{{ $customer != null ? $customer['address'] : '' }}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control"
+                                               placeholder="Town / City *" name="city" required value="{{ $customer != null ? $customer['city'] : '' }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control"
+                                               placeholder="State / Country *" name="country" required value="{{ $customer != null ? $customer['country'] : '' }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Email Address *" name="email" required value="{{ Auth::user()->email }}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" class="form-control"
+                                               placeholder="Phone Number *" name="phone" required value="{{ $customer != null ? $customer['phone'] : '' }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Order Notes" name="notes">{{ $customer != null ? $customer['notes'] : '' }}</textarea>
+                                    </div>
+                                </fieldset>
+                            @else
                                 <fieldset>
                                     <div class="form-group">
                                         <div class="col">
@@ -88,36 +125,37 @@
                                         <textarea class="form-control" placeholder="Order Notes" name="notes"></textarea>
                                     </div>
                                 </fieldset>
+                            @endif
                             <!-- Bill Detail of the Page end -->
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="holder">
                                 <h2>YOUR ORDER</h2>
+
                                 <ul class="list-unstyled block">
-                                    @php $total = 0; $cartTotal = 0; $discount = 0; $ship = 0; @endphp
-                                    <li>
-                                        <div class="txt-holder">
-                                            <div class="text-wrap pull-left">
-                                                <strong class="title">PRODUCTS</strong>
-                                                @foreach($cart  as $key => $value)
-                                                    @php $total += $value['price']  @endphp
-                                                    <span>{{ $value['name'] }}       x{{ $value['quantity'] }}</span>
-                                                @endforeach
+                                        @php $total = 0; $cartTotal = 0; $discount = 0; $ship = 0; @endphp
+                                        <li>
+                                            <div class="txt-holder">
+                                                <div class="text-wrap pull-left">
+                                                    <strong class="title">PRODUCTS</strong>
+                                                    @foreach($cart  as $key => $value)
+                                                        @php $total += $value['price']  @endphp
+                                                        <span>{{ Auth::check() ? $value['product_name'] : $value['name'] }}       x{{ $value['quantity'] }}</span>
+                                                    @endforeach
+                                                </div>
+                                                <div class="text-wrap txt text-right pull-right">
+                                                    <strong class="title">TOTALS</strong>
+                                                    @foreach($cart  as $key => $value)
+                                                        <span>{{ $value['price'] }}</span>
+                                                    @endforeach
+                                                </div>
                                             </div>
-                                            <div class="text-wrap txt text-right pull-right">
-                                                <strong class="title">TOTALS</strong>
-                                                @foreach($cart  as $key => $value)
-                                                    <span>{{ $value['price'] }}</span>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </li>
-                                    @if($checkoutSession !== null)
+                                        </li>
                                         <li>
                                             <div class="txt-holder">
                                                 <strong class="title sub-title pull-left">CART SUBTOTAL</strong>
                                                 <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession['total'] }}</span>
+                                                    <span>{{ $checkoutSession == null ? $total : $checkoutSession['total'] }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -125,7 +163,7 @@
                                             <div class="txt-holder">
                                                 <strong class="title sub-title pull-left">DISCOUNT</strong>
                                                 <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession['discount'] }}</span>
+                                                    <span>{{ $checkoutSession == null ? $discount : $checkoutSession['discount'] }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -133,7 +171,7 @@
                                             <div class="txt-holder">
                                                 <strong class="title sub-title pull-left">DISCOUNT CODE</strong>
                                                 <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession['discountCode'] }}</span>
+                                                    <span>{{ $checkoutSession == null ? 'NON' : $checkoutSession['discountCode'] }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -149,53 +187,12 @@
                                             <div class="txt-holder">
                                                 <strong class="title sub-title pull-left">ORDER TOTAL</strong>
                                                 <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession['finalTotal'] }}</span>
+                                                    <span>{{ $checkoutSession == null ? ($total - $discount) + $ship : $checkoutSession['finalTotal'] }}</span>
                                                 </div>
                                             </div>
                                         </li>
-                                    @else
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">CART SUBTOTAL</strong>
-                                                <div class="txt pull-right">
-                                                    <span>{{$total }}</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">DISCOUNT</strong>
-                                                <div class="txt pull-right">
-                                                    <span>{{ $discount }}</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">DISCOUNT CODE</strong>
-                                                <div class="txt pull-right">
-                                                    <span>NON</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">SHIPPING</strong>
-                                                <div class="txt pull-right">
-                                                    <span>Free Shipping</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li style="border-bottom: none;">
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">ORDER TOTAL</strong>
-                                                <div class="txt pull-right">
-                                                    <span>{{ ($total - $discount) + $ship }}</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    @endif
                                 </ul>
+
                                 <h2>PAYMENT METHODS</h2>
                                 <!-- Panel Group of the Page -->
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

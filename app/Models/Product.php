@@ -63,4 +63,9 @@ class Product extends Model
     {
         return $this->hasMany(Attributes::class, 'product_id');
     }
+
+    public function proer_product()
+    {
+        return $this->hasOne(OrderProduct::class);
+    }
 }

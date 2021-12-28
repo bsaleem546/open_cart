@@ -52,12 +52,11 @@
             </div>
         </div><!-- Mt Process Section of the Page end -->
 
-        @if( \Illuminate\Support\Facades\Session::get('cart') == null )
-            <div class="text-center">
-                <h1>Cart Empty</h1>
-            </div>
+        @if( !isset($cart) )
+                <div class="text-center">
+                    <h1>Cart Empty</h1>
+                </div>
         @else
-
             <div class="mt-product-table">
                 <div class="container">
                     <div id="cart-success" class="my-alert-success text-center" style="display: none">
@@ -81,47 +80,85 @@
                         </div>
                     </div>
                     @php $total = 0; $cartTotal = 0; $discount = 0; $ship = 0; @endphp
-                    @foreach(\Illuminate\Support\Facades\Session::get('cart') as $key => $value)
-                        <div class="row border" id="{{ $value['id'] }}">
-                            @php $total += $value['price']  @endphp
-                            <div class="col-xs-12 col-sm-2">
-                                @php $path = \App\Models\Image_Product::where('product_id', $value['id'])->pluck('paths')->first()  @endphp
-                                <div class="img-holder">
-                                    @if($path == null || $path == '')
-                                        <img src="{{ url('public/imgs/empty.jpg') }}"
-                                             alt="image" class="img-responsive">
-                                    @else
-                                        <img src="{{ url('public/uploads/'.$path) }}"
-                                             alt="image" class="img-responsive">
-                                    @endif
+                    @if(Auth::check())
+                        @foreach($cart as $key => $value)
+                            <div class="row border" id="{{ $value['id'] }}">
+                                @php $total += $value['price']  @endphp
+                                <div class="col-xs-12 col-sm-2">
+                                    @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
+                                    <div class="img-holder">
+                                        @if($path == null || $path == '')
+                                            <img src="{{ url('public/imgs/empty.jpg') }}"
+                                                 alt="image" class="img-responsive">
+                                        @else
+                                            <img src="{{ url('public/uploads/'.$path) }}"
+                                                 alt="image" class="img-responsive">
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-4">
+                                    <strong class="product-name">{{ $value['product_name'] }}</strong>
+                                </div>
+                                <div class="col-xs-12 col-sm-2">
+                                    <strong class="price">{{ $value['p'] }}</strong>
+                                </div>
+                                <div class="col-xs-12 col-sm-2">
+                                    <form action="#" class="qyt-form">
+                                        <fieldset>
+                                            <input disabled type="number" name="qty" id="" value="{{ $value['quantity'] }}" class="qty">
+                                        </fieldset>
+                                    </form>
+                                </div>
+                                <div class="col-xs-12 col-sm-2">
+                                    <strong class="price">{{ $value['price'] }}</strong>
+                                    <a href="#" onclick="removeItem({{ $value['id'] }})"><i class="fa fa-close"></i></a>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <strong class="product-name">{{ $value['name'] }}</strong>
-                            </div>
-                            <div class="col-xs-12 col-sm-2">
-                                <strong class="price"><i class="fa fa-dollar"></i> {{ $value['p'] }}</strong>
-                            </div>
-                            <div class="col-xs-12 col-sm-2">
-                                <form action="#" class="qyt-form">
-                                    <fieldset>
-                                        <input disabled type="number" name="qty" id="" value="{{ $value['quantity'] }}" class="qty">
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <div class="col-xs-12 col-sm-2">
-                                <strong class="price"><i class="fa fa-dollar"></i> {{ $value['price'] }}</strong>
-                                <a href="#" onclick="removeItem({{ $value['id'] }})"><i class="fa fa-close"></i></a>
-                            </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @else
+                        @foreach($cart as $key => $value)
+                                <div class="row border" id="{{ $value['id'] }}">
+                                    @php $total += $value['price']  @endphp
+                                    <div class="col-xs-12 col-sm-2">
+                                        @php $path = \App\Models\Image_Product::where('product_id', $value['id'])->pluck('paths')->first()  @endphp
+                                        <div class="img-holder">
+                                            @if($path == null || $path == '')
+                                                <img src="{{ url('public/imgs/empty.jpg') }}"
+                                                     alt="image" class="img-responsive">
+                                            @else
+                                                <img src="{{ url('public/uploads/'.$path) }}"
+                                                     alt="image" class="img-responsive">
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4">
+                                        <strong class="product-name">{{ $value['name'] }}</strong>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-2">
+                                        <strong class="price"> {{ $value['p'] }}</strong>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-2">
+                                        <form action="#" class="qyt-form">
+                                            <fieldset>
+                                                <input disabled type="number" name="qty" id="" value="{{ $value['quantity'] }}" class="qty">
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-2">
+                                        <strong class="price"> {{ $value['price'] }}</strong>
+                                        <a href="#" onclick="removeItem({{ $value['id'] }})"><i class="fa fa-close"></i></a>
+                                    </div>
+                                </div>
+                            @endforeach
+                    @endif
+
                     <div class="row">
                         <div class="col-xs-12">
                             <form class="coupon-form" id="coupon-form">
                                 <fieldset>
                                     <div class="mt-holder">
                                         <input type="text" class="form-control" oninput="this.value = this.value.toUpperCase()"
-                                              id="coupon_code" placeholder="Your Coupon Code" required>
+                                               id="coupon_code" placeholder="Your Coupon Code" required>
                                         <button type="submit">APPLY</button>
                                     </div>
                                 </fieldset>
@@ -137,33 +174,32 @@
                 </div>
             </div>
 
-
             <section class="mt-detail-sec style1">
                 <div class="container">
                     <div class="row">
-{{--                        <div class="col-xs-12 col-sm-6">--}}
-{{--                            <h2>CALCULATE SHIPPING</h2>--}}
-{{--                            <form action="#" class="bill-detail">--}}
-{{--                                <fieldset>--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <select class="form-control" disabled>--}}
-{{--                                            <option value="Pakistan">Pakistan</option>--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <select class="form-control">--}}
-{{--                                            <option value="">Select City</option>--}}
-{{--                                            @foreach($shipping as $s)--}}
-{{--                                                <option value="{{ $s->id }}">{{ $s->city }}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <button class="update-btn" type="submit">UPDATE TOTAL <i class="fa fa-refresh"></i></button>--}}
-{{--                                    </div>--}}
-{{--                                </fieldset>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="col-xs-12 col-sm-6">--}}
+                        {{--                            <h2>CALCULATE SHIPPING</h2>--}}
+                        {{--                            <form action="#" class="bill-detail">--}}
+                        {{--                                <fieldset>--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <select class="form-control" disabled>--}}
+                        {{--                                            <option value="Pakistan">Pakistan</option>--}}
+                        {{--                                        </select>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <select class="form-control">--}}
+                        {{--                                            <option value="">Select City</option>--}}
+                        {{--                                            @foreach($shipping as $s)--}}
+                        {{--                                                <option value="{{ $s->id }}">{{ $s->city }}</option>--}}
+                        {{--                                            @endforeach--}}
+                        {{--                                        </select>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="form-group">--}}
+                        {{--                                        <button class="update-btn" type="submit">UPDATE TOTAL <i class="fa fa-refresh"></i></button>--}}
+                        {{--                                    </div>--}}
+                        {{--                                </fieldset>--}}
+                        {{--                            </form>--}}
+                        {{--                        </div>--}}
                         <div class="col-xs-12 col-sm-6"></div>
                         <div class="col-xs-12 col-sm-6">
                             <h2>CART TOTAL</h2>
@@ -220,7 +256,7 @@
             var discount1 = $('#discount').text();
             var ship1 = 0;
             var finalTotal1 = $('#finalTotal').text();
-            var discountCode = $('#coupon_code').val();
+            var discountCode = $('#coupon_code').val() === '' ? "NAN" : $('#coupon_code').val();
 
             $.ajax({
                 type:'GET',

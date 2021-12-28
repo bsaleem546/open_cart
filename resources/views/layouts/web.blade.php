@@ -112,10 +112,14 @@
                                 <li class="drop">
                                     <a href="#" class="cart-opener">
                                         <span class="icon-handbag"></span>
-                                        @if( \Illuminate\Support\Facades\Session::get('cart') !== null )
-                                            <span class="num">{{ count(\Illuminate\Support\Facades\Session::get('cart')) }}</span>
+                                        @if(Auth::check())
+                                            <span class="num">{{ count( \App\Models\Cart::where('user_id', Auth::user()->id)->get()  ) }}</span>
                                         @else
-                                            <span class="num">0</span>
+                                            @if( \Illuminate\Support\Facades\Session::get('cart') !== null )
+                                                <span class="num">{{ count(\Illuminate\Support\Facades\Session::get('cart')) }}</span>
+                                            @else
+                                                <span class="num">0</span>
+                                            @endif
                                         @endif
                                     </a>
                                     <!-- mt drop start here -->
@@ -125,34 +129,61 @@
                                             <!-- mt side widget start here -->
                                             <div class="mt-side-widget">
                                                 @php $total = 0 @endphp
-                                                @if( \Illuminate\Support\Facades\Session::get('cart') !== null )
-                                                    @foreach(\Illuminate\Support\Facades\Session::get('cart') as $key => $value)
-                                                        @php $total += $value['price']  @endphp
-                                                        <div class="cart-row">
-                                                            <a href="{{ url('products/'.$value['slug']) }}" class="img">
-                                                                @php $path = \App\Models\Image_Product::where('product_id', $value['id'])->pluck('paths')->first()  @endphp
-                                                                @if($path == null || $path == '')
-                                                                    <img src="{{ url('public/imgs/empty.jpg') }}"
-                                                                         alt="image" class="img-responsive">
-                                                                @else
-                                                                    <img src="{{ url('public/uploads/'.$path) }}"
-                                                                         alt="image" class="img-responsive">
-                                                                @endif
+                                                @if(Auth::check())
+                                                    @if( count( \App\Models\Cart::where('user_id', Auth::user()->id)->get()  ) > 0 )
+                                                        @foreach(\App\Models\Cart::where('user_id', Auth::user()->id)->get() as $key => $value)
+                                                            @php $total += $value['price']  @endphp
+                                                            <div class="cart-row">
+                                                                <a href="{{ url('products/'.$value['product_slug']) }}" class="img">
+                                                                    @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
+                                                                    @if($path == null || $path == '')
+                                                                        <img src="{{ url('public/imgs/empty.jpg') }}"
+                                                                             alt="image" class="img-responsive">
+                                                                    @else
+                                                                        <img src="{{ url('public/uploads/'.$path) }}"
+                                                                             alt="image" class="img-responsive">
+                                                                    @endif
 
-                                                            </a>
-                                                            <div class="mt-h">
-                                                                <span class="mt-h-title"><a href="{{ url('products/'.$value['slug']) }}">{{ $value['name'] }}</a></span>
-                                                                <small>{{ $value['att'] }}</small><br>
-                                                                <span class="price"><i class="fa fa-dollar" aria-hidden="true"></i> {{ $value['price'] }}</span>
-                                                                <span class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
+                                                                </a>
+                                                                <div class="mt-h">
+                                                                    <span class="mt-h-title"><a href="{{ url('products/'.$value['product_slug']) }}">{{ $value['product_name'] }}</a></span>
+                                                                    <small>{{ $value['att'] }}</small><br>
+                                                                    <span class="price">{{ $value['price'] }}</span>
+                                                                    <span class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    @endforeach
+                                                        @endforeach
+                                                    @endif
+                                                @else
+                                                    @if( \Illuminate\Support\Facades\Session::get('cart') !== null )
+                                                        @foreach(\Illuminate\Support\Facades\Session::get('cart') as $key => $value)
+                                                            @php $total += $value['price']  @endphp
+                                                            <div class="cart-row">
+                                                                <a href="{{ url('products/'.$value['slug']) }}" class="img">
+                                                                    @php $path = \App\Models\Image_Product::where('product_id', $value['id'])->pluck('paths')->first()  @endphp
+                                                                    @if($path == null || $path == '')
+                                                                        <img src="{{ url('public/imgs/empty.jpg') }}"
+                                                                             alt="image" class="img-responsive">
+                                                                    @else
+                                                                        <img src="{{ url('public/uploads/'.$path) }}"
+                                                                             alt="image" class="img-responsive">
+                                                                    @endif
+
+                                                                </a>
+                                                                <div class="mt-h">
+                                                                    <span class="mt-h-title"><a href="{{ url('products/'.$value['slug']) }}">{{ $value['name'] }}</a></span>
+                                                                    <small>{{ $value['att'] }}</small><br>
+                                                                    <span class="price">{{ $value['price'] }}</span>
+                                                                    <span class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
                                                 @endif
                                                 <!-- cart row total start here -->
                                                 <div class="cart-row-total">
                                                     <span class="mt-total">Sub Total</span>
-                                                    <span class="mt-total-txt"><i class="fa fa-dollar" aria-hidden="true"></i> {{ $total }}</span>
+                                                    <span class="mt-total-txt">{{ $total }}</span>
                                                 </div>
                                                 <!-- cart row total end here -->
                                                 <div class="cart-btn-row">
@@ -384,21 +415,11 @@
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-3 mt-paddingbottomsm">
                             <div class="f-widget-news">
-                                <h3 class="f-widget-heading">Twitter</h3>
-                                <div class="news-articles">
-                                    <div class="news-column">
-                                        <i class="fa fa-twitter"></i>
-                                        <div class="txt-box">
-                                            <p>Laboris nisi ut <a href="#">#schön</a> aliquip econse- <br>quat. <a href="#">https://t.co/vreNJ9nEDt</a></p>
-                                        </div>
-                                    </div>
-                                    <div class="news-column">
-                                        <i class="fa fa-twitter"></i>
-                                        <div class="txt-box">
-                                            <p>Ficia deserunt mollit anim id est labo- <br>rum. incididunt ut labore et dolore <br><a href="#">https://t.co/vreNJ9nEDt</a></p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h3 class="f-widget-heading">Quick Links</h3>
+                                <ul class="list-unstyled tabs">
+                                    <li><a href="{{ url('order-tracking') }}">Order Tracking</a></li>
+                                    <li><a href="{{ url('products') }}">Products</a></li>
+                                </ul>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-3 mt-paddingbottomxs">

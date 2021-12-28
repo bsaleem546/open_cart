@@ -39,7 +39,9 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'is_admin' ], function (){
     Route::resource('sliders', \App\Http\Controllers\Admin\SliderController::class);
 
     Route::get('orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
-
+    Route::get('customers', [\App\Http\Controllers\Admin\OrderController::class, 'allCustomers'])->name('orders.customers');
+    Route::get('order-details/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'orderDetails'])->name('orders.details');
+    Route::post('order-status', [\App\Http\Controllers\Admin\OrderController::class, 'orderStatus'])->name('orders.status');
 });
 
 
@@ -57,6 +59,9 @@ Route::get('checkout', [App\Http\Controllers\HomeController::class, 'checkout'])
 Route::post('addCustomerDetails', [App\Http\Controllers\HomeController::class, 'addCustomerDetails']);
 Route::get('checkout-details', [App\Http\Controllers\HomeController::class, 'checkoutDetails']);
 Route::post('confirm-order', [App\Http\Controllers\HomeController::class, 'confirmOrder']);
+
+Route::get('order-tracking', [App\Http\Controllers\HomeController::class, 'orderTracking']);
+Route::post('order-tracking', [App\Http\Controllers\HomeController::class, 'orderTrackingGet']);
 
 //Route::get('/', function (){
 //    return view('orderCompleted');

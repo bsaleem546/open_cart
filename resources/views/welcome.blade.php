@@ -3,12 +3,14 @@
 @section('title', 'Home')
 
 @section('content')
+
     <!-- mt main slider start here -->
     <div class="mt-main-slider">
         <!-- slider banner-slider start here -->
         <div class="slider banner-slider">
                 <!-- holder start here -->
             @foreach(\App\Models\Slider::latest()->get() as $slider)
+
                 <div class="holder text-center" style="background-image: url( {{ url('public/uploads/slides/'.$slider->img) }} );">
                     <div class="container">
                         <div class="row">

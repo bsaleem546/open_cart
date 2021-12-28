@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Orders')
+@section('title', 'Customers')
 
 @section('styles')
     <link href="{{  url('public/assets') }}/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -20,9 +20,9 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">All Orders</h4>
+                    <h4 class="card-title">All Customers</h4>
                     <div class="card-toolbar">
-{{--                        <a href="{{ route('options.create') }}" class="btn btn-outline-primary">Add New</a>--}}
+                        {{--                        <a href="{{ route('options.create') }}" class="btn btn-outline-primary">Add New</a>--}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -30,33 +30,27 @@
                         <table id="example" class="display" style="min-width: 845px">
                             <thead>
                             <tr>
-                                <th>Order ID</th>
-                                <th>Sub Total</th>
-                                <th>Discount</th>
-                                <th>Discount Code</th>
-                                <th>Shipping</th>
-                                <th>Total</th>
-                                <th>Note</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Actions</th>
+                                <th>Email</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Phone</th>
+                                <th>Created At</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($data as $orders)
+                            @foreach($data as $customers)
                                 <tr>
-                                    <td>{{ $orders->id }}</td>
-                                    <td>{{ $orders->sub_total }}</td>
-                                    <td>{{ $orders->discount }}</td>
-                                    <td>{{ $orders->discount_code }}</td>
-                                    <td>{{ $orders->shipping }}</td>
-                                    <td>{{ $orders->total }}</td>
-                                    <td>{{ $orders->note }}</td>
-                                    <td>{{ $orders->status }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($orders->created_at)->format('d-m-Y')  }}</td>
-                                    <td>
-                                        <a href="{{ route('orders.details', [$orders->id]) }}" class="btn btn-outline-primary">View Details</a>
-                                    </td>
+                                    <td>{{ $customers->email }}</td>
+                                    <td>{{ $customers->fname }}</td>
+                                    <td>{{ $customers->lname }}</td>
+                                    <td>{{ $customers->address }}</td>
+                                    <td>{{ $customers->city }}</td>
+                                    <td>{{ $customers->country }}</td>
+                                    <td>{{ $customers->phone }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($customers->created_at)->format('d-m-Y')  }}</td>
                                 </tr>
                             @endforeach
                         </table>

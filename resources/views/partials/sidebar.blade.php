@@ -13,6 +13,7 @@
                         class="icon icon-cart-simple"></i><span class="nav-text">Orders</span></a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('orders.index') }}">All orders</a></li>
+                    <li><a href="{{ route('orders.customers') }}">All customers</a></li>
                 </ul>
             </li>
             <li class="nav-label first">Products Menu</li>

@@ -129,7 +129,7 @@
                             <ul class="list-unstyled list">
                                 @php $wishlist = \Illuminate\Support\Facades\Session::get('wishlist') @endphp
                                 @if( isset($wishlist[$product->id]) )
-                                    <li><a href="#" id="wishlist"><i class="fa fa-heart" style="color: yellow"></i>REMOVE FROM WISHLIST</a></li>
+                                    <li><a href="#" id="wishlist"><i class="fa fa-heart" style="color: #FBA421"></i>REMOVE FROM WISHLIST</a></li>
                                 @else
                                     <li><a href="#" id="wishlist"><i class="fa fa-heart"></i>ADD TO WISHLIST</a></li>
                                 @endif
@@ -330,6 +330,7 @@
                         $('#success').html(data.msg)
                         $('.my-alert-success').show()
                         $('.my-alert-success').fadeOut(5000)
+                        location.reload();
                     }
                 },
                 error: (err) => {},
@@ -346,6 +347,7 @@
                         $('#success').html(data.msg)
                         $('.my-alert-success').show()
                         $('.my-alert-success').fadeOut(5000)
+                        location.reload();
                     }
                 }
             })

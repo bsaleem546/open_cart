@@ -114,9 +114,13 @@
                                                 </span>
                                             @endif
                                             <ul class="links">
-                                                <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-                                                <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                <li><a href="#"><i class="icomoon icon-exchange"></i></a></li>
+                                                <li><a href="javascript:void(0)" onclick="cart({{ $p }})"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
+                                                @php $wishlist = \Illuminate\Support\Facades\Session::get('wishlist') @endphp
+                                                @if( isset($wishlist[$p->id]) )
+                                                    <li><a href="javascript:void(0)" onclick="wishlist({{ $p->id }})"><i class="fa fa-heart" style="color: #FBA421"></i></a></li>
+                                                @else
+                                                    <li><a href="javascript:void(0)" onclick="wishlist({{ $p->id }})"><i class="icomoon icon-heart-empty"></i></a></li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -147,4 +151,42 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ url('public/js/my-js.js') }}"></script>
+    <script>
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function wishlist(id){
+            $.ajax({
+                type: 'GET',
+                url: main_url + 'addToWishlist/'+id,
+                dataType: 'JSON',
+                success: (data) => {
+                    if (data.status == true){
+                        location.reload();
+                    }
+                }
+            })
+        }
+
+        function cart(data) {
+            var price = data.sale_price > 0 ? data.sale_price : data.price;
+            $.ajax({
+                type: 'POST',
+                url: main_url+'addToCart',
+                dataType: 'JSON',
+                data: { id:data.id, qty:1, price:price, att:'' },
+                success: (data) => {
+                    if (data.status == true){
+                        location.reload();
+                    }
+                },
+                error: (err) => {},
+            })
+        }
+    </script>
 @endsection

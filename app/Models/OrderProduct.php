@@ -16,4 +16,14 @@ class OrderProduct extends Model
         'total',
         'attr'
     ];
+
+    public function orders()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
