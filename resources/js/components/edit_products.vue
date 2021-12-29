@@ -129,7 +129,7 @@
                     <div class="form-group row" v-show="formData.old_images.length > 0">
                         <div class="col-sm-2" v-for="(img, index) in formData.old_images">
                             <img :src="img.file" style="height: 80px;width: 80px">
-                            <button class="btn btn-danger" @click="delete_img(index)">X</button>
+                            <button class="btn btn-danger" @click="delete_img(index)">{{ img.status == true ? 'X' : '-' }}</button>
                         </div>
                     </div>
                     <div class="form-group row" v-show="formData.img.length > 0">
@@ -420,7 +420,8 @@
             },
 
             delete_img(index){
-                this.formData.old_images.splice(index, 1);
+                this.formData.old_images[index].status = false
+                // this.formData.old_images.splice(index, 1);
             },
 
             validateState(formData) {
@@ -501,7 +502,8 @@
                     for(var j = 0; j < this.images.length; j++) {
                         this.formData.old_images.push({
                             image_id:this.images[j].id,
-                            file: main_url+'public/uploads/'+this.images[j].paths
+                            file: main_url+'public/uploads/'+this.images[j].paths,
+                            status:true
                         })
                     }
                 }

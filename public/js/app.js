@@ -3081,7 +3081,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this.formData.all_attributes.splice(index, 1);
     },
     delete_img: function delete_img(index) {
-      this.formData.old_images.splice(index, 1);
+      this.formData.old_images[index].status = false; // this.formData.old_images.splice(index, 1);
     },
     validateState: function validateState(formData) {
       var $dirty = formData.$dirty,
@@ -3166,7 +3166,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         for (var j = 0; j < this.images.length; j++) {
           this.formData.old_images.push({
             image_id: this.images[j].id,
-            file: main_url + 'public/uploads/' + this.images[j].paths
+            file: main_url + 'public/uploads/' + this.images[j].paths,
+            status: true
           });
         }
       }
@@ -52854,7 +52855,7 @@ var render = function () {
                       },
                     },
                   },
-                  [_vm._v("X")]
+                  [_vm._v(_vm._s(img.status == true ? "X" : "-"))]
                 ),
               ])
             }),

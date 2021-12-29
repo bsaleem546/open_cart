@@ -56,7 +56,20 @@
     input#cart_btn:disabled {
         opacity: 0.5;
     }
-
+    .r-success {
+        padding: 10px;
+        background-color: #b0e3a5;
+    }
+    h3#success-r {
+        color: green;
+    }
+    .r-error {
+        padding: 10px;
+        background-color: #e1808e;
+    }
+    h3#error-r {
+        color: #240202;
+    }
 </style>
 @endsection
 
@@ -118,12 +131,17 @@
                             <!-- Rank Rating of the Page -->
                             <div class="rank-rating">
                                 <ul class="list-unstyled rating-list">
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+                                    @php $rr1 = round( $average );  @endphp
+                                    @for($i = 0; $i < 5; $i++)
+                                        @if($rr1 > 0)
+                                            <li><i class="fa fa-star"></i></li>
+                                        @else
+                                            <li><i class="fa fa-star-o"></i></li>
+                                        @endif
+                                        @php $rr1 = $rr1 - 1;  @endphp
+                                    @endfor
                                 </ul>
-                                <span class="total-price">Reviews (12)</span>
+                                <span class="total-price">Reviews ({{ count($reviews) }})</span>
                             </div>
                             <!-- Rank Rating of the Page end -->
                             <ul class="list-unstyled list">
@@ -192,7 +210,7 @@
                         <ul class="mt-tabs text-uppercase">
                             <li><a href="#tab1" class="active">DESCRIPTION</a></li>
                             <li><a href="#tab2">INFORMATION</a></li>
-                            <li><a href="#tab3">REVIEWS (12)</a></li>
+                            <li><a href="#tab3">REVIEWS ({{ count($reviews) }})</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="tab1" class="active">
@@ -201,61 +219,60 @@
                             <div id="tab2" class="js-tab-hidden">
                                 <p>{{ $product->long_description }}</p>
                             </div>
+
                             <div id="tab3" class="js-tab-hidden">
                                 <div class="product-comment">
-                                    <div class="mt-box">
-                                        <div class="mt-hold">
-                                            <ul class="mt-star">
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                            </ul>
-                                            <span class="name">John Wick</span>
-                                            <time datetime="2016-01-01">09:10 Nov, 19 2016</time>
-                                        </div>
-                                        <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit sse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non</p>
-                                    </div>
-                                    <div class="mt-box">
-                                        <div class="mt-hold">
-                                            <ul class="mt-star">
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                            </ul>
-                                            <span class="name">John Wick</span>
-                                            <time datetime="2016-01-01">09:10 Nov, 19 2016</time>
-                                        </div>
-                                        <p>Usmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit sse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non</p>
-                                    </div>
-                                    <form action="#" class="p-commentform">
-                                        <fieldset>
-                                            <h2>Add  Comment</h2>
-                                            <div class="mt-row">
-                                                <label>Rating</label>
+                                    @foreach($reviews as $r)
+                                        <div class="mt-box">
+                                            <div class="mt-hold">
                                                 <ul class="mt-star">
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    @php $rr = $r->rating;  @endphp
+                                                    @for($i = 0; $i < 5; $i++)
+                                                        @if($rr > 0)
+                                                            <li><i class="fa fa-star"></i></li>
+                                                        @else
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                        @endif
+                                                        @php $rr = $rr - 1;  @endphp
+                                                    @endfor
                                                 </ul>
+                                                <span class="name">{{ $r->user->name }}</span>
+                                                <time datetime="2016-01-01">{{ \Carbon\Carbon::parse($r->created_at)->format('H:i M, d Y') }}</time>
                                             </div>
-                                            <div class="mt-row">
-                                                <label>Name</label>
-                                                <input type="text" class="form-control">
+                                            <p>{{ $r->review }}</p>
+                                        </div>
+                                    @endforeach
+                                    @if(Auth::check())
+                                        <form action="#" class="p-commentform">
+                                            <fieldset>
+                                                <h2>Add  Comment</h2>
+                                                <div class="mt-row">
+                                                    <label>Rating</label>
+                                                    <ul class="mt-star">
+                                                        <li><i class="fa fa-star rating-star" data-index="0"></i></li>
+                                                        <li><i class="fa fa-star rating-star" data-index="1"></i></li>
+                                                        <li><i class="fa fa-star rating-star" data-index="2"></i></li>
+                                                        <li><i class="fa fa-star rating-star" data-index="3"></i></li>
+                                                        <li><i class="fa fa-star rating-star" data-index="4"></i></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mt-row">
+                                                    <label>Review</label>
+                                                    <textarea class="form-control" id="txt_review"></textarea>
+                                                </div>
+                                                <button type="submit" class="btn-type4" id="btn_review">ADD REVIEW</button>
+                                            </fieldset>
+                                            <div class="r-success" style="display: none">
+                                                <h3 id="success-r">vsdf</h3>
                                             </div>
-                                            <div class="mt-row">
-                                                <label>E-Mail</label>
-                                                <input type="text" class="form-control">
+                                            <div class="r-error" style="display: none">
+                                                <h3 id="error-r">vsdf</h3>
                                             </div>
-                                            <div class="mt-row">
-                                                <label>Review</label>
-                                                <textarea class="form-control"></textarea>
-                                            </div>
-                                            <button type="submit" class="btn-type4">ADD REVIEW</button>
-                                        </fieldset>
-                                    </form>
+                                        </form>
+                                    @else
+                                        <h3>You need to be logged in to give a review.</h3>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
@@ -271,12 +288,73 @@
 @section('scripts')
     <script src="{{ url('public/js/my-js.js') }}"></script>
 <script>
+    var ratedIndex = -1;
+
+    function resetStarColors(){
+        $('.rating-star').css('color', 'black');
+    }
+
+    function setStars(max) {
+        for (var i=0; i <= max; i++)
+            $('.rating-star:eq('+i+')').css('color', '#E6C376');
+    }
+
     $( document ).ready( function() {
+
+        resetStarColors();
+
+        $('.rating-star').on('click', function () {
+            ratedIndex = parseInt($(this).data('index'));
+        });
+
+        $('.rating-star').mouseover(function () {
+            resetStarColors();
+            var currentIndex = parseInt($(this).data('index'));
+            setStars(currentIndex);
+        });
+
+        $('.rating-star').mouseleave(function () {
+            resetStarColors();
+
+            if (ratedIndex != -1)
+                setStars(ratedIndex);
+        });
 
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+
+        $('#btn_review').click( (e) => {
+            e.preventDefault();
+            var pid = {!! $product->id !!};
+            var txt = $('#txt_review').val();
+            if (  txt === '' || ratedIndex === -1){
+                alert('Review and rating can not be empty')
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: main_url+"post-review",
+                dataType: 'json',
+                data: {
+                    ratedIndex: ratedIndex,
+                    txt:txt,
+                    product_id:pid
+                },
+                success: (data) => {
+                    $('#success-r').html('Review added');
+                    $('.r-success').show();
+                    $('.r-success').fadeOut(3000);
+                    setTimeout( () => { location.reload() }, 3000)
+                },
+                error: (err) => {
+                    $('#error-r').html('Some error ocurred');
+                    $('.r-error').show();
+                    $('.r-error').fadeOut(3000);
+                }
+            });
         });
 
         var product = {!! $product !!};

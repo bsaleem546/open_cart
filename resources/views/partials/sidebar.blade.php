@@ -33,6 +33,9 @@
             <li><a class="" href="{{ route('sliders.index') }}" aria-expanded="false"><i
                         class="icon icon-smile"></i><span class="nav-text">Slider</span></a>
             </li>
+            <li><a class="" href="{{ route('home-section-1.index') }}" aria-expanded="false"><i
+                        class="icon icon-house-search-engine"></i><span class="nav-text">Home Section 1</span></a>
+            </li>
     </ul>
 </div>
 

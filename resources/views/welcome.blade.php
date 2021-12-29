@@ -9,7 +9,7 @@
         <!-- slider banner-slider start here -->
         <div class="slider banner-slider">
                 <!-- holder start here -->
-            @foreach(\App\Models\Slider::latest()->get() as $slider)
+            @foreach($slides as $slider)
 
                 <div class="holder text-center" style="background-image: url( {{ url('public/uploads/slides/'.$slider->img) }} );">
                     <div class="container">
@@ -47,13 +47,13 @@
                             <div class="holder">
                                 <h2>MY SMALL WRITING <br>DESK</h2>
                                 <div class="txts">
-                                    <a class="btn-shop" href="product-detail.html">
+                                    <a class="btn-shop" href="{{ url('') }}">
                                         <span>shop now</span>
                                         <i class="fa fa-angle-right"></i>
                                     </a>
-                                    <div class="discount">
-                                        <span>-20%</span>
-                                    </div>
+{{--                                    <div class="discount">--}}
+{{--                                        <span>-20%</span>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>

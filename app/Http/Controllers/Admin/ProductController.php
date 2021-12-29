@@ -269,15 +269,10 @@ class ProductController extends Controller
                 }
             }
 
-            $pre_img = Image_Product::where('product_id', $id)->get();
-
-            if (!$pre_img->isEmpty()){
-                foreach ($pre_img as $imgs){
-                    foreach ($request->old_images as $i){
-                        if ($i['image_id'] != $imgs->id){
-                            $imgs->delete();
-                        }
-                    }
+            foreach ($request->old_images as $i){
+                $pre_img = Image_Product::where('id', $i['image_id'])->first();
+                if ($pre_img && $i['status'] == false){
+                    $pre_img->delete();
                 }
             }
 

@@ -6,12 +6,15 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Customer;
+use App\Models\HomeSection1;
 use App\Models\Image_Product;
 use App\Models\Options;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\Shipping;
+use App\Models\Slider;
 use App\Models\VariationValues;
 use Carbon\Carbon;
 use Carbon\Traits\Date;
@@ -25,7 +28,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        $slides = Slider::latest()->get();
+        $section1 = HomeSection1::get()->take(4);
+
+        return view('welcome', compact('slides', 'section1'));
     }
 
     public function getCategoryBySlug($slug)
@@ -50,9 +56,13 @@ class HomeController extends Controller
 
     public function getProductBySlug($slug)
     {
-//        dd( Session::get('cart') );
         $product = Product::where('slug', $slug)->first();
-        return view('ProductBySlug', compact('product'));
+        $reviews = Review::where('product_id', $product->id)->latest()->get();
+        $average = 0;
+        if (!$reviews->isEmpty()){
+            $average = ( $reviews->sum('rating') / count($reviews) );
+        }
+        return view('ProductBySlug', compact('product', 'reviews', 'average'));
     }
 
     public function addToCart(Request $request)

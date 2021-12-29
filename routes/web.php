@@ -42,6 +42,8 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'is_admin' ], function (){
     Route::get('customers', [\App\Http\Controllers\Admin\OrderController::class, 'allCustomers'])->name('orders.customers');
     Route::get('order-details/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'orderDetails'])->name('orders.details');
     Route::post('order-status', [\App\Http\Controllers\Admin\OrderController::class, 'orderStatus'])->name('orders.status');
+
+    Route::resource('home-section-1', \App\Http\Controllers\Admin\HomeSectionController::class);
 });
 
 
@@ -62,6 +64,9 @@ Route::post('confirm-order', [App\Http\Controllers\HomeController::class, 'confi
 
 Route::get('order-tracking', [App\Http\Controllers\HomeController::class, 'orderTracking']);
 Route::post('order-tracking', [App\Http\Controllers\HomeController::class, 'orderTrackingGet']);
+
+
+Route::post('post-review', [App\Http\Controllers\ReviewController::class, 'postReview']);
 
 //Route::get('/', function (){
 //    return view('orderCompleted');
