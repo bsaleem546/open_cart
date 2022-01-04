@@ -19,6 +19,7 @@ class CreateReviewsTable extends Migration
             $table->integer('product_id');
             $table->integer('rating')->default(0);
             $table->text('review');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

@@ -44,6 +44,12 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'is_admin' ], function (){
     Route::post('order-status', [\App\Http\Controllers\Admin\OrderController::class, 'orderStatus'])->name('orders.status');
 
     Route::resource('home-section-1', \App\Http\Controllers\Admin\HomeSectionController::class);
+
+    Route::get('reviews', [\App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('reviews.index');
+    Route::post('review', [\App\Http\Controllers\Admin\ReviewController::class, 'updateStatus']);
+
+    Route::resource('popups', \App\Http\Controllers\Admin\PopupController::class);
+
 });
 
 
@@ -61,12 +67,17 @@ Route::get('checkout', [App\Http\Controllers\HomeController::class, 'checkout'])
 Route::post('addCustomerDetails', [App\Http\Controllers\HomeController::class, 'addCustomerDetails']);
 Route::get('checkout-details', [App\Http\Controllers\HomeController::class, 'checkoutDetails']);
 Route::post('confirm-order', [App\Http\Controllers\HomeController::class, 'confirmOrder']);
+Route::get('order-completed/{id}', [App\Http\Controllers\HomeController::class, 'orderCompleted']);
 
 Route::get('order-tracking', [App\Http\Controllers\HomeController::class, 'orderTracking']);
 Route::post('order-tracking', [App\Http\Controllers\HomeController::class, 'orderTrackingGet']);
 
 
 Route::post('post-review', [App\Http\Controllers\ReviewController::class, 'postReview']);
+
+Route::get('about-us', [App\Http\Controllers\HomeController::class, 'about']);
+Route::get('contact-us', [App\Http\Controllers\HomeController::class, 'contact']);
+Route::get('terms-and-conditions', [App\Http\Controllers\HomeController::class, 'termAndConditions']);
 
 //Route::get('/', function (){
 //    return view('orderCompleted');

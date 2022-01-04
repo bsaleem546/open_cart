@@ -26,11 +26,26 @@ use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function contact()
+    {
+        return view('contact');
+    }
+
+    public function termAndConditions()
+    {
+        return view('termAndConditions');
+    }
+
+
     public function index()
     {
         $slides = Slider::latest()->get();
-        $section1 = HomeSection1::get()->take(4);
-
+        $section1 = HomeSection1::latest()->get()->take(3);
         return view('welcome', compact('slides', 'section1'));
     }
 
@@ -57,7 +72,7 @@ class HomeController extends Controller
     public function getProductBySlug($slug)
     {
         $product = Product::where('slug', $slug)->first();
-        $reviews = Review::where('product_id', $product->id)->latest()->get();
+        $reviews = Review::where('product_id', $product->id)->where('status',1)->latest()->get();
         $average = 0;
         if (!$reviews->isEmpty()){
             $average = ( $reviews->sum('rating') / count($reviews) );
@@ -126,14 +141,14 @@ class HomeController extends Controller
 
             if ($cart == null){
                 $cart[$id] = [
-                    "id" => $product->id,
-                    "name" => $product->name,
-                    "slug" => $product->slug,
+                    "product_id" => $product->id,
+                    "product_name" => $product->name,
+                    "product_slug" => $product->slug,
                     "quantity" => $qty,
                     "price" =>  ($price * $qty),//$product->sale_price > 0 ? ($product->sale_price * $qty) : ($product->price * $qty),
                     "att" => $att,
                     "p" => $price,
-                    "category" => $product->category->id,
+                    "category_id" => $product->category->id,
                 ];
                 Session::put('cart', $cart);
                 Session::save();
@@ -156,14 +171,14 @@ class HomeController extends Controller
             }
 
             $cart[$id] = [
-                "id" => $product->id,
-                "name" => $product->name,
-                "slug" => $product->slug,
+                "product_id" => $product->id,
+                "product_name" => $product->name,
+                "product_slug" => $product->slug,
                 "quantity" => $qty,
                 "price" => ($price * $qty),//$product->sale_price > 0 ? ($product->sale_price * $qty) : ($product->price * $qty),
                 "att" => $att,
                 "p" => $price,
-                "category" => $product->category->id,
+                "category_id" => $product->category->id,
             ];
             Session::put('cart', $cart);
             Session::save();
@@ -219,8 +234,22 @@ class HomeController extends Controller
     }
 
     public function checkCoupon($coupon){
-        $cart = Session::get('cart');
+        $discount = 0;
+        $total = 0;
+        $discountCode = null;
         $COUPON = Coupon::where('code', $coupon)->first();
+        $cart = null;
+
+        if (Auth::check()){
+            $cart = Cart::where('user_id', Auth::user()->id)->get();
+        }
+        else{
+            $cart = Session::get('cart');
+        }
+        foreach ($cart as $k => $v){
+            $total += $v['price'];
+        }
+
         if ($COUPON == null){
             return Response::json(['status' => 0, 'msg' => 'No coupon found']);
         }
@@ -234,38 +263,71 @@ class HomeController extends Controller
             if ($COUPON->quantity == 0){
                 return Response::json(['status' => 2, 'msg' => 'Coupon limit is reached to zero']);
             }
+
+            $discountCode = $COUPON->code;
+
             if ($COUPON->type == 'All'){
-                return Response::json(['status' => 3, 'amount' => $COUPON->value,
-                    'value_type' => $COUPON->value_type, 'msg' => 'Discounted price added to your total' ]);
+                if ($COUPON->value_type == 'Percentage'){
+                    $discount = ( $total * $COUPON->value ) / 100;
+                    $total = $total - $discount;
+                }
+                else {
+                    $discount = $COUPON->value;
+                    $total = $total - $discount;
+                }
+                return Response::json(['status' => 3, 'discount' => $discount, 'discountCode' => $discountCode,
+                    'total' => $total, 'msg' => 'Discounted price added to your total' ]);
             }
+
             if ($COUPON->type == 'Category'){
                 $chk = false;
+                $temp_total = 0;
                 foreach ($cart as $k => $v){
-                    if($v['category'] == $COUPON->type_id){
+                    if($v['category_id'] == $COUPON->type_id){
                         $chk = true;
+                        $temp_total += $v['price'];
                     }
                 }
                 if ($chk == false){
-                    return Response::json(['status' => 1, 'msg' => 'No coupon found']);
+                    return Response::json(['status' => 1, 'msg' => 'No1 coupon found']);
                 }
                 else{
-                    return Response::json(['status' => 3, 'amount' => $COUPON->value,
-                        'value_type' => $COUPON->value_type, 'msg' => 'Discounted price added to your total' ]);
+                    if ($COUPON->value_type == 'Percentage'){
+                        $discount = ( $temp_total * $COUPON->value ) / 100;
+                        $total = $total - $discount;
+                    }
+                    else {
+                        $discount = $COUPON->value;
+                        $total = $total - $discount;
+                    }
+                    return Response::json(['status' => 3, 'discount' => $discount, 'discountCode' => $discountCode,
+                        'total' => $total, 'msg' => 'Discounted price added to your total' ]);
                 }
             }
+
             if ($COUPON->type == 'Product'){
                 $chk = false;
+                $temp_total = 0;
                 foreach ($cart as $k => $v){
-                    if($v['id'] == $COUPON->type_id){
+                    if($v['product_id'] == $COUPON->type_id){
                         $chk = true;
+                        $temp_total = $v['price'];
                     }
                 }
                 if ($chk == false){
                     return Response::json(['status' => 1, 'msg' => 'No coupon found']);
                 }
                 else{
-                    return Response::json(['status' => 3, 'amount' => $COUPON->value,
-                        'value_type' => $COUPON->value_type, 'msg' => 'Discounted price added to your total' ]);
+                    if ($COUPON->value_type == 'Percentage'){
+                        $discount = ( $temp_total * $COUPON->value ) / 100;
+                        $total = $total - $discount;
+                    }
+                    else {
+                        $discount = $COUPON->value;
+                        $total = $total - $discount;
+                    }
+                    return Response::json(['status' => 3, 'discount' => $discount, 'discountCode' => $discountCode,
+                        'total' => $total, 'msg' => 'Discounted price added to your total' ]);
                 }
             }
         }
@@ -453,12 +515,38 @@ class HomeController extends Controller
 
     public function confirmOrder(Request $request)
     {
+//        dd($request);
         if (Auth::check()){
-            $customer = Customer::where('email', Auth::user()->email)->first();
             $cart = Cart::where('user_id', Auth::user()->id)->get();
-            if ($customer == null || $cart->isEmpty()){
+            if ($cart->isEmpty()){
                 return redirect('cart');
             }
+
+            $customer = Customer::where('email', Auth::user()->email)->first();
+
+            if ($customer === null){
+                $customer = Customer::create([
+                    'fname' => $request->fname,
+                    'lname' => $request->lname,
+                    'address' => $request->address,
+                    'city' => $request->city,
+                    'country' => $request->country,
+                    'email' => Auth::user()->email,
+                    'phone' => $request->phone,
+                    'notes' => $request->notes
+                ]);
+            }
+            else {
+                $customer->fname = $request->fname;
+                $customer->lname = $request->lname;
+                $customer->address = $request->address;
+                $customer->city = $request->city;
+                $customer->country = $request->country;
+                $customer->phone = $request->phone;
+                $customer->notes = $request->notes;
+                $customer->update();
+            }
+
 
             $order = new Order();
             $order->customer_id = $customer['id'];
@@ -467,7 +555,7 @@ class HomeController extends Controller
             $order->discount_code = $request['discountCode'];
             $order->shipping = $request['ship'];
             $order->total = $request['finalTotal'];
-            $order->note = $customer['notes'];
+            $order->note = $request['notes'];
             $order->status = 'PENDING';
             $order->save();
 
@@ -483,39 +571,37 @@ class HomeController extends Controller
 
             Cart::where('user_id', Auth::user()->id)->delete();
 
-            return view('orderCompleted')->with('orderID', $order['id']);
+            return redirect('order-completed/'.$order['id']);
         }
         else {
-            $customer = Session::get('customer');
             $cart = Session::get('cart');
-
-            if ($customer == null || $cart == null){
+            if ($cart == null){
                 return redirect('cart');
             }
 
-            $savedCustomer = Customer::where('email', $customer['email'])->first();
+            $savedCustomer = Customer::where('email', $request['email'])->first();
             $customer_id = '';
             if ($savedCustomer){
-                $savedCustomer->fname = $customer['fname'];
-                $savedCustomer->lname = $customer['lname'];
-                $savedCustomer->address = $customer['address'];
-                $savedCustomer->city = $customer['city'];
-                $savedCustomer->country = $customer['country'];
-                $savedCustomer->phone = $customer['phone'];
-                $savedCustomer->notes = $customer['notes'];
+                $savedCustomer->fname = $request['fname'];
+                $savedCustomer->lname = $request['lname'];
+                $savedCustomer->address = $request['address'];
+                $savedCustomer->city = $request['city'];
+                $savedCustomer->country = $request['country'];
+                $savedCustomer->phone = $request['phone'];
+                $savedCustomer->notes = $request['notes'];
                 $savedCustomer->update();
                 $customer_id = $savedCustomer->id;
             }
             else{
                 $newCustomer = new Customer();
-                $newCustomer->email = $customer['email'];
-                $newCustomer->fname = $customer['fname'];
-                $newCustomer->lname = $customer['lname'];
-                $newCustomer->address = $customer['address'];
-                $newCustomer->city = $customer['city'];
-                $newCustomer->country = $customer['country'];
-                $newCustomer->phone = $customer['phone'];
-                $newCustomer->notes = $customer['notes'];
+                $newCustomer->email = $request['email'];
+                $newCustomer->fname = $request['fname'];
+                $newCustomer->lname = $request['lname'];
+                $newCustomer->address = $request['address'];
+                $newCustomer->city = $request['city'];
+                $newCustomer->country = $request['country'];
+                $newCustomer->phone = $request['phone'];
+                $newCustomer->notes = $request['notes'];
                 $newCustomer->save();
                 $customer_id = $newCustomer->id;
             }
@@ -527,7 +613,7 @@ class HomeController extends Controller
             $order->discount_code = $request['discountCode'];
             $order->shipping = $request['ship'];
             $order->total = $request['finalTotal'];
-            $order->note = $customer['notes'];
+            $order->note = $request['notes'];
             $order->status = 'PENDING';
             $order->save();
 
@@ -541,9 +627,20 @@ class HomeController extends Controller
                 $oProduct->save();
             }
 
-            Session::put('customer', []);
+            if ( $request->sign_up_shk == 'on' ){
+                $user = User::where('email', $request->email)->first();
+                if ($user == null) {
+                    $user = User::create([
+                        'name' => $request->fname . ' ' . $request->lname,
+                        'email' => $request->email,
+                        'password' => bcrypt($request->password)
+                    ]);
+                }
+                Auth::attempt( ['email' => $request->email, 'password' => $request->password] );
+            }
             Session::put('cart', []);
-            return view('orderCompleted')->with('orderID', $order['id']);
+            Session::save();
+            return redirect('order-completed/'.$order['id']);
         }
     }
 
@@ -562,6 +659,16 @@ class HomeController extends Controller
             $customer = $order->customer;
         }
         return redirect('order-tracking')->with('order', $order)->with('orderProduct' , $orderProduct)->with('customer' , $customer);
+    }
+
+    public function orderCompleted($id)
+    {
+        if ($id > 0){
+            return view('orderCompleted')->with('orderID',$id);
+        }
+        else {
+            return redirect('/');
+        }
     }
 
 }

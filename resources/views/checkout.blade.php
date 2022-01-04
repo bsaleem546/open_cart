@@ -8,9 +8,9 @@
 @section('content')
 
     <main id="mt-main">
-        <section class="mt-contact-banner mt-banner-22" style="background-image: url( {{ url('public/web/images/img-76.jpg') }} );">
-            <h1 class="text-center">CHECK OUT</h1>
-        </section>
+{{--        <section class="mt-contact-banner mt-banner-22" style="background-image: url( {{ url('public/web/images/img-76.jpg') }} );">--}}
+{{--            <h1 class="text-center">CHECK OUT</h1>--}}
+{{--        </section>--}}
 
         <div class="mt-process-sec">
             <div class="container">
@@ -28,10 +28,6 @@
                             </li>
                             <li>
                                 <span class="counter">03</span>
-                                <strong class="title">Order Details</strong>
-                            </li>
-                            <li>
-                                <span class="counter">04</span>
                                 <strong class="title">Order Complete</strong>
                             </li>
                         </ul>
@@ -44,7 +40,7 @@
         <section class="mt-detail-sec toppadding-zero">
             <div class="container">
                 <div class="row">
-                    <form action="{{ url('addCustomerDetails') }}" method="POST" class="bill-detail">
+                    <form action="{{ url('confirm-order') }}" method="POST" class="bill-detail">
                         @csrf
                         <div class="col-xs-12 col-sm-6">
                             <h2>BILLING DETAILS</h2>
@@ -133,64 +129,69 @@
                                 <h2>YOUR ORDER</h2>
 
                                 <ul class="list-unstyled block">
-                                        @php $total = 0; $cartTotal = 0; $discount = 0; $ship = 0; @endphp
-                                        <li>
-                                            <div class="txt-holder">
-                                                <div class="text-wrap pull-left">
-                                                    <strong class="title">PRODUCTS</strong>
-                                                    @foreach($cart  as $key => $value)
-                                                        @php $total += $value['price']  @endphp
-                                                        <span>{{ Auth::check() ? $value['product_name'] : $value['name'] }}       x{{ $value['quantity'] }}</span>
-                                                    @endforeach
-                                                </div>
-                                                <div class="text-wrap txt text-right pull-right">
-                                                    <strong class="title">TOTALS</strong>
-                                                    @foreach($cart  as $key => $value)
-                                                        <span>{{ $value['price'] }}</span>
-                                                    @endforeach
-                                                </div>
+                                    @php $total = 0; $cartTotal = 0; $discount = 0; $ship = 0; @endphp
+                                    <li>
+                                        <div class="txt-holder">
+                                            <div class="text-wrap pull-left">
+                                                <strong class="title">PRODUCTS</strong>
+                                                @foreach($cart  as $key => $value)
+                                                    @php $total += $value['price']  @endphp
+                                                    <span>{{ Auth::check() ? $value['product_name'] : $value['name'] }}       x{{ $value['quantity'] }}</span>
+                                                @endforeach
                                             </div>
-                                        </li>
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">CART SUBTOTAL</strong>
-                                                <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession == null ? $total : $checkoutSession['total'] }}</span>
-                                                </div>
+                                            <div class="text-wrap txt text-right pull-right">
+                                                <strong class="title">TOTALS</strong>
+                                                @foreach($cart  as $key => $value)
+                                                    <span>{{ $value['price'] }}</span>
+                                                @endforeach
                                             </div>
-                                        </li>
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">DISCOUNT</strong>
-                                                <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession == null ? $discount : $checkoutSession['discount'] }}</span>
-                                                </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="txt-holder">
+                                            <strong class="title sub-title pull-left">CART SUBTOTAL</strong>
+                                            <div class="txt pull-right">
+                                                <span>{{ $checkoutSession == null ? $total : $checkoutSession['total'] }}</span>
+                                                <input type="hidden" name="total" value="{{ $checkoutSession == null ? $total : $checkoutSession['total'] }}">
                                             </div>
-                                        </li>
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">DISCOUNT CODE</strong>
-                                                <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession == null ? 'NON' : $checkoutSession['discountCode'] }}</span>
-                                                </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="txt-holder">
+                                            <strong class="title sub-title pull-left">DISCOUNT</strong>
+                                            <div class="txt pull-right">
+                                                <span>{{ $checkoutSession == null ? $discount : $checkoutSession['discount'] }}</span>
+                                                <input type="hidden" name="discount" value="{{ $checkoutSession == null ? $discount : $checkoutSession['discount'] }}">
                                             </div>
-                                        </li>
-                                        <li>
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">SHIPPING</strong>
-                                                <div class="txt pull-right">
-                                                    <span>Free Shipping</span>
-                                                </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="txt-holder">
+                                            <strong class="title sub-title pull-left">DISCOUNT CODE</strong>
+                                            <div class="txt pull-right">
+                                                <span>{{ $checkoutSession == null ? 'NON' : $checkoutSession['discountCode'] }}</span>
+                                                <input type="hidden" name="discountCode" value="{{ $checkoutSession == null ? 'NON' : $checkoutSession['discountCode'] }}">
                                             </div>
-                                        </li>
-                                        <li style="border-bottom: none;">
-                                            <div class="txt-holder">
-                                                <strong class="title sub-title pull-left">ORDER TOTAL</strong>
-                                                <div class="txt pull-right">
-                                                    <span>{{ $checkoutSession == null ? ($total - $discount) + $ship : $checkoutSession['finalTotal'] }}</span>
-                                                </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="txt-holder">
+                                            <strong class="title sub-title pull-left">SHIPPING</strong>
+                                            <div class="txt pull-right">
+                                                <span>Free Shipping</span>
+                                                <input type="hidden" name="ship" value="0">
                                             </div>
-                                        </li>
+                                        </div>
+                                    </li>
+                                    <li style="border-bottom: none;">
+                                        <div class="txt-holder">
+                                            <strong class="title sub-title pull-left">ORDER TOTAL</strong>
+                                            <div class="txt pull-right">
+                                                <span>{{ $checkoutSession == null ? ($total - $discount) + $ship : $checkoutSession['finalTotal'] }}</span>
+                                                <input type="hidden" name="finalTotal" value="{{ $checkoutSession == null ? ($total - $discount) + $ship : $checkoutSession['finalTotal'] }}">
+                                            </div>
+                                        </div>
+                                    </li>
                                 </ul>
 
                                 <h2>PAYMENT METHODS</h2>
@@ -216,7 +217,10 @@
                                 </div>
                                 <!-- Panel Group of the Page end -->
                             </div>
-                            <input type="submit" value="PROCEED TO CHECKOUT" class="process-btn" style="border: none">
+                            <div class="block-holder">
+                                <input type="checkbox" required> I’ve read &amp; accept the <a href="#">terms &amp; conditions</a>
+                            </div>
+                            <input type="submit" value="CONFIRM ORDER" class="process-btn" style="border: none">
                         </div>
                     </form>
                 </div>

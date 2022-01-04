@@ -186,7 +186,7 @@
                                 <fieldset>
                                     <div class="row-val">
                                         <label for="qty">qty</label>
-                                        <input type="number" id="qty" placeholder="0" value="0">
+                                        <input type="number" id="qty" placeholder="0" value="">
                                     </div>
                                     <div class="row-val">
 {{--                                        <button type="submit" id="cart_btn" disabled>ADD TO CART</button>--}}
@@ -408,7 +408,7 @@
                         $('#success').html(data.msg)
                         $('.my-alert-success').show()
                         $('.my-alert-success').fadeOut(5000)
-                        location.reload();
+                        window.location = main_url+'cart';
                     }
                 },
                 error: (err) => {},

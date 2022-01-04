@@ -1871,7 +1871,7 @@ a:hover {
 }
 
 #nav .mt-dropmenu ul a {
-  color: #757575;
+  color: #000;
 }
 
 #nav .mt-dropmenu ul a:hover {
@@ -2316,12 +2316,12 @@ a:hover {
 
 .mt-side-widget .mt-h-title {
   display: block;
-  color: #757575;
+  color: #000;
   font: 600 14px/20px "Source Sans Pro", sans-serif;
 }
 
 .mt-side-widget .mt-h-title a {
-  color: #757575;
+  color: #000;
   -moz-transition: all 0.4s linear;
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -2339,7 +2339,7 @@ a:hover {
 }
 
 .mt-side-widget .price a {
-  color: #757575;
+  color: #000;
   -moz-transition: all 0.4s linear;
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -2352,7 +2352,7 @@ a:hover {
 }
 
 .mt-side-widget .cart-row-total {
-  color: #757575;
+  color: #000;
   overflow: hidden;
   margin: 0 0 20px;
   padding: 16px 21px 0 10px;
@@ -2957,7 +2957,7 @@ a:hover {
   line-height: 16px;
   margin: 0 0 35px;
   font-weight: 700;
-  color: #575757;
+  color: #000;
 }
 
 #mt-footer .f-holder .f-nav-holder {
@@ -3054,7 +3054,7 @@ a:hover {
   line-height: 16px;
   margin: 0 0 35px;
   font-weight: 700;
-  color: #575757;
+  color: #000;
 }
 
 #mt-footer .footer-holder .f-widget-heading.heading {
@@ -3087,7 +3087,7 @@ a:hover {
   -webkit-transition: all 0.25s linear;
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
-  color: #868686;
+  color: #000;
 }
 
 #mt-footer .footer-area .copyright a:hover {
@@ -3098,7 +3098,7 @@ a:hover {
   -webkit-transition: all 0.25s linear;
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
-  color: #868686;
+  color: #000;
 }
 
 #mt-footer .footer-area .copy-right p a:hover {
@@ -3156,7 +3156,7 @@ a:hover {
 }
 
 #mt-footer .f-widget-about {
-  color: #a0a0a0;
+  color: #000;
 }
 
 #mt-footer .f-widget-about p {
@@ -3282,24 +3282,24 @@ a:hover {
 }
 
 #mt-footer .f-widget-newsletter .newsletter-form ::-webkit-input-placeholder {
-  color: #8c8c8c;
+  color: #000;
 }
 
 #mt-footer .f-widget-newsletter .newsletter-form ::-moz-placeholder {
   opacity: 1;
-  color: #8c8c8c;
+  color: #000;
 }
 
 #mt-footer .f-widget-newsletter .newsletter-form :-moz-placeholder {
-  color: #8c8c8c;
+  color: #000;
 }
 
 #mt-footer .f-widget-newsletter .newsletter-form :-ms-input-placeholder {
-  color: #8c8c8c;
+  color: #000;
 }
 
 #mt-footer .f-widget-newsletter .newsletter-form .placeholder {
-  color: #8c8c8c;
+  color: #000;
 }
 
 #mt-footer .f-widget-newsletter .newsletter-form.form2 {
@@ -3341,7 +3341,7 @@ a:hover {
   border: none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  color: #8c8c8c;
+  color: #000;
   outline: none;
   font-weight: 200;
   padding: 7px 10px 7px 22px;
@@ -3375,7 +3375,7 @@ a:hover {
 
 #mt-footer .f-widget-news .news-articles .news-column {
   margin: 0 0 26px;
-  color: #a0a0a0;
+  color: #000;
 }
 
 #mt-footer .f-widget-news .news-articles .fa-twitter {
@@ -3459,7 +3459,7 @@ a:hover {
 }
 
 .f-promo-box.light .f-widget-item .txt-holder {
-  color: #a0a0a0;
+  color: #000;
 }
 
 .f-promo-box .subcrib-form {
@@ -4804,7 +4804,7 @@ a:hover {
 
 .banner-frame .price {
   display: block;
-  color: #9f9f9f;
+  color: #000;
   padding: 12px 0 19px;
   letter-spacing: -1.5px;
   font-size: 17px;
@@ -5182,7 +5182,7 @@ a:hover {
 
 .banner-8 .price-tag .price-off {
   display: block;
-  color: #9f9f9f;
+  color: #000;
   display: inline-block;
   vertical-align: middle;
   font-size: 18px;
@@ -5422,7 +5422,7 @@ a:hover {
 }
 
 .banner-18 .price-off {
-  color: #9f9f9f;
+  color: #000;
   padding: 0 3px;
   position: relative;
   margin: 20px 0 1px;
@@ -5791,13 +5791,13 @@ a:hover {
 .mt-product1 .title {
   display: block;
   margin: 0 0 5px;
-  color: #757575;
+  color: #000;
   text-transform: capitalize;
   font: 600 14px/20px "Source Sans Pro", sans-serif;
 }
 
 .mt-product1 .title a {
-  color: #757575;
+  color: #000;
   -moz-transition: all 0.4s linear;
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -6456,13 +6456,13 @@ a:hover {
 
 .mt-product4 .text .frame strong {
   display: block;
-  color: #959596;
+  color: #000;
   margin: 0 0 5px;
-  font: 14px/16px "Montserrat", sans-serif;
+  font: 16px "Montserrat", sans-serif;
 }
 
 .mt-product4 .text .frame strong a {
-  color: #959596;
+  color: #000;
   -moz-transition: all 0.4s linear;
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -7541,7 +7541,7 @@ a:hover {
   font-size: 16px;
   line-height: 18px;
   font-weight: 200;
-  color: #868686;
+  color: #000;
 }
 
 .mt-detail-sec .bill-detail .col {
@@ -7634,7 +7634,7 @@ a:hover {
   display: block;
   margin: 0 0 11px;
   text-transform: uppercase;
-  color: #868686;
+  color: #000;
 }
 
 .mt-detail-sec .block .title.sub-title {
@@ -7647,7 +7647,7 @@ a:hover {
   display: block;
   font-weight: 700;
   margin: 0 0 3px;
-  color: #868686;
+  color: #000;
 }
 
 .mt-detail-sec .block .txt .title {
@@ -7658,7 +7658,7 @@ a:hover {
   font-size: 16px;
   line-height: 18px;
   display: block;
-  color: #494949;
+  color: #000;
 }
 
 .mt-detail-sec .panel-group {
@@ -7678,7 +7678,7 @@ a:hover {
   margin: 0;
   text-transform: uppercase;
   font-weight: 700;
-  color: #868686;
+  color: #000;
 }
 
 .mt-detail-sec .panel-group .panel-title a {
@@ -7704,7 +7704,7 @@ a:hover {
   visibility: visible;
   display: block;
   margin: 1px 0 2px 1px;
-  color: #494949;
+  color: #000;
 }
 
 .mt-detail-sec .panel-group .panel-title .collapsed .fa-check {
@@ -7717,7 +7717,7 @@ a:hover {
   line-height: 16px;
   font-weight: 200;
   overflow: hidden;
-  color: #868686;
+  color: #000;
 }
 
 .mt-detail-sec .panel-group .panel {
@@ -7733,7 +7733,7 @@ a:hover {
 }
 
 .mt-detail-sec .block-holder {
-  color: #868686;
+  color: #000;
   overflow: hidden;
   font-size: 16px;
   line-height: 18px;
@@ -7748,7 +7748,7 @@ a:hover {
 }
 
 .mt-detail-sec .block-holder a:hover {
-  color: #868686;
+  color: #000;
 }
 
 .mt-detail-sec .block-holder input[type='checkbox'] {
@@ -7780,7 +7780,7 @@ a:hover {
 
 .mt-detail-sec .process-btn:hover {
   background: #f6f6f6;
-  color: #494949;
+  color: #000;
 }
 
 /*------------------------------------------------------------------
@@ -7802,7 +7802,7 @@ a:hover {
   text-transform: uppercase;
   display: block;
   padding: 0 0 18px;
-  color: #868686;
+  color: #000;
 }
 
 .mt-product-table .img-holder {
@@ -7816,7 +7816,7 @@ a:hover {
   line-height: 20px;
   display: block;
   padding: 69px 0 0;
-  color: #757575;
+  color: #000;
 }
 
 .mt-product-table .price {
@@ -7824,7 +7824,7 @@ a:hover {
   line-height: 20px;
   float: left;
   padding: 81px 0 0;
-  color: #494949;
+  color: #000;
 }
 
 .mt-product-table .qyt-form {
@@ -7839,7 +7839,7 @@ a:hover {
   border: none;
   outline: none;
   background: #eeeeee;
-  color: #494949;
+  color: #000;
 }
 
 .mt-product-table .fa-close {
@@ -7855,7 +7855,7 @@ a:hover {
 }
 
 .mt-product-table .fa-close:hover {
-  color: #494949;
+  color: #000;
 }
 
 .mt-product-table .coupon-form {
@@ -8345,7 +8345,7 @@ a:hover {
 
 .product-post .title {
   display: block;
-  color: #757575;
+  color: #000;
   font-weight: 700;
   margin: 0 0 15px;
   font-size: 18px;
@@ -8353,7 +8353,7 @@ a:hover {
 }
 
 .product-post .title a {
-  color: #757575;
+  color: #000;
   -webkit-transition: all 0.25s linear;
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
@@ -9371,7 +9371,7 @@ a:hover {
   line-height: 27px;
   font-weight: 200;
   margin: 0 0 105px;
-  color: #494949;
+  color: #000;
 }
 
 .blog-post.style2 {
@@ -9466,7 +9466,7 @@ a:hover {
   top: 38px;
   margin: 0;
   left: 60px;
-  color: #494949;
+  color: #000;
   background: #fff;
   position: absolute;
 }
@@ -9549,7 +9549,7 @@ a:hover {
   font-family: "Montserrat", sans-serif;
   margin: 0 0 17px;
   text-transform: uppercase;
-  color: #494949;
+  color: #000;
 }
 
 .blog-post h2 a {
@@ -9557,7 +9557,7 @@ a:hover {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  color: #494949;
+  color: #000;
 }
 
 .blog-post h2 a:hover {
@@ -9572,7 +9572,7 @@ a:hover {
   margin: 0 0 32px;
   overflow: hidden;
   padding: 0 0 0 2px;
-  color: #494949;
+  color: #000;
 }
 
 .blog-post .blog-nav li {
@@ -9581,7 +9581,7 @@ a:hover {
 }
 
 .blog-post .blog-nav a {
-  color: #494949;
+  color: #000;
   -moz-transition: all 0.4s linear;
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -9610,7 +9610,7 @@ a:hover {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  color: #494949;
+  color: #000;
 }
 
 .blog-post .btn-more:hover {
@@ -9712,7 +9712,7 @@ a:hover {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  color: #494949;
+  color: #000;
   border-color: #494949;
 }
 
@@ -9739,7 +9739,7 @@ a:hover {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  color: #494949;
+  color: #000;
   border-color: #494949;
 }
 
@@ -9778,7 +9778,7 @@ a:hover {
 .btn-holder .pagination .active a {
   border-width: 0 0 4px;
   border-style: solid;
-  color: #494949;
+  color: #000;
   border-color: #494949;
 }
 
@@ -9791,7 +9791,7 @@ a:hover {
 }
 
 .btn-holder .pagination a:hover {
-  color: #494949;
+  color: #000;
   border-color: #494949;
   border-width: 0 0 4px;
   border-style: solid;
@@ -9815,7 +9815,7 @@ a:hover {
   margin: 0 0 23px;
   padding: 0 0 8px;
   position: relative;
-  color: #494949;
+  color: #000;
 }
 
 .widget h3:before {
@@ -9838,7 +9838,7 @@ a:hover {
   margin: 0;
   overflow: hidden;
   padding: 0 4px 0 0;
-  color: #494949;
+  color: #000;
 }
 
 .widget.category-widget .widget-nav li {
@@ -9850,7 +9850,7 @@ a:hover {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  color: #494949;
+  color: #000;
 }
 
 .widget.category-widget .widget-nav a:hover {
@@ -9861,7 +9861,7 @@ a:hover {
   font-size: 14px;
   line-height: 17px;
   font-weight: 200;
-  color: #494949;
+  color: #000;
 }
 
 .widget.popular-widget h3:before {
@@ -9905,7 +9905,7 @@ a:hover {
   font-size: 16px;
   line-height: 18px;
   font-weight: 200;
-  color: #494949;
+  color: #000;
 }
 
 .widget.tag-widget h3:before {
@@ -10074,7 +10074,7 @@ a:hover {
   margin: 0 0 23px;
   padding: 0 0 16px;
   position: relative;
-  color: #494949;
+  color: #000;
 }
 
 .mt-comments-section h2:before {
@@ -10095,7 +10095,7 @@ a:hover {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  color: #494949;
+  color: #000;
 }
 
 .mt-comments-section h2 a:hover {
@@ -10141,7 +10141,7 @@ a:hover {
   padding: 7px 0 30px;
   border-width: 0 0 1px;
   border-style: solid;
-  color: #868686;
+  color: #000;
   border-color: #eeeeee;
 }
 
@@ -10211,7 +10211,7 @@ a:hover {
   border-radius: 0;
   margin: 0 0 0 20px;
   padding: 11px 10px 5px 26px;
-  color: #868686;
+  color: #000;
   background: #f7f7f7;
 }
 
@@ -10232,7 +10232,7 @@ a:hover {
   -webkit-box-shadow: none;
   box-shadow: none;
   padding: 20px 10px 5px 26px;
-  color: #868686;
+  color: #000;
   background: #f7f7f7;
 }
 
@@ -10250,7 +10250,7 @@ a:hover {
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
   background: #f7f7f7;
-  color: #868686;
+  color: #000;
 }
 
 .mt-comments-section .mt-leave-comment .comment-form .form-btn:hover {
@@ -10354,7 +10354,7 @@ a:hover {
   line-height: 16px;
   font-weight: 200;
   background: #f4f4f4;
-  color: #494949;
+  color: #000;
 }
 
 .post-blog .time strong {
@@ -10381,7 +10381,7 @@ a:hover {
   -webkit-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  color: #494949;
+  color: #000;
 }
 
 .post-blog .btn-more:hover {
@@ -10410,7 +10410,7 @@ a:hover {
   font-weight: 700;
   letter-spacing: 1px;
   font-family: "Montserrat", sans-serif;
-  color: #757575;
+  color: #000;
 }
 
 .loading-holder .txt .fa-refresh {
@@ -10839,7 +10839,7 @@ a:hover {
   font-size: 18px;
   line-height: 21px;
   margin: 0 0 47px;
-  color: #757575;
+  color: #000;
 }
 
 .mt-newsletter-popup .txt b {
@@ -10865,7 +10865,7 @@ a:hover {
   padding: 11px 10px 10px 22px;
   margin: 0 0 8px;
   background: #f2f2f2;
-  color: #757575;
+  color: #000;
 }
 
 .mt-newsletter-popup .newsletter-form button {
@@ -10889,7 +10889,7 @@ a:hover {
 
 .mt-newsletter-popup .newsletter-form button:hover {
   background: #f2f2f2;
-  color: #757575;
+  color: #000;
 }
 
 .mt-newsletter-popup .img-holder {
@@ -10969,7 +10969,7 @@ a:hover {
   line-height: 23px;
   font-weight: 300;
   padding: 53px 0;
-  color: #383838;
+  color: #000;
 }
 
 .mt-map-descrp h1 {
@@ -10977,7 +10977,7 @@ a:hover {
   line-height: 33px;
   font-weight: 600;
   margin: 0 0 28px;
-  color: #383838;
+  color: #000;
 }
 
 .mt-map-descrp p {
@@ -10994,7 +10994,7 @@ a:hover {
   line-height: 22px;
   position: relative;
   background: #f6f6f6;
-  color: #383838;
+  color: #000;
 }
 
 .mt-contact-detail.content-info {
@@ -11006,7 +11006,7 @@ a:hover {
 .mt-contact-detail .icon {
   display: block;
   margin: 0 0 25px;
-  color: #383838;
+  color: #000;
   font-size: 48px;
   line-height: 50px;
 }
@@ -11020,7 +11020,7 @@ a:hover {
 }
 
 .mt-contact-detail a {
-  color: #383838;
+  color: #000;
 }
 
 .mt-contact-detail address {
@@ -11034,7 +11034,7 @@ a:hover {
   font-weight: 300;
   overflow: hidden;
   margin: 0 0 50px;
-  color: #383838;
+  color: #000;
 }
 
 .mt-contact-detail .txt-wrap h2 {
@@ -11042,7 +11042,7 @@ a:hover {
   line-height: 33px;
   font-weight: 600;
   margin: 0 0 28px;
-  color: #383838;
+  color: #000;
 }
 
 .mt-contact-detail .txt-wrap p {
@@ -11140,7 +11140,7 @@ a:hover {
   line-height: 23px;
   font-weight: 300;
   margin: 0 0 36px;
-  color: #383838;
+  color: #000;
 }
 
 .mt-form-sec .header h2 {
@@ -11148,7 +11148,7 @@ a:hover {
   line-height: 18px;
   margin: 0 0 20px;
   font-weight: 600;
-  color: #383838;
+  color: #000;
 }
 
 .mt-form-sec .contact-form {
@@ -11249,7 +11249,7 @@ a:hover {
   margin: 0 0 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #383838;
+  color: #000;
 }
 
 .mt-contact-banner .breadcrumbs {
@@ -11257,7 +11257,7 @@ a:hover {
   line-height: 16px;
   font-weight: 200;
   overflow: hidden;
-  color: #383838;
+  color: #000;
 }
 
 .mt-contact-banner .breadcrumbs ul {
@@ -11268,13 +11268,17 @@ a:hover {
   margin: 0 10px 0 0;
   display: inline-block;
   vertical-align: middle;
+      font-size: 18px;
+    font-weight: 600;
 }
 
 .mt-contact-banner .breadcrumbs ul a {
   -webkit-transition: all 0.25s linear;
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
-  color: #383838;
+  color: #000;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .mt-contact-banner .breadcrumbs ul a:hover {
@@ -11307,7 +11311,7 @@ a:hover {
   line-height: 31px;
   font-weight: 300;
   margin: 0 0 22px;
-  color: #494949;
+  color: #000;
 }
 
 .mt-about-sec .txt p {
@@ -11328,7 +11332,7 @@ a:hover {
   margin: 0 0 50px;
   font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
-  color: #494949;
+  color: #000;
 }
 
 .mt-about-sec .social-network.social-icon {
@@ -11351,7 +11355,7 @@ a:hover {
   font-family: "Montserrat", sans-serif;
   margin: 0 0 15px;
   font-weight: 700;
-  color: #575757;
+  color: #000;
 }
 
 /*------------------------------------------------------------------
@@ -11368,7 +11372,7 @@ a:hover {
   margin: 0 0 36px;
   font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
-  color: #494949;
+  color: #000;
 }
 
 .mt-team-sec .holder {
@@ -11467,14 +11471,14 @@ a:hover {
   font-weight: bold;
   margin: 0;
   text-transform: uppercase;
-  color: #494949;
+  color: #000;
 }
 
 .mt-team-sec h4 a {
   -webkit-transition: all 0.25s linear;
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
-  color: #494949;
+  color: #000;
 }
 
 .mt-team-sec h4 a:hover {
@@ -11488,7 +11492,7 @@ a:hover {
   letter-spacing: 4px;
   text-transform: uppercase;
   padding: 0 0 0 3px;
-  color: #a0a0a0;
+  color: #000;
 }
 
 /*------------------------------------------------------------------
@@ -11505,7 +11509,7 @@ a:hover {
   margin: 0 0 36px;
   font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
-  color: #494949;
+  color: #000;
 }
 
 .mt-workspace-sec .work-slider {
@@ -11591,7 +11595,7 @@ a:hover {
   text-indent: 0;
   left: 0;
   top: 0;
-  color: #494949;
+  color: #000;
 }
 
 .mt-workspace-sec .work-slider .slick-next.slick-arrow {
@@ -11619,7 +11623,7 @@ a:hover {
   text-indent: 0;
   left: 0;
   top: 0;
-  color: #494949;
+  color: #000;
 }
 
 .mt-workspace-sec .work-slider .slick-dots {
@@ -11667,7 +11671,7 @@ a:hover {
   line-height: 18px;
   font-weight: 700;
   overflow: hidden;
-  color: #9f9f9f;
+  color: #000;
   text-align: center;
 }
 
@@ -11715,7 +11719,7 @@ a:hover {
   text-align: center;
   border-width: 1px;
   border-style: solid;
-  color: #9f9f9f;
+  color: #000;
   border-color: #eeeeee;
 }
 
@@ -11753,7 +11757,7 @@ a:hover {
   letter-spacing: 4px;
   word-spacing: 1px;
   text-transform: uppercase;
-  color: #757575;
+  color: #000;
 }
 
 .mt-seller-sec h1 {
@@ -11764,14 +11768,14 @@ a:hover {
   margin: 0 0 3px;
   letter-spacing: -1px;
   text-transform: uppercase;
-  color: #757575;
+  color: #000;
 }
 
 /*------------------------------------------------------------------
 19. Mt Heading / .mt-heading
 -------------------------------------------------------------------*/
 .mt-heading {
-  color: #a0a0a0;
+  color: #000;
   margin: 0 0 12px;
   letter-spacing: 4px;
   font: 700 14px/20px "Source Sans Pro", sans-serif;
@@ -11792,7 +11796,7 @@ a:hover {
 20. Mt Heading2 / .mt-heading2
 -------------------------------------------------------------------*/
 .mt-heading2 {
-  color: #a0a0a0;
+  color: #000;
   margin: 0 0 12px;
   letter-spacing: 4px;
   padding: 0 0 0 12px;
@@ -11826,7 +11830,7 @@ a:hover {
 }
 
 .mt-patners .heading span {
-  color: #a0a0a0;
+  color: #000;
   padding: 0 0 0 2px;
   letter-spacing: 3px;
   font: 600 14px/20px "Source Sans Pro", sans-serif;
@@ -12059,7 +12063,7 @@ a:hover {
   font-size: 22px;
   line-height: 24px;
   text-transform: uppercase;
-  color: #494949;
+  color: #000;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   margin: 0 0 32px;
@@ -12068,7 +12072,7 @@ a:hover {
 .shop-widget .sub-title {
   font-size: 14px;
   line-height: 16px;
-  color: #494949;
+  color: #000;
   font-weight: 600;
   margin: 0 0 15px;
   display: block;
@@ -12076,7 +12080,7 @@ a:hover {
 
 .shop-widget .category-list {
   margin: 0;
-  color: #8c8c8c;
+  color: #000;
   padding: 0 0 2px;
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
@@ -12102,14 +12106,14 @@ a:hover {
 
 .shop-widget .category-list .num {
   float: right;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 13px;
   line-height: 15px;
   margin: 2px 0 0;
 }
 
 .shop-widget .category-list a {
-  color: #8c8c8c;
+  color: #000;
   -webkit-transition: all 0.25s linear;
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
@@ -12166,7 +12170,7 @@ a:hover {
   float: left;
   font-size: 14px;
   line-height: 16px;
-  color: #494949;
+  color: #000;
   font-weight: 400;
   padding: 0 0 0 5px;
 }
@@ -12280,7 +12284,7 @@ a:hover {
 .nice-form [type="radio"]:checked ~ .fake-label,
 .nice-form [type="checkbox"]:checked ~ .fake-label {
   font-weight: 300;
-  color: #494949;
+  color: #000;
   font-size: 13px;
   line-height: 15px;
 }

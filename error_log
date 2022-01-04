@@ -1,0 +1,1 @@
+[30-Dec-2021 05:29:51 America/Chicago] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 7.4.0". You are running 5.6.38. in /home2/twinsfurniture/staging.thetwinsfurnitures.com/vendor/composer/platform_check.php on line 25

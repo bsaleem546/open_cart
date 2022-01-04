@@ -11,18 +11,21 @@
                 <!-- holder start here -->
             @foreach($slides as $slider)
 
-                <div class="holder text-center" style="background-image: url( {{ url('public/uploads/slides/'.$slider->img) }} );">
+                <div class="holder text-center"
+                     style="background-image: url( {{ url('public/uploads/slides/'.$slider->img) }} );
+                         background-blend-mode: overlay;
+                         background-color: rgba(0,0,0,0.5);">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="text">
-                                    <strong class="title">{{ $slider->text1 }}</strong>
-                                    <h1>{{ $slider->text2 }}</h1>
-                                    <h2>{{ $slider->text3 }}</h2>
+                                    <strong class="title" style="color: white">{{ $slider->text1 }}</strong>
+                                    <h1 style="color: white">{{ $slider->text2 }}</h1>
+                                    <h2 style="color: white">{{ $slider->text3 }}</h2>
                                     <div class="txt">
-                                        <p>{{ $slider->text4 }}</p>
+                                        <p style="color: white">{{ $slider->text4 }}</p>
                                     </div>
-                                    <a href="{{ $slider->btn_link }}" class="shop">{{ $slider->btn_text }}</a>
+                                    <a href="{{ $slider->btn_link }}" class="shop" style="color: white">{{ $slider->btn_text }}</a>
                                 </div>
                             </div>
                         </div>
@@ -39,65 +42,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                    <!-- banner frame start here -->
+
                     <div class="banner-frame">
-                        <!-- banner-1 start here -->
-                        <div class="banner-1 wow fadeInLeft" data-wow-delay="0.4s">
-                            <img alt="image description" src="{{ url('public/web') }}/images/banner/img01.jpg">
-                            <div class="holder">
-                                <h2>MY SMALL WRITING <br>DESK</h2>
-                                <div class="txts">
-                                    <a class="btn-shop" href="{{ url('') }}">
-                                        <span>shop now</span>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-{{--                                    <div class="discount">--}}
-{{--                                        <span>-20%</span>--}}
-{{--                                    </div>--}}
+                        @foreach($section1 as $s1)
+                            <div class="banner-box fifth hidden-md hidden-sm hidden-xs">
+                                <div class="banner-21 right">
+                                    <img src="{{ url('public/uploads/home/'.$s1->img) }}" alt="image description" style="height: 250px; width: 380px">
+                                    <div class="holder">
+                                        <strong class="title">CATEGORIES</strong>
+                                        <h2><strong>{{ $s1->heading }}</strong> <br></h2>
+                                        <a href="{{ $s1->btn_link }}" class="view">{{ $s1->btn_text }}</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- banner-1 end here -->
-
-                        <!-- banner-box first start here -->
-                        <div class="banner-box first">
-                            <!-- banner-2 start here -->
-                            <div class="banner-2 wow fadeInUp" data-wow-delay="0.4s">
-                                <img alt="image description" src="{{ url('public/web') }}/images/banner/img02.jpg">
-                                <div class="holder">
-                                    <h2>MODULAR LOUNGE <br>TEAK</h2>
-                                    <span class="price">$ 129.00</span>
-                                </div>
-                            </div>
-                            <!-- banner-2 end here -->
-
-                            <!-- banner-3 start here -->
-                            <div class="banner-3 right wow fadeInDown" data-wow-delay="0.4s">
-                                <img alt="image description" src="{{ url('public/web') }}/images/banner/img03.jpg">
-                                <div class="holder">
-                                    <h2>Modular technical <br>fabric sofa</h2>
-                                    <a href="product-detail.html" class="shop">SHOP NOW</a>
-                                </div>
-                            </div>
-                            <!-- banner-3 end here -->
-                        </div>
-                        <!-- banner-box first end here -->
-
-                        <!-- banner-4 start here -->
-                        <div class="banner-4 hidden-sm wow fadeInRight" data-wow-delay="0.4s">
-                            <img alt="image description" src="{{ url('public/web') }}/images/banner/img04.jpg">
-                            <div class="holder">
-                                <h2>Direct light <br>pendant lamp</h2>
-                                <span class="price">$ 129.00</span>
-                                <a class="btn-shop add" href="product-detail.html">
-                                    <span>shop now</span>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- banner-4 end here -->
+                        @endforeach
                     </div>
-                    <!-- banner frame end here -->
+
                     <!-- mt producttabs start here -->
                     <div class="mt-producttabs wow fadeInUp" data-wow-delay="0.4s">
                         <!-- producttabs start here -->
@@ -131,7 +91,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -156,7 +116,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -180,7 +140,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -202,7 +162,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -226,7 +186,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -251,7 +211,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -285,7 +245,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -304,7 +264,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -328,7 +288,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -347,7 +307,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -371,7 +331,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -393,7 +353,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -429,7 +389,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -458,7 +418,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -484,7 +444,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -504,7 +464,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -533,7 +493,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -553,7 +513,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -576,7 +536,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -606,7 +566,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -629,7 +589,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -649,7 +609,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -675,7 +635,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -695,7 +655,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -733,7 +693,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -758,7 +718,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -785,7 +745,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -805,7 +765,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -828,7 +788,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -853,7 +813,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -877,7 +837,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -907,7 +867,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -930,7 +890,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -949,7 +909,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -976,7 +936,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -996,7 +956,7 @@
                                                         <ul class="links">
                                                             <li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
                                                             <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                            <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -1042,7 +1002,7 @@
                                                 <ul class="links add">
                                                     <li><a href="#"><i class="icon-handbag"></i></a></li>
                                                     <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                 </ul>
                                             </div>
                                         </div>
@@ -1063,7 +1023,7 @@
                                                 <ul class="links add">
                                                     <li><a href="#"><i class="icon-handbag"></i></a></li>
                                                     <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                 </ul>
                                             </div>
                                         </div>
@@ -1084,7 +1044,7 @@
                                                 <ul class="links add">
                                                     <li><a href="#"><i class="icon-handbag"></i></a></li>
                                                     <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                 </ul>
                                             </div>
                                         </div>
@@ -1108,7 +1068,7 @@
                                                 <ul class="links add">
                                                     <li><a href="#"><i class="icon-handbag"></i></a></li>
                                                     <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                 </ul>
                                             </div>
                                         </div>
@@ -1129,7 +1089,7 @@
                                                 <ul class="links add">
                                                     <li><a href="#"><i class="icon-handbag"></i></a></li>
                                                     <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                 </ul>
                                             </div>
                                         </div>
@@ -1153,7 +1113,7 @@
                                                 <ul class="links add">
                                                     <li><a href="#"><i class="icon-handbag"></i></a></li>
                                                     <li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
+{{--                                                    <li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>--}}
                                                 </ul>
                                             </div>
                                         </div>

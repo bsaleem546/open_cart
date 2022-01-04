@@ -22,6 +22,7 @@ class ReviewController extends Controller
                 'product_id' => $request->product_id,
                 'rating' => ($request->ratedIndex+1),
                 'review' => $request->txt,
+                'status' => 0
             ]);
             return Response::json(['status' => true]);
         }

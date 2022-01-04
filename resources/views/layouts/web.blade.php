@@ -10,6 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') | The Twins Furniture</title>
+    <link href="{{ url('public/web/favicon.png') }}" rel="shortcut icon" type="image/x-icon">
     <!-- include the site stylesheet -->
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic%7cMontserrat:400,700%7cOxygen:400,300,700' rel='stylesheet' type='text/css'>
     <!-- include the site stylesheet -->
@@ -39,8 +40,38 @@
     </div>
     <!-- W1 start here -->
     <div class="w1">
-        <!-- mt header style4 start here -->
         <header id="mt-header" class="style4">
+
+            <div class="mt-top-bar" style="padding: 0px !important;">
+                <div class="container" style="width: 100% !important;">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 hidden-xs">
+                            <span class="tel active" style="color: #fff; margin-left: 10px !important;"> <i class="fa fa-phone" aria-hidden="true"></i> +1 (555) 333 22 11</span>
+                            <a class="tel" href="#" style="color: #fff"> <i class="fa fa-envelope-o" aria-hidden="true"></i> info@schon.chairs</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 text-right">
+                            <!-- mt-top-list start here -->
+                            <ul class="mt-top-list">
+                                <li><a href="{{ url('order-tracking') }}">Order Track</a></li>
+                                <li><a href="{{ url('checkout') }}">Checkout</a></li>
+                                @auth
+                                    <li><a href="#">{{ Auth::user()->name }}</a></li>
+                                    @if(Auth::user()->role == 'ADMIN')
+                                        <li><a href="{{ route('home') }}">Dashboard</a></li>
+                                    @endif
+                                    <li>
+                                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Logout</a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                @endif
+                            </ul><!-- mt-top-list end here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- mt bottom bar start here -->
             <div class="mt-bottom-bar">
                 <div class="container-fluid">
@@ -49,7 +80,7 @@
                             <!-- mt logo start here -->
                             <div class="mt-logo">
                                 <a href="{{ url('/') }}">
-                                    <img src="{{ url('public/web') }}/images/mt-logo.png" alt="ttf" >
+                                    <img src="{{ url('public/web') }}/logo.png" alt="ttf" >
                                 </a>
                             </div>
                             <!-- mt icon list start here -->
@@ -159,8 +190,8 @@
                                                         @foreach(\Illuminate\Support\Facades\Session::get('cart') as $key => $value)
                                                             @php $total += $value['price']  @endphp
                                                             <div class="cart-row">
-                                                                <a href="{{ url('products/'.$value['slug']) }}" class="img">
-                                                                    @php $path = \App\Models\Image_Product::where('product_id', $value['id'])->pluck('paths')->first()  @endphp
+                                                                <a href="{{ url('products/'.$value['product_slug']) }}" class="img">
+                                                                    @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
                                                                     @if($path == null || $path == '')
                                                                         <img src="{{ url('public/imgs/empty.jpg') }}"
                                                                              alt="image" class="img-responsive">
@@ -171,7 +202,7 @@
 
                                                                 </a>
                                                                 <div class="mt-h">
-                                                                    <span class="mt-h-title"><a href="{{ url('products/'.$value['slug']) }}">{{ $value['name'] }}</a></span>
+                                                                    <span class="mt-h-title"><a href="{{ url('products/'.$value['product_slug']) }}">{{ $value['product_name'] }}</a></span>
                                                                     <small>{{ $value['att'] }}</small><br>
                                                                     <span class="price">{{ $value['price'] }}</span>
                                                                     <span class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
@@ -197,16 +228,6 @@
                                     <span class="mt-mdropover"></span>
                                 </li>
                                 @auth
-                                    @if(Auth::user()->role == 'ADMIN')
-                                        <li><a href="{{ route('home') }}">Dashboard</a></li>
-                                    @endif
-                                    <li>
-                                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">Logout</a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                    </li>
                                 @else
                                     <li>
                                         <a href="#" class="bar-opener side-opener">
@@ -319,8 +340,8 @@
                                         <!-- mt dropmenu end here -->
                                         <span class="mt-mdropover"></span>
                                     </li>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Contact</a></li>
+                                    <li><a href="{{ url('about-us') }}">About</a></li>
+                                    <li><a href="{{ url('contact-us') }}">Contact</a></li>
                                 </ul>
                             </nav>
                             <!-- mt icon list end here -->
@@ -330,7 +351,7 @@
             </div>
             <!-- mt bottom bar end here -->
             <span class="mt-side-over"></span>
-        </header><!-- mt header style4 end here -->
+        </header>
 
     @auth
     @else
@@ -397,7 +418,7 @@
                             <!-- F Widget About of the Page -->
                             <div class="f-widget-about">
                                 <div class="logo">
-                                    <a href="#"><img src="{{ url('public/web') }}/images/logo.png" alt="Schon"></a>
+                                    <a href="#"><img src="{{ url('public/web') }}/logo1.png" alt="Schon"></a>
                                 </div>
                                 <p>Exercitation ullamco laboris nisi ut aliquip ex commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
                                 <!-- Social Network of the Page -->
@@ -419,6 +440,9 @@
                                 <ul class="list-unstyled tabs">
                                     <li><a href="{{ url('order-tracking') }}">Order Tracking</a></li>
                                     <li><a href="{{ url('products') }}">Products</a></li>
+                                    <li><a href="{{ url('about-us') }}">About Us</a></li>
+                                    <li><a href="{{ url('contact-us') }}">Contact Us</a></li>
+                                    <li><a href="{{ url('terms-and-conditions') }}">Terms And Conditions</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -473,129 +497,40 @@
 </div>
 
 @if(Request::is('/'))
-<a id="newsletter-hiddenlink" href="#popup2" class="lightbox" style="display: none;">NEWSLETTER</a>
-<!-- Popup Holder of the Page -->
-<div class="popup-holder">
-    <!-- Popup of the Page -->
-    <div id="popup1" class="lightbox">
-        <!-- Mt Product Detial of the Page -->
-        <section class="mt-product-detial">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <!-- Slider of the Page -->
-                        <div class="slider">
-                            <!-- Comment List of the Page -->
-                            <ul class="list-unstyled comment-list">
-                                <li><a href="#"><i class="fa fa-heart"></i>27</a></li>
-                                <li><a href="#"><i class="fa fa-comments"></i>12</a></li>
-                                <li><a href="#"><i class="fa fa-share-alt"></i>14</a></li>
-                            </ul><!-- Comment List of the Page end -->
-                            <!-- Product Slider of the Page -->
-                            <div class="product-slider">
-                                <div class="slide">
-                                    <img src="{{ url('public/web') }}/images/img03.jpg" alt="image descrption">
-                                </div>
-                                <div class="slide">
-                                    <img src="{{ url('public/web') }}/images/img03.jpg" alt="image descrption">
-                                </div>
-                                <div class="slide">
-                                    <img src="{{ url('public/web') }}/images/img03.jpg" alt="image descrption">
-                                </div>
-                                <div class="slide">
-                                    <img src="{{ url('public/web') }}/images/img03.jpg" alt="image descrption">
-                                </div>
-                            </div><!-- Product Slider of the Page end -->
-                            <!-- Pagg Slider of the Page -->
-                            <ul class="list-unstyled slick-slider pagg-slider">
-                                <li><img src="{{ url('public/web') }}/images/img03.jpg" alt="image description"></li>
-                                <li><img src="{{ url('public/web') }}/images/img03.jpg" alt="image description"></li>
-                                <li><img src="{{ url('public/web') }}/images/img03.jpg" alt="image description"></li>
-                                <li><img src="{{ url('public/web') }}/images/img03.jpg" alt="image description"></li>
-                                <li><img src="{{ url('public/web') }}/images/img03.jpg" alt="image description"></li>
-                                <li><img src="{{ url('public/web') }}/images/img03.jpg" alt="image description"></li>
-                            </ul><!-- Pagg Slider of the Page end -->
-                        </div><!-- Slider of the Page end -->
-                        <!-- Detail Holder of the Page -->
-                        <div class="detial-holder">
-                            <!-- Breadcrumbs of the Page -->
-                            <ul class="list-unstyled breadcrumbs">
-                                <li><a href="#">Chairs <i class="fa fa-angle-right"></i></a></li>
-                                <li>Products</li>
-                            </ul>
-                            <!-- Breadcrumbs of the Page end -->
-                            <h2>KAILA FABRIC CHAIR</h2>
-                            <!-- Rank Rating of the Page -->
-                            <div class="rank-rating">
-                                <ul class="list-unstyled rating-list">
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star-o"></i></a></li>
-                                </ul>
-                                <span class="total-price">Reviews (12)</span>
-                            </div><!-- Rank Rating of the Page end -->
-                            <ul class="list-unstyled list">
-                                <li><a href="#"><i class="fa fa-share-alt"></i>SHARE</a></li>
-                                <li><a href="#"><i class="fa fa-exchange"></i>COMPARE</a></li>
-                                <li><a href="#"><i class="fa fa-heart"></i>ADD TO WISHLIST</a></li>
-                            </ul>
-                            <div class="txt-wrap">
-                                <p>Koila is a chair designed for restaurants and food lovers in general. Designed in collaboration with restaurant professionals, it ensures comfort and an ideal posture, as there are armrests on both sides of the chair.</p>
-                                <p>Koila is a seat designed for restaurants and gastronomic places in general. Designed in collaboration with professional of restaurants and hotels field, this armchair is composed of a curved shell with a base in oak who has pinched the back upholstered in fabric or leather. It provides comfort and holds for ideal sitting position,the arms may rest on the sides ofthe armchair.</p>
-                            </div>
-                            <div class="text-holder">
-                                <span class="price">$ 79.00 <del>399,00</del></span>
-                            </div><!-- Product Form of the Page -->
-                            <form action="#" class="product-form">
-                                <fieldset>
-                                    <div class="row-val">
-                                        <label for="qty">qty</label>
-                                        <select id="clr">
-                                            <option>1</option>
-                                        </select>
-                                    </div>
-                                    <div class="row-val">
-                                        <button type="submit">ADD TO CART</button>
-                                    </div>
-                                </fieldset>
-                            </form><!-- Product Form of the Page end -->
-                        </div><!-- Detail Holder of the Page end -->
+    @php $popup = \App\Models\Popup::where('status', 1)->latest()->first()  @endphp
+    @if($popup !== null)
+        <a id="newsletter-hiddenlink" href="#popup2" class="lightbox" style="display: none;">NEWSLETTER</a>
+
+        <div class="popup-holder">
+            <div id="popup2" class="lightbox">
+                <!-- Mt Newsletter Popup of the Page -->
+                <section class="mt-newsletter-popup">
+                    <span class="title">NEWSLETTER</span>
+                    <div class="holder">
+                        <div class="txt-holder">
+                            <h1>{{ $popup->title }}</h1>
+                            <span class="txt" style="margin-bottom: 10px">{{ $popup->sub_title }}</span>
+                            <span class="txt pop_text_op" style="margin-bottom: 10px; font-size: 16px">{{ $popup->optional_sub_title }}</span>
+                            <a href="{{ $popup->btn_link }}"
+                               style="    width: 173px !important;
+                                padding: 12px 10px 10px !important;
+                                text-align: center !important;
+                                text-transform: uppercase !important;
+                                display: block !important;
+                                font-size: 14px !important;
+                                line-height: 20px !important;
+                                background: #FBA421 !important;
+                                color: #fff !important;
+                            " target="_blank">{{ $popup->btn_text }}</a>
+                        </div>
+                        <div class="img-holder">
+                            <img src="{{ url('public/uploads/popups/'.$popup->img) }}" alt="image description">
+                        </div>
                     </div>
-                </div>
+                </section><!-- Mt Newsletter Popup of the Page -->
             </div>
-        </section><!-- Mt Product Detial of the Page end -->
-    </div><!-- Popup of the Page end -->
-    <!-- Popup of the Page -->
-    <!-- Popup of the Page -->
-    <div id="popup2" class="lightbox">
-        <!-- Mt Newsletter Popup of the Page -->
-        <section class="mt-newsletter-popup">
-            <span class="title">NEWSLETTER</span>
-            <div class="holder">
-                <div class="txt-holder">
-                    <h1>JOIN OUR NEWSLETTER</h1>
-                    <span class="txt">Subscribe now to get <b>15%</b> off on any product!</span>
-                    <!-- Newsletter Form of the Page -->
-                    <form action="#" class="newsletter-form">
-                        <fieldset>
-                            <input type="email" class="form-control" placeholder="Enter your e-mail">
-                            <button type="submit">SUBSCRIBE</button>
-                        </fieldset>
-                    </form><!-- Newsletter Form of the Page -->
-                </div>
-                <div class="img-holder">
-                    <img src="{{ url('public/web') }}/images/img02.png" alt="image description">
-                </div>
-            </div><!-- Popup Form of the Page -->
-            <form action="#" class="popup-form">
-                <fieldset>
-                    <input type="checkbox" class="form-control">Don’t show this popup again
-                </fieldset>
-            </form><!-- Popup Form of the Page end -->
-        </section><!-- Mt Newsletter Popup of the Page -->
-    </div><!-- Popup of the Page end -->
-</div><!-- Popup Holder of the Page end -->
+        </div>
+    @endif
 @endif
 
 

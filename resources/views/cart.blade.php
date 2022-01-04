@@ -21,9 +21,9 @@
 @section('content')
 
     <main id="mt-main">
-        <section class="mt-contact-banner mt-banner-22" style="background-image: url( {{ url('public/web/images/img-76.jpg') }} );">
-            <h1 class="text-center">SHOPPING CART</h1>
-        </section>
+{{--        <section class="mt-contact-banner mt-banner-22" style="background-image: url( {{ url('public/web/images/img-76.jpg') }} );">--}}
+{{--            <h1 class="text-center">SHOPPING CART</h1>--}}
+{{--        </section>--}}
         <!-- Mt Process Section of the Page -->
         <div class="mt-process-sec">
             <div class="container">
@@ -37,10 +37,6 @@
                             <li>
                                 <span class="counter">02</span>
                                 <strong class="title">Check Out</strong>
-                            </li>
-                            <li>
-                                <span class="counter">03</span>
-                                <strong class="title">Order Details</strong>
                             </li>
                             <li>
                                 <span class="counter">03</span>
@@ -117,10 +113,10 @@
                         @endforeach
                     @else
                         @foreach($cart as $key => $value)
-                                <div class="row border" id="{{ $value['id'] }}">
+                                <div class="row border" id="{{ $value['product_id'] }}">
                                     @php $total += $value['price']  @endphp
                                     <div class="col-xs-12 col-sm-2">
-                                        @php $path = \App\Models\Image_Product::where('product_id', $value['id'])->pluck('paths')->first()  @endphp
+                                        @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
                                         <div class="img-holder">
                                             @if($path == null || $path == '')
                                                 <img src="{{ url('public/imgs/empty.jpg') }}"
@@ -132,7 +128,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4">
-                                        <strong class="product-name">{{ $value['name'] }}</strong>
+                                        <strong class="product-name">{{ $value['product_name'] }}</strong>
                                     </div>
                                     <div class="col-xs-12 col-sm-2">
                                         <strong class="price"> {{ $value['p'] }}</strong>
@@ -146,7 +142,7 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-2">
                                         <strong class="price"> {{ $value['price'] }}</strong>
-                                        <a href="#" onclick="removeItem({{ $value['id'] }})"><i class="fa fa-close"></i></a>
+                                        <a href="#" onclick="removeItem({{ $value['product_id'] }})"><i class="fa fa-close"></i></a>
                                     </div>
                                 </div>
                             @endforeach
@@ -222,6 +218,14 @@
                                 </li>
                                 <li>
                                     <div class="txt-holder">
+                                        <strong class="title sub-title pull-left">DISCOUNT CODE</strong>
+                                        <div class="txt pull-right">
+                                            <strong id="discountCode">NON</strong>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="txt-holder">
                                         <strong class="title sub-title pull-left">SHIPPING</strong>
                                         <div class="txt pull-right">
                                             <strong id="ship">Free Shipping</strong>
@@ -256,7 +260,7 @@
             var discount1 = $('#discount').text();
             var ship1 = 0;
             var finalTotal1 = $('#finalTotal').text();
-            var discountCode = $('#coupon_code').val() === '' ? "NAN" : $('#coupon_code').val();
+            var discountCode = $('#discountCode').text();
 
             $.ajax({
                 type:'GET',
@@ -285,11 +289,6 @@
         }
 
         $(document).on('submit', '#coupon-form', (event) => {
-            var total = $('#total').text();
-            var discount = $('#discount').text();
-            var ship = 0;
-            var finalTotal = $('#finalTotal').text();
-
             event.preventDefault();
             var coupon = $('#coupon_code').val()
             $.ajax({
@@ -315,25 +314,17 @@
                     return;
                 }
                 if (data.status == 3){
-                    discount = data.amount;
-                    var discountedPrice = 0;
-                    if(data.value_type == 'Price'){
-                        discountedPrice = total - discount;
-                    }
-                    else{
-                        discountedPrice = total - ( (discount * total) / 100 );
-                    }
-                    finalTotal = (discountedPrice + ship);
-
-                    // $('#total').html(discountedPrice)
-                    $('#discount').html(discount)
-                    $('#ship').html(ship)
-                    $('#finalTotal').html(finalTotal)
+                    $('#discount').text(data.discount)
+                    $('#finalTotal').text(data.total)
+                    $('#discountCode').text(data.discountCode)
 
                     $('#coupon-success').html(data.msg)
                     $('.my-alert-success').show()
                     $('.my-alert-success').fadeOut(5000)
+
+                    $('#coupon_code').attr('disabled')
                     onloading();
+                    return;
                 }
             })
         })

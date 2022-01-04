@@ -36,6 +36,12 @@
             <li><a class="" href="{{ route('home-section-1.index') }}" aria-expanded="false"><i
                         class="icon icon-house-search-engine"></i><span class="nav-text">Home Section 1</span></a>
             </li>
+            <li><a class="" href="{{ route('reviews.index') }}" aria-expanded="false"><i
+                        class="icon icon-analytics"></i><span class="nav-text">Reviews</span></a>
+            </li>
+            <li><a class="" href="{{ route('popups.index') }}" aria-expanded="false"><i
+                        class="icon icon-smile"></i><span class="nav-text">Popup</span></a>
+            </li>
     </ul>
 </div>
 

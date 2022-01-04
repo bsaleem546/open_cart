@@ -82,6 +82,7 @@
                                 <option value="IN-PROCESS">In Process</option>
                                 <option value="COMPLETED">Completed</option>
                                 <option value="DELIVERED">Delivered</option>
+                                <option value="CANCELLED">Cancelled</option>
                             </select>
                             <input type="submit" value="Submit" class="btn btn-primary" style="margin-top: 20px">
                         </form>

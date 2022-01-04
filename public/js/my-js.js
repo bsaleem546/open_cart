@@ -1,4 +1,5 @@
-var main_url = 'http://localhost:80/oc/'
+// var main_url = 'https://staging.thetwinsfurnitures.com/'
+var main_url = 'http://localhost/oc/'
 
 function toast_success(message) {
     toastr.info(message, "Success", {

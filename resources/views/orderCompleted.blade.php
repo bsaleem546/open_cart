@@ -8,9 +8,9 @@
 
 @section('content')
     <main id="mt-main">
-        <section class="mt-contact-banner mt-banner-22" style="background-image: url( {{ url('public/web/images/img-76.jpg') }} );">
-            <h1 class="text-center">ORDER COMPLETED</h1>
-        </section>
+{{--        <section class="mt-contact-banner mt-banner-22" style="background-image: url( {{ url('public/web/images/img-76.jpg') }} );">--}}
+{{--            <h1 class="text-center">ORDER COMPLETED</h1>--}}
+{{--        </section>--}}
 
         <div class="mt-process-sec">
             <div class="container">
@@ -28,10 +28,6 @@
                             </li>
                             <li class="active">
                                 <span class="counter">03</span>
-                                <strong class="title">Order Details</strong>
-                            </li>
-                            <li class="active">
-                                <span class="counter">04</span>
                                 <strong class="title">Order Complete</strong>
                             </li>
                         </ul>
