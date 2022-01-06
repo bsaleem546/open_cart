@@ -5399,9 +5399,9 @@ a:hover {
 }
 
 .banner-17 h4 {
-  margin: 24% 0 0 10%;
+  margin: 24% 0 0;
   letter-spacing: 23px;
-  text-align: center;
+  text-align: left;
   font-weight: bold;
   font-size: 52px;
   line-height: 54px;

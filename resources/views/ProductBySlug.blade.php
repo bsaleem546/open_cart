@@ -157,14 +157,14 @@
                             </div>
                             <div class="text-holder">
                                 @if($product->has_attributes == 1)
-                                    <span class="price">$ <span id="price-change">
+                                    <span class="price"> <span id="price-change">
                                                 {{ $product->variation_values->min('price') }} - {{ $product->variation_values->max('price') }}
                                         </span></span>
                                 @else
                                     @if($product->sale_price > 0)
-                                        <span class="price"> $<span id="price-change">{{ $product->sale_price }} <del>${{ $product->price }}</del></span></span>
+                                        <span class="price"> <span id="price-change">{{ $product->sale_price }} <del>{{ $product->price }}</del></span></span>
                                     @else
-                                        <span class="price"> $<span id="price-change">{{ $product->price }}</span></span>
+                                        <span class="price"> <span id="price-change">{{ $product->price }}</span></span>
                                     @endif
                                 @endif
                             </div>

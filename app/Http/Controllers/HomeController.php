@@ -45,8 +45,13 @@ class HomeController extends Controller
     public function index()
     {
         $slides = Slider::latest()->get();
-        $section1 = HomeSection1::latest()->get()->take(3);
-        return view('welcome', compact('slides', 'section1'));
+        $bestSeller = Product::join('order_product', 'order_product.product_id', '=', 'products.id')
+            ->select('products.*')->groupBy('products.id')->take(12)->get();
+        $wishlist = Session::get('wishlist');
+        $latest = Product::latest()->take(24)->get();
+        $featured = Product::where('is_featured', 1)->latest()->take(24)->get();
+
+        return view('welcome', compact('slides', 'bestSeller', 'wishlist', 'latest', 'featured'));
     }
 
     public function getCategoryBySlug($slug)

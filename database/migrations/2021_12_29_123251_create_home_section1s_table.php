@@ -16,9 +16,12 @@ class CreateHomeSection1sTable extends Migration
         Schema::create('home_section1s', function (Blueprint $table) {
             $table->id();
             $table->string('heading');
+            $table->string('sub_heading');
+            $table->string('text');
             $table->string('img');
             $table->string('btn_text');
             $table->string('btn_link');
+            $table->integer('position');
             $table->timestamps();
         });
     }

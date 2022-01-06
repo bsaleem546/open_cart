@@ -79,6 +79,9 @@ Route::get('about-us', [App\Http\Controllers\HomeController::class, 'about']);
 Route::get('contact-us', [App\Http\Controllers\HomeController::class, 'contact']);
 Route::get('terms-and-conditions', [App\Http\Controllers\HomeController::class, 'termAndConditions']);
 
+
+Route::get('send-mails', [\App\Http\Controllers\CronController::class, 'sendMail']);
+
 //Route::get('/', function (){
 //    return view('orderCompleted');
 //});

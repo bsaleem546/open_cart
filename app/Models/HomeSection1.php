@@ -10,6 +10,6 @@ class HomeSection1 extends Model
     use HasFactory;
 
     protected $fillable = [
-        'heading', 'img', 'btn_text', 'btn_link'
+        'heading', 'sub_heading', 'text', 'img', 'btn_text', 'btn_link', 'position'
     ];
 }

@@ -32,8 +32,11 @@
                             <tr>
                                 <th>Image</th>
                                 <th>Heading</th>
+                                <th>Sub Heading</th>
+                                <th>Text</th>
                                 <th>Button Text</th>
                                 <th>Button Link</th>
+                                <th>Position</th>
                                 <th>Options</th>
                             </tr>
                             </thead>
@@ -44,8 +47,11 @@
                                         <img src="{{ url('public/uploads/home').'/'.$home1->img }}" alt="" style="height: 100px; width: 100px">
                                     </td>
                                     <td>{{ $home1->heading }}</td>
+                                    <td>{{ $home1->sub_heading }}</td>
+                                    <td>{{ $home1->text }}</td>
                                     <td>{{ $home1->btn_text }}</td>
                                     <td>{{ $home1->btn_link }}</td>
+                                    <td>{{ $home1->position }}</td>
                                     <td>
 {{--                                        <a href="{{ route('home-section-1.edit', $home1->id) }}"><i class="fas fa-cog"></i></a>--}}
                                         |

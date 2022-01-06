@@ -42,6 +42,20 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg">Sub Heading</label>
+                                <div class="col-sm-10">
+                                    <input name="sub_heading" type="text"
+                                           class="form-control form-control-lg" placeholder="Sub Heading">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg">Text</label>
+                                <div class="col-sm-10">
+                                    <input name="text" type="text"
+                                           class="form-control form-control-lg" placeholder="Text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-sm-2 col-form-label col-form-label-lg">Button Text</label>
                                 <div class="col-sm-10">
                                     <input name="btn_text" type="text" required
@@ -53,6 +67,13 @@
                                 <div class="col-sm-10">
                                     <input name="btn_link" type="text" required
                                            class="form-control form-control-lg" placeholder="Button Link">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label col-form-label-lg">Position</label>
+                                <div class="col-sm-10">
+                                    <input name="position" type="number" required
+                                           class="form-control form-control-lg" placeholder="Position">
                                 </div>
                             </div>
                             <div class="form-group row">

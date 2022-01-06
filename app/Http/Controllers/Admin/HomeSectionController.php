@@ -44,9 +44,12 @@ class HomeSectionController extends Controller
 
             HomeSection1::create([
                 'heading' => $request->heading,
+                'sub_heading' => $request->sub_heading,
+                'text' => $request->text,
                 'img' => $img,
                 'btn_text' => $request->btn_text,
-                'btn_link' => $request->btn_link
+                'btn_link' => $request->btn_link,
+                'position' => $request->position
             ]);
 
             return Response::json(['status' => true, 'message' => 'Div Created',
