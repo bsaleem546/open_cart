@@ -136,7 +136,7 @@
                                                 <strong class="title">PRODUCTS</strong>
                                                 @foreach($cart  as $key => $value)
                                                     @php $total += $value['price']  @endphp
-                                                    <span>{{ Auth::check() ? $value['product_name'] : $value['name'] }}       x{{ $value['quantity'] }}</span>
+                                                    <span>{{ Auth::check() ? $value['product_name'] : $value['product_name'] }}       x{{ $value['quantity'] }}</span>
                                                 @endforeach
                                             </div>
                                             <div class="text-wrap txt text-right pull-right">

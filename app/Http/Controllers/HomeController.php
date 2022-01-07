@@ -624,7 +624,7 @@ class HomeController extends Controller
 
             foreach ($cart as $key => $value){
                 $oProduct = new OrderProduct();
-                $oProduct->product_id = $value['id'];
+                $oProduct->product_id = $value['product_id'];
                 $oProduct->order_id = $order['id'];
                 $oProduct->quantity = $value['quantity'];
                 $oProduct->total = $value['price'];
