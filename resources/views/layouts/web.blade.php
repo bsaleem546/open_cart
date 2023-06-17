@@ -12,7 +12,9 @@
     <title>@yield('title') | The Twins Furniture</title>
     <link href="{{ url('public/web/favicon.png') }}" rel="shortcut icon" type="image/x-icon">
     <!-- include the site stylesheet -->
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic%7cMontserrat:400,700%7cOxygen:400,300,700' rel='stylesheet' type='text/css'>
+    <link
+        href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic%7cMontserrat:400,700%7cOxygen:400,300,700'
+        rel='stylesheet' type='text/css'>
     <!-- include the site stylesheet -->
     <link rel="stylesheet" href="{{ url('public/web') }}/css/bootstrap.css">
     <!-- include the site stylesheet -->
@@ -46,8 +48,11 @@
                 <div class="container" style="width: 100% !important;">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 hidden-xs">
-                            <span class="tel active" style="color: #fff; margin-left: 10px !important;"> <i class="fa fa-phone" aria-hidden="true"></i> +1 (555) 333 22 11</span>
-                            <a class="tel" href="#" style="color: #fff"> <i class="fa fa-envelope-o" aria-hidden="true"></i> info@schon.chairs</a>
+                            <span class="tel active" style="color: #fff; margin-left: 10px !important;"> <i
+                                    class="fa fa-phone" aria-hidden="true"></i> +1 (555) 333 22 11</span>
+                            <a class="tel" href="#" style="color: #fff"> <i class="fa fa-envelope-o"
+                                                                            aria-hidden="true"></i>
+                                info@schon.chairs</a>
                         </div>
                         <div class="col-xs-12 col-sm-6 text-right">
                             <!-- mt-top-list start here -->
@@ -62,7 +67,8 @@
                                     <li>
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Logout</a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                              class="d-none">
                                             @csrf
                                         </form>
                                     </li>
@@ -80,7 +86,7 @@
                             <!-- mt logo start here -->
                             <div class="mt-logo">
                                 <a href="{{ url('/') }}">
-                                    <img src="{{ url('public/web') }}/logo.png" alt="ttf" >
+                                    <img src="{{ url('public/web') }}/logo.png" alt="ttf">
                                 </a>
                             </div>
                             <!-- mt icon list start here -->
@@ -95,7 +101,8 @@
                                 <li class="drop">
                                     <a href="#" class="icon-heart cart-opener">
                                         @if( \Illuminate\Support\Facades\Session::get('wishlist') !== null )
-                                            <span style="margin-bottom: -3px;" class="num">{{ count(\Illuminate\Support\Facades\Session::get('wishlist')) }}</span>
+                                            <span style="margin-bottom: -3px;"
+                                                  class="num">{{ count(\Illuminate\Support\Facades\Session::get('wishlist')) }}</span>
                                         @else
                                             <span style="margin-bottom: -3px;" class="num">0</span>
                                         @endif
@@ -106,8 +113,8 @@
                                         <div class="mt-drop-sub">
                                             <!-- mt side widget start here -->
                                             <div class="mt-side-widget">
-                                            @if( \Illuminate\Support\Facades\Session::get('wishlist') !== null )
-                                                @foreach(\Illuminate\Support\Facades\Session::get('wishlist') as $key => $value)
+                                                @if( \Illuminate\Support\Facades\Session::get('wishlist') !== null )
+                                                    @foreach(\Illuminate\Support\Facades\Session::get('wishlist') as $key => $value)
                                                         <div class="cart-row">
                                                             @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
                                                             <a href="{{ url('products/'.$value['slug']) }}" class="img">
@@ -120,20 +127,22 @@
                                                                 @endif
                                                             </a>
                                                             <div class="mt-h">
-                                                                <span class="mt-h-title"><a href="{{ url('products/'.$value['slug']) }}">{{ $value['name'] }}</a></span>
-                                                                <span class="price"><i class="fa fa-dollar" aria-hidden="true"></i> {{ $value['price'] }}</span>
+                                                                <span class="mt-h-title"><a
+                                                                        href="{{ url('products/'.$value['slug']) }}">{{ $value['name'] }}</a></span>
+                                                                <span class="price"><i class="fa fa-dollar"
+                                                                                       aria-hidden="true"></i> {{ $value['price'] }}</span>
                                                             </div>
-{{--                                                            <a href="#" class="close fa fa-times"></a>--}}
+                                                            {{--                                                            <a href="#" class="close fa fa-times"></a>--}}
                                                         </div>
                                                 @endforeach
                                             @endif
 
 
-{{--                                                <div class="cart-row-total">--}}
-{{--                                                    <span class="mt-total">Add them all</span>--}}
-{{--                                                    <span class="mt-total-txt"><a href="#" class="btn-type2">add to CART</a></span>--}}
-{{--                                                </div>--}}
-                                                <!-- cart row total end here -->
+                                            {{--                                                <div class="cart-row-total">--}}
+                                            {{--                                                    <span class="mt-total">Add them all</span>--}}
+                                            {{--                                                    <span class="mt-total-txt"><a href="#" class="btn-type2">add to CART</a></span>--}}
+                                            {{--                                                </div>--}}
+                                            <!-- cart row total end here -->
                                             </div><!-- mt side widget end here -->
                                         </div>
                                         <!-- mt drop sub end here -->
@@ -144,10 +153,12 @@
                                     <a href="#" class="cart-opener">
                                         <span class="icon-handbag"></span>
                                         @if(Auth::check())
-                                            <span class="num">{{ count( \App\Models\Cart::where('user_id', Auth::user()->id)->get()  ) }}</span>
+                                            <span
+                                                class="num">{{ count( \App\Models\Cart::where('user_id', Auth::user()->id)->get()  ) }}</span>
                                         @else
                                             @if( \Illuminate\Support\Facades\Session::get('cart') !== null )
-                                                <span class="num">{{ count(\Illuminate\Support\Facades\Session::get('cart')) }}</span>
+                                                <span
+                                                    class="num">{{ count(\Illuminate\Support\Facades\Session::get('cart')) }}</span>
                                             @else
                                                 <span class="num">0</span>
                                             @endif
@@ -165,7 +176,8 @@
                                                         @foreach(\App\Models\Cart::where('user_id', Auth::user()->id)->get() as $key => $value)
                                                             @php $total += $value['price']  @endphp
                                                             <div class="cart-row">
-                                                                <a href="{{ url('products/'.$value['product_slug']) }}" class="img">
+                                                                <a href="{{ url('products/'.$value['product_slug']) }}"
+                                                                   class="img">
                                                                     @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
                                                                     @if($path == null || $path == '')
                                                                         <img src="{{ url('public/imgs/empty.jpg') }}"
@@ -177,10 +189,12 @@
 
                                                                 </a>
                                                                 <div class="mt-h">
-                                                                    <span class="mt-h-title"><a href="{{ url('products/'.$value['product_slug']) }}">{{ $value['product_name'] }}</a></span>
+                                                                    <span class="mt-h-title"><a
+                                                                            href="{{ url('products/'.$value['product_slug']) }}">{{ $value['product_name'] }}</a></span>
                                                                     <small>{{ $value['att'] }}</small><br>
                                                                     <span class="price">{{ $value['price'] }}</span>
-                                                                    <span class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
+                                                                    <span
+                                                                        class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
                                                                 </div>
                                                             </div>
                                                         @endforeach
@@ -190,7 +204,8 @@
                                                         @foreach(\Illuminate\Support\Facades\Session::get('cart') as $key => $value)
                                                             @php $total += $value['price']  @endphp
                                                             <div class="cart-row">
-                                                                <a href="{{ url('products/'.$value['product_slug']) }}" class="img">
+                                                                <a href="{{ url('products/'.$value['product_slug']) }}"
+                                                                   class="img">
                                                                     @php $path = \App\Models\Image_Product::where('product_id', $value['product_id'])->pluck('paths')->first()  @endphp
                                                                     @if($path == null || $path == '')
                                                                         <img src="{{ url('public/imgs/empty.jpg') }}"
@@ -202,16 +217,18 @@
 
                                                                 </a>
                                                                 <div class="mt-h">
-                                                                    <span class="mt-h-title"><a href="{{ url('products/'.$value['product_slug']) }}">{{ $value['product_name'] }}</a></span>
+                                                                    <span class="mt-h-title"><a
+                                                                            href="{{ url('products/'.$value['product_slug']) }}">{{ $value['product_name'] }}</a></span>
                                                                     <small>{{ $value['att'] }}</small><br>
                                                                     <span class="price">{{ $value['price'] }}</span>
-                                                                    <span class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
+                                                                    <span
+                                                                        class="mt-h-title">Qty: {{ $value['quantity'] }}</span>
                                                                 </div>
                                                             </div>
-                                                        @endforeach
-                                                    @endif
+                                                    @endforeach
                                                 @endif
-                                                <!-- cart row total start here -->
+                                            @endif
+                                            <!-- cart row total start here -->
                                                 <div class="cart-row-total">
                                                     <span class="mt-total">Sub Total</span>
                                                     <span class="mt-total-txt">{{ $total }}</span>
@@ -257,19 +274,28 @@
                                                             <strong class="title"><a href="#" class="mt-subopener">Chairs</a></strong>
                                                             <div class="sub-drop">
                                                                 <ul>
-                                                                    <li><a href="product-grid-view.html">Product Grid View</a></li>
-                                                                    <li><a href="product-list-view.html">Product List View</a></li>
-                                                                    <li><a href="product-quickview.html">Product QuickView popup</a></li>
-                                                                    <li><a href="product-detail.html">Product Detail</a></li>
-                                                                    <li><a href="product-detail2.html">Product Detail V2</a></li>
-                                                                    <li><a href="order-shopping-cart.html">Shopping Cart</a></li>
+                                                                    <li><a href="product-grid-view.html">Product Grid
+                                                                            View</a></li>
+                                                                    <li><a href="product-list-view.html">Product List
+                                                                            View</a></li>
+                                                                    <li><a href="product-quickview.html">Product
+                                                                            QuickView popup</a></li>
+                                                                    <li><a href="product-detail.html">Product Detail</a>
+                                                                    </li>
+                                                                    <li><a href="product-detail2.html">Product Detail
+                                                                            V2</a></li>
+                                                                    <li><a href="order-shopping-cart.html">Shopping
+                                                                            Cart</a></li>
                                                                     <li><a href="order-checkout.html">Checkout</a></li>
-                                                                    <li><a href="ordertracking.html">Order Tracking</a></li>
+                                                                    <li><a href="ordertracking.html">Order Tracking</a>
+                                                                    </li>
                                                                     <li><a href="wishlist.html">Wish List</a></li>
                                                                     <li><a href="faq.html">FAQ Page</a></li>
                                                                     <li><a href="loginpage.html">Login Page</a></li>
-                                                                    <li><a href="registerpage.html">Register Page</a></li>
-                                                                    <li><a href="newsletter-popup.html">Newsletter Popup</a></li>
+                                                                    <li><a href="registerpage.html">Register Page</a>
+                                                                    </li>
+                                                                    <li><a href="newsletter-popup.html">Newsletter
+                                                                            Popup</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -291,11 +317,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="sub-dropcont">
-                                                            <strong class="title"><a href="#" class="mt-subopener">Beds</a></strong>
+                                                            <strong class="title"><a href="#"
+                                                                                     class="mt-subopener">Beds</a></strong>
                                                             <div class="sub-drop">
                                                                 <ul>
                                                                     <li><a href="coming-soon.html">Coming Soon</a></li>
-                                                                    <li><a href="coming-soon2.html">Coming Soon2</a></li>
+                                                                    <li><a href="coming-soon2.html">Coming Soon2</a>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -305,7 +333,8 @@
                                                     <!-- mt col3 start here -->
                                                     <div class="mt-col-3">
                                                         <div class="sub-dropcont">
-                                                            <strong class="title"><a href="#" class="mt-subopener">KITCHEN FURNITURE</a></strong>
+                                                            <strong class="title"><a href="#" class="mt-subopener">KITCHEN
+                                                                    FURNITURE</a></strong>
                                                             <div class="sub-drop">
                                                                 <ul>
                                                                     <li><a href="#">Kitchen Taps</a></li>
@@ -328,7 +357,9 @@
                                                     <!-- mt col3 start here -->
                                                     <div class="mt-col-3 promo">
                                                         <div class="mt-promobox">
-                                                            <a href="#"><img src="{{ url('public/web') }}/images/banner-drop.jpg" alt="promo banner" class="img-responsive"></a>
+                                                            <a href="#"><img
+                                                                    src="{{ url('public/web') }}/images/banner-drop.jpg"
+                                                                    alt="promo banner" class="img-responsive"></a>
                                                         </div>
                                                     </div>
                                                     <!-- mt col3 end here -->
@@ -373,7 +404,8 @@
                                 <input type="text" placeholder="email address" class="input" name="email">
                                 <input type="password" placeholder="Password" class="input" name="password">
                                 <div class="box">
-                                    <span class="left"><input class="checkbox" type="checkbox" id="check1"><label for="check1">Remember Me</label></span>
+                                    <span class="left"><input class="checkbox" type="checkbox" id="check1"><label
+                                            for="check1">Remember Me</label></span>
                                     <a href="{{ route('password.request') }}" class="help">Forget Password?</a>
                                 </div>
                                 <button type="submit" class="btn-type1">Login</button>
@@ -394,7 +426,8 @@
                                 <input type="text" placeholder="Name" class="input" name="name" required>
                                 <input type="text" placeholder="email address" class="input" name="email" required>
                                 <input type="password" placeholder="Password" class="input" name="password" required>
-                                <input type="password" placeholder="Confirm Password" class="input" name="password_confirmation" required>
+                                <input type="password" placeholder="Confirm Password" class="input"
+                                       name="password_confirmation" required>
                                 <button type="submit" class="btn-type1">Register</button>
                             </fieldset>
                         </form>
@@ -420,7 +453,9 @@
                                 <div class="logo">
                                     <a href="#"><img src="{{ url('public/web') }}/logo1.png" alt="Schon"></a>
                                 </div>
-                                <p>Exercitation ullamco laboris nisi ut aliquip ex commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <p>Exercitation ullamco laboris nisi ut aliquip ex commodo consequat. Duis aute irure
+                                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                                    pariatur.</p>
                                 <!-- Social Network of the Page -->
                                 <ul class="list-unstyled social-network">
                                     <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -452,9 +487,11 @@
                                 <h3 class="f-widget-heading">Product Categories</h3>
                                 <ul class="list-unstyled tabs">
                                     <!-- number needs to be 15 -->
-                                    @foreach(\App\Models\Category::all()->random(8) as $c)
-                                        <li><a href="{{ url('categories/'.$c->slug) }}">{{ $c->name }}</a></li>
-                                    @endforeach
+                                    @if(\App\Models\Category::count() > 8)
+                                        @foreach(\App\Models\Category::all()->random(8) as $c)
+                                            <li><a href="{{ url('categories/'.$c->slug) }}">{{ $c->name }}</a></li>
+                                        @endforeach
+                                    @endif
                                 </ul>
                             </div>
                             <!-- Footer Tabs of the Page -->
@@ -464,9 +501,13 @@
                             <div class="f-widget-about">
                                 <h3 class="f-widget-heading">Information</h3>
                                 <ul class="list-unstyled address-list align-right">
-                                    <li><i class="fa fa-map-marker"></i><address>Connaugt Road Central Suite 18B, 148 <br>New Yankee</address></li>
+                                    <li><i class="fa fa-map-marker"></i>
+                                        <address>Connaugt Road Central Suite 18B, 148 <br>New Yankee</address>
+                                    </li>
                                     <li><i class="fa fa-phone"></i><a href="tel:15553332211">+1 (555) 333 22 11</a></li>
-                                    <li><i class="fa fa-envelope-o"></i><a href="mailto:&#105;&#110;&#102;&#111;&#064;&#115;&#099;&#104;&#111;&#110;&#046;&#099;&#104;&#097;&#105;&#114;">&#105;&#110;&#102;&#111;&#064;&#115;&#099;&#104;&#111;&#110;&#046;&#099;&#104;&#097;&#105;&#114;</a></li>
+                                    <li><i class="fa fa-envelope-o"></i><a
+                                            href="mailto:&#105;&#110;&#102;&#111;&#064;&#115;&#099;&#104;&#111;&#110;&#046;&#099;&#104;&#097;&#105;&#114;">&#105;&#110;&#102;&#111;&#064;&#115;&#099;&#104;&#111;&#110;&#046;&#099;&#104;&#097;&#105;&#114;</a>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- F Widget About of the Page end -->
@@ -510,7 +551,8 @@
                         <div class="txt-holder">
                             <h1>{{ $popup->title }}</h1>
                             <span class="txt" style="margin-bottom: 10px">{{ $popup->sub_title }}</span>
-                            <span class="txt pop_text_op" style="margin-bottom: 10px; font-size: 16px">{{ $popup->optional_sub_title }}</span>
+                            <span class="txt pop_text_op"
+                                  style="margin-bottom: 10px; font-size: 16px">{{ $popup->optional_sub_title }}</span>
                             <a href="{{ $popup->btn_link }}"
                                style="    width: 173px !important;
                                 padding: 12px 10px 10px !important;
@@ -545,7 +587,6 @@
 <script src="{{ url('public/web') }}/js/plugins.js"></script>
 <!-- include jQuery -->
 <script src="{{ url('public/web') }}/js/jquery.main.js"></script>
-
 
 
 </body>
